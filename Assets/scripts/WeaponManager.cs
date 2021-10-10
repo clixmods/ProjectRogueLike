@@ -39,7 +39,20 @@ public class WeaponManager : MonoBehaviour
         if (AmmoTypeId == 1 && pourcentageHeating >= 100)
             return;
 
-        GameObject projectile = Instantiate(Projectile, transform);
+
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition;
+
+
+        Vector3 ProjectionDir = Camera.main.gameObject.transform.GetChild(0).transform.localPosition.normalized;
+        float distance = Vector3.Distance(transform.localPosition, Camera.main.gameObject.transform.GetChild(0).transform.localPosition);
+        Vector3 Pog = ProjectionDir / Vector3.Distance(transform.localPosition, Camera.main.gameObject.transform.GetChild(0).transform.localPosition);
+        print(distance);
+        print(Pog * distance * 1000);
+        float angle = AngleBetweenTwoPoints(transform.position, mousePosition);
+
+        gameObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
+        GameObject projectile = Instantiate(Projectile, transform.position, Quaternion.identity, null);
         projectile.GetComponent<SpriteRenderer>().sprite = ProjectileTexture;
         projectile.GetComponent<SpriteRenderer>().flipX = true;
         gameObject.GetComponent<SpriteRenderer>().flipX = true;
@@ -55,34 +68,11 @@ public class WeaponManager : MonoBehaviour
 
         }
 
-        //print(Input.mousePosition.normalized);
-        Vector2 Oh;
-        Oh.x = Input.mousePosition.normalized.x;
-        Oh.y = Input.mousePosition.normalized.y;
+        projectile.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
 
-        Vector2 mousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        projectile.transform.GetComponent<Rigidbody2D>().AddForce(mousePosition.normalized * Speed * 1000);
-
-
-
-        Vector2 positionOnScreen = transform.position;
-
-        //Get the Screen position of the mouse
-        Vector2 mouseOnScreen = (Vector2)Camera.main.ScreenToViewportPoint(Input.mousePosition);
-
-        Camera.main.gameObject.transform.GetChild(0).transform.position = mouseOnScreen;
-        print(Camera.main.gameObject.transform.GetChild(0).transform.position);
-        //Get the angle between the points
-        float angle = AngleBetweenTwoPoints(positionOnScreen, mouseOnScreen);
-
-        //Ta Daaa
-        projectile.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-        gameObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-
-   
-
-
-    Cooldown = FireRate;
+        projectile.transform.GetComponent<Rigidbody2D>().AddForce(-transform.right  * Speed * 1000);
+ 
+        Cooldown = FireRate;
 
         Destroy(projectile, ProjectileLifeTime);
 
@@ -121,13 +111,6 @@ public class WeaponManager : MonoBehaviour
 
 
 
-        Vector2 mousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition).normalized;
-        Vector2 positionOnScreen = transform.position;
-        //Get the Screen position of the mouse
-        Vector2 mouseOnScreen = (Vector2)Camera.main.ViewportToScreenPoint(Input.mousePosition);
-        Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition;
-        print(mousePosition);
-        //Get the angle between the points
-        float angle = AngleBetweenTwoPoints(positionOnScreen, mouseOnScreen);
+        
     }
 }
