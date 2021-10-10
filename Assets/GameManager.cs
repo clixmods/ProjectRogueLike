@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public int PlayerShield;
     public int PlayerScore;
     public int PlayerScoreMultiplier;
+    public float PlayerAmmoCount;
     public GameObject PlayerPrefab;
     public GameObject LevelManager;
     public GameObject HUD;
@@ -41,6 +42,11 @@ public class GameManager : MonoBehaviour
     {
         tryToGetPlayerEntity();
         FixCameraToPlayer();
+        //GetCurrentAmmoPlayer();
+        if(CurrentPlayer != null)
+        {
+         
+        }
     }
     void tryToGetPlayerEntity()
     {

@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class PlayerControler : MonoBehaviour
 {
+
+    public int PlayerHealth;
+    public int PlayerShield;
+    public int PlayerLifes;
+
+
     public float playerMoveSpeed = 1;
     public GameObject armeCorpACorp;
     public GameObject armeDistance;
     //public MeshRenderer armeCorpACorpMesh;
-    GameObject weaponAssignement;
+    public GameObject CurrentWeapon;
     int distOrCorp;
 
     GameObject listC;
@@ -43,6 +49,13 @@ public class PlayerControler : MonoBehaviour
     {
         Movment();
         Weapon();
+        AimManager();
+    }
+
+    private void AimManager()
+    {
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris à l'écran
     }
 
     private void Movment()
@@ -72,12 +85,12 @@ public class PlayerControler : MonoBehaviour
     { 
       if(Input.GetKey(KeyCode.A))
         {
-            if (weaponAssignement != null)
+            if (CurrentWeapon != null)
             {
-                weaponAssignement.SetActive(false);
+                CurrentWeapon.SetActive(false);
             }
             armeCorpACorp.SetActive(true);
-            weaponAssignement = armeCorpACorp;
+            CurrentWeapon = armeCorpACorp;
             distOrCorp = 1;
             
             
@@ -100,7 +113,7 @@ public class PlayerControler : MonoBehaviour
                     armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
                 }
                 armeCorpACorp.SetActive(true);
-                weaponAssignement = armeCorpACorp;
+                CurrentWeapon = armeCorpACorp;
             }
         }
         
@@ -108,7 +121,7 @@ public class PlayerControler : MonoBehaviour
         {
             armeCorpACorp.SetActive(false);
             armeDistance.SetActive(true);
-            weaponAssignement = armeDistance;
+            CurrentWeapon = armeDistance;
             distOrCorp = 2;
         }
         if (distOrCorp == 2)
@@ -128,19 +141,28 @@ public class PlayerControler : MonoBehaviour
                     armeDistance = listD.transform.GetChild(selectDist).gameObject;
                 }
                 armeDistance.SetActive(true);
-                weaponAssignement = armeDistance;
+                CurrentWeapon = armeDistance;
             }
         }
-        if (weaponAssignement != null)
+        if (CurrentWeapon != null)
         {
-            if (Input.GetKey(KeyCode.Space) && distOrCorp == 1)
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris à l'écran
+            float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
+            {
+                return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
+            }
+            float AttackAngle = AngleBetweenTwoPoints(transform.position, mousePosition);
+
+
+            if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 1)
             {
                 ManagerWeaponCorpAcopr cc = armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>();
                 cc.Attack();
             }
-            if (Input.GetKey(KeyCode.Space) && distOrCorp == 2)
+            if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 2)
             {
-                armeDistance.GetComponent<WeaponManager>().Attack(armeDistance); 
+                armeDistance.GetComponent<WeaponManager>().Attack(armeDistance, AttackAngle); 
 
             }
         }

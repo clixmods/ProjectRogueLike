@@ -27,9 +27,8 @@ public class WeaponManager : MonoBehaviour
     public float CooldownHeating = 3;
     private float CurrentCooldownHeating = 0;
     public float DiscreaseHeatingMultiplier = 1;
-    public void Attack(GameObject attacker)
+    public void Attack(GameObject attacker, float AttackAngle)
     {
-
         if (Cooldown > 0)
             return;
 
@@ -39,23 +38,18 @@ public class WeaponManager : MonoBehaviour
         if (AmmoTypeId == 1 && pourcentageHeating >= 100)
             return;
 
+        gameObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
+        GameObject projectile = Instantiate(Projectile, transform.position, Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)), null);
 
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition;
+        projectile.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)); // Permet au projectile d'avoir la bonne rotation au niveau texture
+        projectile.transform.GetComponent<Rigidbody2D>().AddForce(-transform.right * Speed * 1000);
 
-
-        Vector3 ProjectionDir = Camera.main.gameObject.transform.GetChild(0).transform.localPosition.normalized;
-        float distance = Vector3.Distance(transform.localPosition, Camera.main.gameObject.transform.GetChild(0).transform.localPosition);
-        Vector3 Pog = ProjectionDir / Vector3.Distance(transform.localPosition, Camera.main.gameObject.transform.GetChild(0).transform.localPosition);
-        print(distance);
-        print(Pog * distance * 1000);
-        float angle = AngleBetweenTwoPoints(transform.position, mousePosition);
-
-        gameObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
-        GameObject projectile = Instantiate(Projectile, transform.position, Quaternion.identity, null);
+        // On assigne au projectile la texture désigné dans l'arme
         projectile.GetComponent<SpriteRenderer>().sprite = ProjectileTexture;
         projectile.GetComponent<SpriteRenderer>().flipX = true;
         gameObject.GetComponent<SpriteRenderer>().flipX = true;
+
+        // On check l'ammoType
         switch (AmmoTypeId)
         {
             case 0:
@@ -68,9 +62,7 @@ public class WeaponManager : MonoBehaviour
 
         }
 
-        projectile.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, angle));
 
-        projectile.transform.GetComponent<Rigidbody2D>().AddForce(-transform.right  * Speed * 1000);
  
         Cooldown = FireRate;
 
@@ -83,10 +75,7 @@ public class WeaponManager : MonoBehaviour
     {
         CurrentAmmoCount = MaxAmmoCount;
     }
-    float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
-    {
-        return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
-    }
+    
     // Update is called once per frame
     void Update() // debug
     {
