@@ -22,14 +22,15 @@ public class LootWeapon : MonoBehaviour
         Debug.Log("yo");
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            GameObject weapon = gameObject.transform.GetChild(0).gameObject;
+            GameObject weapon = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
+            GameObject pivot = gameObject.transform.GetChild(0).gameObject;
             if (weapon.layer == LayerMask.NameToLayer("CorpACorp"))
             {
                 gameObject.transform.position = collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).transform.position;
                 //GameObject weapon = gameObject.transform.GetChild(0).gameObject;
                 weapon.SetActive(false);
-                gameObject.transform.GetChild(0).gameObject.transform.SetParent(collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).transform, false);
-
+                pivot.transform.GetChild(0).gameObject.transform.SetParent(collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).transform, false);
+                //Destroy(gameObject.transform.GetChild(0).gameObject);
                 Destroy(gameObject);
             }
             if (weapon.layer == LayerMask.NameToLayer("Distance"))
@@ -37,8 +38,8 @@ public class LootWeapon : MonoBehaviour
                 gameObject.transform.position = collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).transform.position;
                 //GameObject weapon = gameObject.transform.GetChild(0).gameObject;
                 weapon.SetActive(false);
-                gameObject.transform.GetChild(0).gameObject.transform.SetParent(collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).transform, false);
-
+                pivot.transform.GetChild(0).gameObject.transform.SetParent(collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).transform, false);
+                //Destroy(gameObject.transform.GetChild(0).gameObject);
                 Destroy(gameObject);
             }
         }
