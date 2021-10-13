@@ -24,6 +24,7 @@ public class PlayerControler : MonoBehaviour
     int selectDist = 0;
     private void Start()
     {
+        Debug.Log("LE BAD");
         listC = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
         listD = gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
 
