@@ -40,18 +40,25 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tryToGetPlayerEntity();
+        
         FixCameraToPlayer();
         //GetCurrentAmmoPlayer();
+
+        if (CurrentScene == null || CurrentScene == "MainMenu")
+            return;
         if(CurrentPlayer != null)
         {
          
         }
+        else
+        {
+            TryToGetPlayerEntity();
+        }
     }
-    void tryToGetPlayerEntity()
+    void TryToGetPlayerEntity()
     {
         CurrentPlayer = GameObject.FindWithTag("Player");
-        //print(CurrentPlayer.transform.position);
+        print(CurrentPlayer.transform.position);
     }
     void FixCameraToPlayer()
     {

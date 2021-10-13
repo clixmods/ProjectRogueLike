@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour
 {
-    GameObject InstanceRef;
-    PlayerControler InstanceRefController;
+    public GameObject InstanceRef;
+    public PlayerControler InstanceRefController;
     [Header("HUD ELEMENTS")]
     public GameObject UIHealthBar;
     public GameObject UILifes;
@@ -33,7 +33,9 @@ public class HUDManager : MonoBehaviour
     {
         GameManager = GameObject.FindWithTag("GameController");
         InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
-        InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
+        if(InstanceRef != null)
+            InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
+
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3 position = oof.gameObject.transform.position;
         position.x = mousePosition.x; // On met le viseur sur la position de la souris à l'écran
@@ -48,14 +50,17 @@ public class HUDManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (oof == null)
+        if (oof == null )
             oof = Instantiate(UIHealthEnnemiPrefab);
-
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 position = oof.gameObject.transform.position;
-        position.x = mousePosition.x; // On met le viseur sur la position de la souris à l'écran
-        position.y = mousePosition.y; // On met le viseur sur la position de la souris à l'écran
-        oof.transform.position = Ennemi.transform.position;
+        if(Ennemi != null)
+        {
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector3 position = oof.gameObject.transform.position;
+            position.x = mousePosition.x; // On met le viseur sur la position de la souris à l'écran
+            position.y = mousePosition.y; // On met le viseur sur la position de la souris à l'écran
+            oof.transform.position = Ennemi.transform.position;
+        }
+     
 
 
         UpdateUIElements();
@@ -78,6 +83,7 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
+            print("oof");
             InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
             InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
         }
@@ -103,5 +109,14 @@ public class HUDManager : MonoBehaviour
     */
 
         UIPlayerAmmoCount.GetComponent<Text>().text = PlayerAmmoCount;
+        if (InstanceRef != null && InstanceRefController.CurrentWeapon.AddComponent<WeaponManager>() != null)
+        {
+            Debug.Log("UI UPDATE : WeaponDistanceIcon");
+            UIPlayerWeaponDistance.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.AddComponent<WeaponManager>().HUDIcon;
+        }
+        else
+        {
+            Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas défini");
+        }
     }
 }
