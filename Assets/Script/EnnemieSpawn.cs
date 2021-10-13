@@ -8,9 +8,10 @@ public class EnnemieSpawn : MonoBehaviour
     int rand;
     public int numberOfSpawnTotal = 3;
     public int numberOfSpawn = 1;
-    public float time = 2;
-    public float timeToReach = 2;
-    
+    public float time;
+    public float timeToReach;
+    GameObject ennemie;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,12 +21,14 @@ public class EnnemieSpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //LimiteSpawnEnnemie();
+        SpawnEnnemie();
         LimiteSpawnEnnemie();
     }
 
-    void LimiteSpawnEnnemie()
+    public void LimiteSpawnEnnemie()
     {
-        if (numberOfSpawn >= 0 && numberOfSpawn <= numberOfSpawnTotal)
+        for (int i = 0; i < gameObject.transform.childCount; i++)
         {
             if (time < timeToReach)
             {
@@ -37,19 +40,34 @@ public class EnnemieSpawn : MonoBehaviour
             {
 
                 print("cc");
-                SpawnEnnemie();
+                gameObject.transform.GetChild(i).gameObject.SetActive(true);
                 time = 0;
             }
         }
     
     }
 
-    void SpawnEnnemie ()
+   /* IEnumerator MyCoroutine()
     {
-        print("cc2");
-        List<GameObject> prefabEnnemie = ennemieList.prefabEnnemies;
-        rand = Random.Range(0, prefabEnnemie.Count);
-        Instantiate(prefabEnnemie[rand], gameObject.transform.position, Quaternion.identity, gameObject.transform);
-        numberOfSpawn = numberOfSpawn + 1;
+        print("ca commence");
+        yield return new WaitForSecondsRealtime(0.1f);
+        SpawnSpawnEnnemie();
+    }*/
+
+    public void SpawnEnnemie ()
+    {
+        if (numberOfSpawn >= 0 && numberOfSpawn <= numberOfSpawnTotal)
+        {
+            print("cc2");
+            List<GameObject> prefabEnnemie = ennemieList.prefabEnnemies;
+            rand = Random.Range(0, prefabEnnemie.Count);
+            ennemie = Instantiate(prefabEnnemie[rand], gameObject.transform.position, Quaternion.identity, gameObject.transform);
+            ennemie.SetActive(false);
+            numberOfSpawn = numberOfSpawn + 1;
+
+        }
+
+
+        
     }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6154088345793814032}
   - component: {fileID: 6154088345793814035}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnnemieSpawn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c8a920e13fed5046a6ed917889defd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ennemieList: {fileID: 0}
+  ennemieList: {fileID: 5112406799604537710, guid: 0a453a7d70082f44c91de218c121d59a, type: 3}
   numberOfSpawnTotal: 3
   numberOfSpawn: 1
-  time: 2
-  timeToReach: 2
+  time: 5
+  timeToReach: 5
