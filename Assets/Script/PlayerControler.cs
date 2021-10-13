@@ -24,6 +24,7 @@ public class PlayerControler : MonoBehaviour
     int selectDist = 0;
     private void Start()
     {
+        Debug.Log("LE BAD");
         print("Bas Oui tu as raisond c'est le bad");
         listC = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
         listD = gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
@@ -56,7 +57,7 @@ public class PlayerControler : MonoBehaviour
     private void AimManager()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris à l'écran
+        Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris ï¿½ l'ï¿½cran
     }
 
     private void Movment()
@@ -148,7 +149,7 @@ public class PlayerControler : MonoBehaviour
         if (CurrentWeapon != null)
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris à l'écran
+            Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris ï¿½ l'ï¿½cran
             float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
             {
                 return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
