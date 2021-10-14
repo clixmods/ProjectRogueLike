@@ -6,8 +6,13 @@ public class EnnemieSpawn : MonoBehaviour
 {
     public EnnemieList ennemieList;
     int rand;
-    public int numberOfSpawnTotal = 3;
-    public int numberOfSpawn = 1;
+    int verifRandS = 0;
+     int numberOfSpawnTotal;
+     int numberOfSpawn = 1;
+
+    public int maxOfspawn;
+    public int minOfSpawn;
+
     public float time;
     public float timeToReach;
     GameObject ennemie;
@@ -21,6 +26,11 @@ public class EnnemieSpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (verifRandS == 0)
+        {
+            RandSpawn();
+
+        }
         //LimiteSpawnEnnemie();
         SpawnEnnemie();
         LimiteSpawnEnnemie();
@@ -68,6 +78,14 @@ public class EnnemieSpawn : MonoBehaviour
         }
 
 
+
         
+    }
+
+    public void RandSpawn ()
+    {
+        numberOfSpawnTotal = Random.Range(minOfSpawn, maxOfspawn);
+        verifRandS = 1;
+
     }
 }
