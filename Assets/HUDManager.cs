@@ -37,13 +37,13 @@ public class HUDManager : MonoBehaviour
             InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
 
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 position = oof.gameObject.transform.position;
+        Vector3 position = transform.position;
         position.x = mousePosition.x; // On met le viseur sur la position de la souris à l'écran
         position.y = mousePosition.y; // On met le viseur sur la position de la souris à l'écran
 
         oof = Instantiate(UIHealthEnnemiPrefab, position,Quaternion.identity);
-        Ennemies[0] = Instantiate(UIHealthEnnemiPrefab);
-        Ennemies[1] = Instantiate(UIHealthEnnemiPrefab);
+       // Ennemies[0] = Instantiate(UIHealthEnnemiPrefab);
+       // Ennemies[1] = Instantiate(UIHealthEnnemiPrefab);
 
     }
 
@@ -63,27 +63,30 @@ public class HUDManager : MonoBehaviour
      
 
 
-        UpdateUIElements();
+        
         if(InstanceRef != null)
         {
-            WeaponManager wpnManager = InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>();
-            if (wpnManager != null)
+            UpdateUIElements();
+            if (InstanceRefController.CurrentWeapon != null)
             {
-                if (wpnManager.AmmoTypeId == 0)
-                    PlayerAmmoCount = wpnManager.CurrentAmmoCount.ToString();
-                else if (wpnManager.AmmoTypeId == 1)
-                    PlayerAmmoCount = wpnManager.pourcentageHeating.ToString();
+                WeaponManager wpnManager = InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>();
+                if (wpnManager != null)
+                {
+                    if (wpnManager.AmmoTypeId == 0)
+                        PlayerAmmoCount = wpnManager.CurrentAmmoCount.ToString();
+                    else if (wpnManager.AmmoTypeId == 1)
+                        PlayerAmmoCount = wpnManager.pourcentageHeating.ToString();
+                    else
+                        PlayerAmmoCount = "0";
+                }
                 else
+                {
                     PlayerAmmoCount = "0";
-            }
-            else
-            {
-                PlayerAmmoCount = "0";
+                }
             }
         }
         else
-        {
-            print("oof");
+        { 
             InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
             InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
         }
@@ -107,16 +110,59 @@ public class HUDManager : MonoBehaviour
         public string PlayerScoreMultiplier;
         public string PlayerAmmoCount;
     */
-
-        UIPlayerAmmoCount.GetComponent<Text>().text = PlayerAmmoCount;
-        if (InstanceRef != null && InstanceRefController.CurrentWeapon.AddComponent<WeaponManager>() != null)
+        void GetAndSetHealthValue()
         {
-            Debug.Log("UI UPDATE : WeaponDistanceIcon");
-            UIPlayerWeaponDistance.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.AddComponent<WeaponManager>().HUDIcon;
+            UIHealthBar.GetComponent<>; // TODO : faut crée la variable HUDIcon 
+            
         }
-        else
+
+
+        void Opacity(Image image)
         {
-            Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas défini");
+            Color color = image.color;
+            color.a = 1f;
+            image.color = color;
+        }
+        void ReduceOpacity(Image image)
+        {
+            Color color = image.color;
+            color.a = 0.5f;
+            image.color = color;
+        }
+        GetAndSetWeaponDistanceIcon();
+        GetAndSetWeaponCACIcon();
+        void GetAndSetWeaponCACIcon()
+        {
+            if (InstanceRef != null &&
+           InstanceRefController.CurrentWeapon != null &&
+           InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>() != null)
+            {
+                ReduceOpacity(UIPlayerWeaponDistance.GetComponent<Image>() );
+                Opacity(UIPlayerWeaponMelee.GetComponent<Image>());
+                //Debug.Log("UI UPDATE : WeaponDistanceIcon");
+                UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().textureWeapon; // TODO : faut crée la variable HUDIcon 
+            }
+            else
+            {
+                //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas défini");
+            }
+        }
+        void GetAndSetWeaponDistanceIcon()
+        {
+            if (InstanceRef != null &&
+           InstanceRefController.CurrentWeapon != null &&
+           InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>() != null)
+            {
+                //Debug.Log("UI UPDATE : WeaponDistanceIcon");
+                ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
+                Opacity(UIPlayerWeaponDistance.GetComponent<Image>());
+                UIPlayerAmmoCount.GetComponent<Text>().text = PlayerAmmoCount;
+                UIPlayerWeaponDistance.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>().HUDIcon;
+            }
+            else
+            {
+                //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas défini");
+            }
         }
     }
 }

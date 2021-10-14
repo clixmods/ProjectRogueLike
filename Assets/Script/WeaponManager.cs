@@ -75,6 +75,8 @@ public class WeaponManager : MonoBehaviour
     {
         CurrentAmmoCount = MaxAmmoCount;
     }
+
+  
     
     // Update is called once per frame
     void Update() // debug

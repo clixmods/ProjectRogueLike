@@ -22,7 +22,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        if(CurrentCamera == null)
+        DontDestroyOnLoad(HUD);
+        if (CurrentCamera == null)
             CurrentCamera = Camera.main.gameObject; 
         //DontDestroyOnLoad(CurrentCamera);
     }
@@ -40,15 +41,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        FixCameraToPlayer();
-        //GetCurrentAmmoPlayer();
-
         if (CurrentScene == null || CurrentScene == "MainMenu")
             return;
         if(CurrentPlayer != null)
         {
-         
+            FixCameraToPlayer();
         }
         else
         {
@@ -58,14 +55,14 @@ public class GameManager : MonoBehaviour
     void TryToGetPlayerEntity()
     {
         CurrentPlayer = GameObject.FindWithTag("Player");
-        print(CurrentPlayer.transform.position);
+        //print(CurrentPlayer.transform.position);
     }
     void FixCameraToPlayer()
     {
         if (CurrentCamera == null)
             CurrentCamera = Camera.main.gameObject;
 
-        if (CurrentCamera != null && CurrentPlayer != null)
+        else if ( CurrentPlayer != null)
              CurrentCamera.transform.position = new Vector3(CurrentPlayer.transform.position.x , CurrentPlayer.transform.position.y,-10);
 
     }
