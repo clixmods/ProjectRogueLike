@@ -105,7 +105,7 @@ public class TriggerSalle : MonoBehaviour
     IEnumerator MyCoroutine()
     {
         print("ca commence");
-        yield return new WaitForSecondsRealtime(0.3f);
+        yield return new WaitForSecondsRealtime(1f);
         SpawnSpawnEnnemie();
     }
     void SpawnSpawnEnnemie ()
