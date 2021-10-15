@@ -112,7 +112,7 @@ public class HUDManager : MonoBehaviour
     */
         void GetAndSetHealthValue()
         {
-            UIHealthBar.GetComponent<>; // TODO : faut crée la variable HUDIcon 
+           // UIHealthBar.GetComponent<>; // TODO : faut crée la variable HUDIcon 
             
         }
 

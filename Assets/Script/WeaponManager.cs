@@ -13,6 +13,7 @@ public class WeaponManager : MonoBehaviour
     public Sprite HUDIcon;
     public GameObject Projectile;
     public Sprite ProjectileTexture;
+    public float ProjectileScale = 1;
     public float Speed = 1;
     public float FireRate = 1;
     public float Cooldown = 0;
@@ -43,7 +44,10 @@ public class WeaponManager : MonoBehaviour
 
         projectile.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)); // Permet au projectile d'avoir la bonne rotation au niveau texture
         projectile.transform.GetComponent<Rigidbody2D>().AddForce(-transform.right * Speed * 1000);
-
+        // On assigne au projectile le scale assigné 
+        Vector3 projectScale = projectile.transform.localScale;
+        projectScale = projectScale * ProjectileScale;
+        projectile.transform.localScale = projectScale;
         // On assigne au projectile la texture désigné dans l'arme
         projectile.GetComponent<SpriteRenderer>().sprite = ProjectileTexture;
         projectile.GetComponent<SpriteRenderer>().flipX = true;
