@@ -18,6 +18,9 @@ public class ScriptMidSpawn : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(collision.gameObject);
+        if (collision.CompareTag("SpawnPointSalle"))
+        {
+            Destroy(collision.gameObject);
+        }
     }
 }

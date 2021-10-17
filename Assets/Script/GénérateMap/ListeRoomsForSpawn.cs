@@ -10,6 +10,10 @@ public class ListeRoomsForSpawn : MonoBehaviour
     public GameObject[] roomsOnLeft;
     public GameObject closedRoom;
 
+    public List<GameObject> numberOfRooms;
+
+    
+
 
 
     // Start is called before the first frame update
@@ -23,4 +27,6 @@ public class ListeRoomsForSpawn : MonoBehaviour
     {
         
     }
+
+  
 }
