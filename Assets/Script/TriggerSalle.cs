@@ -19,13 +19,15 @@ public class TriggerSalle : MonoBehaviour
     int verifPassage;
 
     int q;
-   
 
+    LevelManager levelManager;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         q = 0;
+        levelManager = GameObject.Find("LevelManager").gameObject.transform.GetComponent<LevelManager>();
     }
 
     // Update is called once per frame
@@ -35,6 +37,14 @@ public class TriggerSalle : MonoBehaviour
         print(countEnnemie);
         if(countEnnemie == 0)
         {
+            levelManager.roomDone++;
+            if(levelManager.roomDone == levelManager.numberOfRoomToDo && levelManager.chestGot != 2)
+            {
+                GameObject chest = Instantiate(levelManager.chest, gameObject.transform.GetChild(2).gameObject.transform.position, Quaternion.identity);
+                chest.transform.GetComponent<Chest>().list = levelManager.listWeapons.transform.GetComponent<WeaponList>();
+                levelManager.chestGot++;
+                levelManager.roomDone = 0;
+            }
             Destroy(gameObject);
         }
     }

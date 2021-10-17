@@ -17,7 +17,7 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-       
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
@@ -29,7 +29,8 @@ public class EnemyManager : MonoBehaviour
     {
 
         MeleyEnemyMovment();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        
     }
 
     private void MeleyEnemyMovment()

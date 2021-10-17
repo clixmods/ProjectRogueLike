@@ -164,7 +164,7 @@ public class PlayerControler : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 2)
             {
-                armeDistance.GetComponent<WeaponManager>().Attack(armeDistance, AttackAngle); 
+                armeDistance.GetComponent<WeaponManager>().Attack(armeDistance, AttackAngle);
 
             }
         }
