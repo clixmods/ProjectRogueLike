@@ -46,13 +46,13 @@ public class HUDManager : MonoBehaviour
         //oof = Instantiate(UIHealthEnnemiPrefab, position,Quaternion.identity);
         // Ennemies[0] = Instantiate(UIHealthEnnemiPrefab);
         // Ennemies[1] = Instantiate(UIHealthEnnemiPrefab);
-         HealthBar = Instantiate(UIHealthEnnemiPrefab, transform);
-        Vector2 mousePositiona = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 positiona = transform.position;
-        position.x = mousePositiona.x; 
-        position.y = mousePositiona.y; 
+      //   HealthBar = Instantiate(UIHealthEnnemiPrefab, transform);
+      //  Vector2 mousePositiona = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+      //  Vector3 positiona = transform.position;
+       // position.x = mousePositiona.x; 
+      //  position.y = mousePositiona.y; 
 
-        oof = Instantiate(UIHealthEnnemiPrefab, positiona, Quaternion.identity);
+       // oof = Instantiate(UIHealthEnnemiPrefab, positiona, Quaternion.identity);
 
     }
 
@@ -67,16 +67,16 @@ public class HUDManager : MonoBehaviour
          
             
         }
-        if(Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.tag == "Ennemies")
-        {
-            Vector3 APostion = HealthBar.transform.position;
-            APostion.x = Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.transform.position.x;
-            APostion.y = Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.transform.position.y;
+    //    if(Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target != null && Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.tag == "Ennemies" )
+      //  {
+        //    Vector3 APostion = HealthBar.transform.position;
+       //     APostion.x = Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.transform.position.x;
+       //     APostion.y = Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.transform.position.y;
 
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(APostion);
+      //      Vector2 mousePosition = Camera.main.ScreenToWorldPoint(APostion);
            
-            HealthBar.transform.position = Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.transform.position;
-        }
+     //       HealthBar.transform.position = Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.transform.position;
+      //  }
         if (Ennemi != null)
         {
             
@@ -179,7 +179,7 @@ public class HUDManager : MonoBehaviour
                 ReduceOpacity(UIPlayerWeaponDistance.GetComponent<Image>() );
                 Opacity(UIPlayerWeaponMelee.GetComponent<Image>());
                 //Debug.Log("UI UPDATE : WeaponDistanceIcon");
-                UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon; 
+                //UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon; 
             }
             else
             {
