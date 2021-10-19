@@ -64,78 +64,87 @@ public class HUDManager : MonoBehaviour
         //{
         //    EnnemiesHWidgets[i] = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity,transform);
         // }
-       
+       /*
         for (int i = 0; i < healthBarLimit; i++)
         {
             EnnemiesHWidgets[i] = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform.parent);
 
         }
+       */
     }
     void AddHealthToEnnemies()
     {
         Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
-
-        // utilisez la technique des child
-        float[] myfloatarray = new float[Ennemies.Length];
-        GameObject[] EnnemiesBIS = new GameObject[Ennemies.Length];
-        GameObject[] EnnemiesSorted = new GameObject[Ennemies.Length];
-        for (int i = 0; i < myfloatarray.Length; i++)
+        for (int i = 0; i < Ennemies.Length; i++)
         {
-            myfloatarray[i] = Vector2.Distance(Ennemies[i].transform.position, InstanceRef.transform.position);
-            EnnemiesBIS[i] = Ennemies[i];
-        }
-         Array.Sort(myfloatarray);
-   
-        for (int i = 0; i < myfloatarray.Length; i++)
-        {
-            for (int j = 0; j < EnnemiesBIS.Length; j++)
+            if(Ennemies[i].GetComponent<EnemyManager>().HealthBar == null)
+                Ennemies[i].GetComponent<EnemyManager>().HealthBar = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform);
+            else
             {
-                float temp = Vector2.Distance(EnnemiesBIS[j].transform.position, InstanceRef.transform.position);
-                if(myfloatarray[i] == temp)
-                {
-                    EnnemiesSorted.SetValue(EnnemiesBIS[j], i);
-                }
+                GameObject HealthBar = Ennemies[i].GetComponent<EnemyManager>().HealthBar;
+                Vector2 gfgfg = Camera.main.WorldToScreenPoint(Ennemies[i].transform.position);
+                HealthBar.transform.position = gfgfg + new Vector2(0, 30);
+                Vector3 Scale = HealthBar.transform.GetChild(1).GetComponent<RectTransform>().localScale;
 
+                Scale.x = (float)Ennemies[i].GetComponent<EnemyManager>().health / (float)Ennemies[i].GetComponent<EnemyManager>().maxHealth;
+                if (Scale.x < 0) Scale.x = 0;
+                if (Scale.x > 1) Scale.x = 1;
+                HealthBar.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
             }
         }
-        //print(sssss);
+            /*
+            // utilisez la technique des child
+            float[] myfloatarray = new float[Ennemies.Length];
+            GameObject[] EnnemiesBIS = new GameObject[Ennemies.Length];
+            GameObject[] EnnemiesSorted = new GameObject[Ennemies.Length];
+            for (int i = 0; i < myfloatarray.Length; i++)
+            {
+                myfloatarray[i] = Vector2.Distance(Ennemies[i].transform.position, InstanceRef.transform.position);
+                EnnemiesBIS[i] = Ennemies[i];
+            }
+             Array.Sort(myfloatarray);
+
+            for (int i = 0; i < myfloatarray.Length; i++)
+            {
+                for (int j = 0; j < EnnemiesBIS.Length; j++)
+                {
+                    float temp = Vector2.Distance(EnnemiesBIS[j].transform.position, InstanceRef.transform.position);
+                    if(myfloatarray[i] == temp)
+                    {
+                        EnnemiesSorted.SetValue(EnnemiesBIS[j], i);
+                    }
+
+                }
+            }
+            //print(sssss);
 
 
             for (int i = 0; i < EnnemiesSorted.Length; i++)
-        {
-            Vector2 gfgfg = Camera.main.WorldToScreenPoint(EnnemiesSorted[i].transform.position);
-     
-            EnnemiesHWidgets[i].SetActive(true);
-            EnnemiesHWidgets[i].transform.position = gfgfg + new Vector2(0, 30);
+            {
+                Vector2 gfgfg = Camera.main.WorldToScreenPoint(EnnemiesSorted[i].transform.position);
 
-            Vector3 Scale = EnnemiesHWidgets[i].transform.GetChild(1).GetComponent<RectTransform>().localScale;
-            
-            Scale.x = (float)EnnemiesSorted[i].GetComponent<EnemyManager>().health / (float)EnnemiesSorted[i].GetComponent<EnemyManager>().maxHealth;
-            if (Scale.x < 0) Scale.x = 0;
-            if (Scale.x > 1) Scale.x = 1;
-            //EnnemiesHWidgets[i].GetComponent<HealthBarManager>().isDamaged = EnnemiesSorted[i].GetComponent<EnemyManager>().isDamaged;
-            EnnemiesHWidgets[i].transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
+                EnnemiesHWidgets[i].SetActive(true);
+                EnnemiesHWidgets[i].transform.position = gfgfg + new Vector2(0, 30);
+                //EnnemiesHWidgets[i].transform.GetChild(1).localScale = EnnemiesHWidgets[i].transform.GetChild(2).localScale; // pour eviter de voir la bardamaged quand le widget est attribué à un autre ennemies
+                Vector3 Scale = EnnemiesHWidgets[i].transform.GetChild(1).GetComponent<RectTransform>().localScale;
+
+                Scale.x = (float)EnnemiesSorted[i].GetComponent<EnemyManager>().health / (float)EnnemiesSorted[i].GetComponent<EnemyManager>().maxHealth;
+                if (Scale.x < 0) Scale.x = 0;
+                if (Scale.x > 1) Scale.x = 1;
+                EnnemiesHWidgets[i].transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
+            }
+            // On désac les healthbar non utilisé
+            for (int i = Ennemies.Length; i < EnnemiesHWidgets.Length; i++) 
+            {
+                EnnemiesHWidgets[i].SetActive(false);
+            }
+            */
         }
-        // On désac les healthbar non utilisé
-        for (int i = Ennemies.Length; i < EnnemiesHWidgets.Length; i++) 
-        {
-            EnnemiesHWidgets[i].SetActive(false);
-        }
-    }
     // Update is called once per frame
     void Update()
     {
         AddHealthToEnnemies();
-        if (Ennemi != null)
-        {
-
-        }
-  
-        if (Ennemi != null)
-        {
    
-        }
-     
         if (InstanceRef != null)
         {
             UpdateUIElements();

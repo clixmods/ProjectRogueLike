@@ -13,9 +13,17 @@ public class EnemyManager : MonoBehaviour
     NavMeshAgent navMeshAgent;
     
     Animator animeFront;
+    public GameObject CurrentWeapon;
     // Damage Event
     public Material flashDamage;
+    public Material mtlDefault;
     public bool isDamaged;
+    private float count = 0;
+    private float toCount = 0.25f;
+
+    // ui
+    public GameObject HealthBar;
+
 
     private void Start()
     {
@@ -35,7 +43,45 @@ public class EnemyManager : MonoBehaviour
 
         if(health <= 0)
         {
+            Destroy(HealthBar);
             Destroy(gameObject);
+        }
+        if(isDamaged)
+        {
+            if(count < toCount )
+            {
+                
+                count += 0.1f * Time.deltaTime;
+                //print( toCount / 8f);
+                print(count);
+                if (count <= toCount / 8f && count >= toCount / 10f)
+                {
+                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
+                    print("oof 1");
+                }
+                else if (count <= toCount / 6f && count >= toCount / 8f)
+                {
+                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
+                    print("oof 2");
+                }
+                else if (count <= toCount / 4f && count >= toCount / 6f)
+                {
+                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
+                    print("oof 3");
+                }
+                else if (count <= toCount / 2f && count >= toCount / 4f)
+                {
+                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
+                    print("oof 4");
+                }
+
+            }
+            else
+            {
+                isDamaged = false;
+                gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
+                count = 0;
+            }
         }
     }
 
@@ -84,7 +130,7 @@ public class EnemyManager : MonoBehaviour
 
             gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
             isDamaged = true;
-            isDamaged = false;
+            //isDamaged = false;
 
         }
         

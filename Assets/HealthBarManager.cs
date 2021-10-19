@@ -18,23 +18,25 @@ public class HealthBarManager : MonoBehaviour
     void Update()
     {
        
-                if(transform.GetChild(1).localScale.x > transform.GetChild(2).localScale.x)
-                {
-                    Vector3 tempScale = transform.GetChild(1).localScale;
-                    tempScale.x -= Time.deltaTime;
-                    transform.GetChild(1).localScale = tempScale;
-                }
-                if (transform.GetChild(1).localScale.x < transform.GetChild(2).localScale.x)
-                {
-                    Vector3 tempScale = transform.GetChild(1).localScale;
-                    tempScale.x += Time.deltaTime;
-                    transform.GetChild(1).localScale = tempScale;
-                }
-                else
-                {
-                    count = 0;
-                    //isDamagedGo = false;
-                }
+        if(transform.GetChild(1).localScale.x > transform.GetChild(2).localScale.x &&
+           (transform.GetChild(1).localScale.x - transform.GetChild(2).localScale.x) > 0.01 )
+        {
+           Vector3 tempScale = transform.GetChild(1).localScale;
+            tempScale.x -= Time.deltaTime;
+           transform.GetChild(1).localScale = tempScale;
+        }
+        else if (transform.GetChild(1).localScale.x < transform.GetChild(2).localScale.x &&
+          (transform.GetChild(2).localScale.x - transform.GetChild(1).localScale.x) > 0.01 )
+        {
+            Vector3 tempScale = transform.GetChild(1).localScale;
+            tempScale.x += Time.deltaTime;
+            transform.GetChild(1).localScale = tempScale;
+        }
+        else
+        {
+            transform.GetChild(1).localScale = transform.GetChild(2).localScale;
+        }
+      
        
     }
 }
