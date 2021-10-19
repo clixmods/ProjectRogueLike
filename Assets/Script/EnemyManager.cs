@@ -9,16 +9,18 @@ public class EnemyManager : MonoBehaviour
     public Transform player;
 
     public int health = 100;
-
+    public int maxHealth;
     NavMeshAgent navMeshAgent;
     
     Animator animeFront;
-   
+    // Damage Event
+    public Material flashDamage;
+    public bool isDamaged;
 
     private void Start()
     {
-       
-        navMeshAgent = GetComponent<NavMeshAgent>();
+        maxHealth = health;
+         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
         animeFront = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Animator>();
@@ -30,6 +32,11 @@ public class EnemyManager : MonoBehaviour
 
         MeleyEnemyMovment();
         player = GameObject.FindGameObjectWithTag("Player").transform;
+
+        if(health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void MeleyEnemyMovment()
@@ -67,6 +74,20 @@ public class EnemyManager : MonoBehaviour
             trigSalle.countEnnemie--;
             Destroy(gameObject);
         }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("CorpACorp") ||
+            collision.gameObject.layer == LayerMask.NameToLayer("Distance"))
+        {
+            Debug.Log(gameObject.name+" have been attacked");
+            //LastAttacker = collision.gameObject.transform.GetComponent<BulletProperty>().attacker;
+            health -= collision.gameObject.transform.GetComponent<ProjectileManager>().DamageAmount;
+            Destroy(collision.gameObject);
+
+            gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
+            isDamaged = true;
+            isDamaged = false;
+
+        }
+        
     }
 
 }

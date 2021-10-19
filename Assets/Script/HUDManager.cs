@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,6 +31,11 @@ public class HUDManager : MonoBehaviour
     private GameObject oof;
     public GameObject Ennemi;
     GameObject HealthBar;
+
+    int healthBarLimit = 15;
+
+    string sssss;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,63 +52,90 @@ public class HUDManager : MonoBehaviour
         //oof = Instantiate(UIHealthEnnemiPrefab, position,Quaternion.identity);
         // Ennemies[0] = Instantiate(UIHealthEnnemiPrefab);
         // Ennemies[1] = Instantiate(UIHealthEnnemiPrefab);
-      //   HealthBar = Instantiate(UIHealthEnnemiPrefab, transform);
-      //  Vector2 mousePositiona = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-      //  Vector3 positiona = transform.position;
-       // position.x = mousePositiona.x; 
-      //  position.y = mousePositiona.y; 
+        //   HealthBar = Instantiate(UIHealthEnnemiPrefab, transform);
+        //  Vector2 mousePositiona = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //  Vector3 positiona = transform.position;
+        // position.x = mousePositiona.x; 
+        //  position.y = mousePositiona.y; 
 
-       // oof = Instantiate(UIHealthEnnemiPrefab, positiona, Quaternion.identity);
+        // oof = Instantiate(UIHealthEnnemiPrefab, positiona, Quaternion.identity);
+        //Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
+        //for( int i =0; i< Ennemies.Length;i++)
+        //{
+        //    EnnemiesHWidgets[i] = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity,transform);
+        // }
+       
+        for (int i = 0; i < healthBarLimit; i++)
+        {
+            EnnemiesHWidgets[i] = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform.parent);
 
+        }
     }
+    void AddHealthToEnnemies()
+    {
+        Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
 
+        // utilisez la technique des child
+        float[] myfloatarray = new float[Ennemies.Length];
+        GameObject[] EnnemiesBIS = new GameObject[Ennemies.Length];
+        GameObject[] EnnemiesSorted = new GameObject[Ennemies.Length];
+        for (int i = 0; i < myfloatarray.Length; i++)
+        {
+            myfloatarray[i] = Vector2.Distance(Ennemies[i].transform.position, InstanceRef.transform.position);
+            EnnemiesBIS[i] = Ennemies[i];
+        }
+         Array.Sort(myfloatarray);
+   
+        for (int i = 0; i < myfloatarray.Length; i++)
+        {
+            for (int j = 0; j < EnnemiesBIS.Length; j++)
+            {
+                float temp = Vector2.Distance(EnnemiesBIS[j].transform.position, InstanceRef.transform.position);
+                if(myfloatarray[i] == temp)
+                {
+                    EnnemiesSorted.SetValue(EnnemiesBIS[j], i);
+                }
+
+            }
+        }
+        //print(sssss);
+
+
+            for (int i = 0; i < EnnemiesSorted.Length; i++)
+        {
+            Vector2 gfgfg = Camera.main.WorldToScreenPoint(EnnemiesSorted[i].transform.position);
+     
+            EnnemiesHWidgets[i].SetActive(true);
+            EnnemiesHWidgets[i].transform.position = gfgfg + new Vector2(0, 30);
+
+            Vector3 Scale = EnnemiesHWidgets[i].transform.GetChild(1).GetComponent<RectTransform>().localScale;
+            
+            Scale.x = (float)EnnemiesSorted[i].GetComponent<EnemyManager>().health / (float)EnnemiesSorted[i].GetComponent<EnemyManager>().maxHealth;
+            if (Scale.x < 0) Scale.x = 0;
+            if (Scale.x > 1) Scale.x = 1;
+            //EnnemiesHWidgets[i].GetComponent<HealthBarManager>().isDamaged = EnnemiesSorted[i].GetComponent<EnemyManager>().isDamaged;
+            EnnemiesHWidgets[i].transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
+        }
+        // On désac les healthbar non utilisé
+        for (int i = Ennemies.Length; i < EnnemiesHWidgets.Length; i++) 
+        {
+            EnnemiesHWidgets[i].SetActive(false);
+        }
+    }
     // Update is called once per frame
     void Update()
     {
-       // if (oof == null )
-         //   oof = Instantiate(UIHealthEnnemiPrefab);
-        if(Ennemi != null)
-        {
-         
-         
-            
-        }
-    //    if(Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target != null && Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.tag == "Ennemies" )
-      //  {
-        //    Vector3 APostion = HealthBar.transform.position;
-       //     APostion.x = Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.transform.position.x;
-       //     APostion.y = Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.transform.position.y;
-
-      //      Vector2 mousePosition = Camera.main.ScreenToWorldPoint(APostion);
-           
-     //       HealthBar.transform.position = Camera.main.transform.GetChild(0).GetComponent<CursorManager>().target.transform.position;
-      //  }
+        AddHealthToEnnemies();
         if (Ennemi != null)
         {
-            
-            Vector3 position = oof.gameObject.transform.position;
-            
-            oof.transform.position = Ennemi.transform.position;
-        }
-        /*
-        Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
-        if (Ennemies.Length > 0)
-        {
-            for(int i = 0; i< Ennemies.Length; i++)
-            {
-                if(EnnemiesHWidgets.Length < 1)
-                {
-                    print("Helatber spawned");
-                      
-                    EnnemiesHWidgets[EnnemiesHWidgets.Length] = Instantiate(UIHealthEnnemiPrefab, transform);
 
-                }
-                //else
-                EnnemiesHWidgets[EnnemiesHWidgets.Length].transform.position = Ennemies[i].transform.position;
-            }
-            
         }
-        */
+  
+        if (Ennemi != null)
+        {
+   
+        }
+     
         if (InstanceRef != null)
         {
             UpdateUIElements();
