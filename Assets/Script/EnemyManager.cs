@@ -52,8 +52,13 @@ public class EnemyManager : MonoBehaviour
 
         if(health <= 0)
         {
-            TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
-            trigSalle.countEnnemie--;
+            // au cas ou on test nos ennemies sans spawner
+            if (gameObject.transform.parent != null && 
+                gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>() != null) 
+            {
+                TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
+                trigSalle.countEnnemie--;
+            }
             Destroy(HealthBar);
             Destroy(gameObject);
         }
