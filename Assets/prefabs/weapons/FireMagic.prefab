@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &9010440142641294977
+--- !u!1 &7920380807437772714
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,68 +8,66 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 9010440142641294982}
-  m_Layer: 0
-  m_Name: AttackPoint
+  - component: {fileID: 7919281757777675768}
+  - component: {fileID: 5441230551611217846}
+  - component: {fileID: 4859653186043004736}
+  m_Layer: 7
+  m_Name: FireMagic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &9010440142641294982
+--- !u!4 &7919281757777675768
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9010440142641294977}
+  m_GameObject: {fileID: 7920380807437772714}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.048, y: 0.042, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 9010440143616854414}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &9010440143616854410
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 9010440143616854414}
-  - component: {fileID: 1943692333777993332}
-  - component: {fileID: 9010440143616854412}
-  m_Layer: 6
-  m_Name: CorpAcorp
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &9010440143616854414
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9010440143616854410}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.31223202, y: -0.12500149, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 9010440142641294982}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &1943692333777993332
+--- !u!114 &5441230551611217846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7920380807437772714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 633b62beba3043644b52a692365e2665, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CurrentAmmoCount: 0
+  pourcentageHeating: 0
+  HUDIcon: {fileID: -3647506040380314784, guid: 62395d391f8a66f41a9182a0fc2457f0, type: 3}
+  Projectile: {fileID: 8069158063738369636, guid: 6616253bfc9ff16479fe7fcf65fc560c, type: 3}
+  ProjectileTexture: {fileID: 21300000, guid: e6abf6c4b2c7b394ba37dab111f069d4, type: 3}
+  ProjectileScale: 1
+  Speed: 1
+  FireRate: 1
+  Cooldown: 0
+  ProjectileLifeTime: 5
+  DamageAmount: 1
+  AmmoTypeId: 0
+  MaxAmmoCount: 500000
+  HeatingMultiplier: 1
+  CooldownHeating: 3
+  DiscreaseHeatingMultiplier: 1
+  projectilDoss: {fileID: 5319332556057631282, guid: 71aca181ce15cd94e809df1f20259c1f, type: 3}
+--- !u!212 &4859653186043004736
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9010440143616854410}
+  m_GameObject: {fileID: 7920380807437772714}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -103,30 +101,14 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 1ad9ae7cd2a6a7546a0a68ac5ee46ab6, type: 3}
+  m_Sprite: {fileID: -3647506040380314784, guid: 62395d391f8a66f41a9182a0fc2457f0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9010440143616854412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9010440143616854410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a696826378f92ec49a1a70ee32f3ce83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textureWeapon: {fileID: 21300000, guid: 79094c19718b9254eb91bd6f848207df, type: 3}
-  attackRange: 1
-  attackDamage: 0
-  speedOfTheAttack: 2
