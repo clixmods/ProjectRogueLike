@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,9 +26,16 @@ public class HUDManager : MonoBehaviour
     public string PlayerScoreMultiplier;
     public string PlayerAmmoCount;
     private GameObject GameManager;
-    private GameObject[] Ennemies;
+    public GameObject[] Ennemies;
+    public GameObject[] EnnemiesHWidgets;
     private GameObject oof;
     public GameObject Ennemi;
+    GameObject HealthBar;
+
+    int healthBarLimit = 15;
+
+    string sssss;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -41,30 +49,103 @@ public class HUDManager : MonoBehaviour
         position.x = mousePosition.x; // On met le viseur sur la position de la souris à l'écran
         position.y = mousePosition.y; // On met le viseur sur la position de la souris à l'écran
 
-        oof = Instantiate(UIHealthEnnemiPrefab, position,Quaternion.identity);
-       // Ennemies[0] = Instantiate(UIHealthEnnemiPrefab);
-       // Ennemies[1] = Instantiate(UIHealthEnnemiPrefab);
+        //oof = Instantiate(UIHealthEnnemiPrefab, position,Quaternion.identity);
+        // Ennemies[0] = Instantiate(UIHealthEnnemiPrefab);
+        // Ennemies[1] = Instantiate(UIHealthEnnemiPrefab);
+        //   HealthBar = Instantiate(UIHealthEnnemiPrefab, transform);
+        //  Vector2 mousePositiona = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //  Vector3 positiona = transform.position;
+        // position.x = mousePositiona.x; 
+        //  position.y = mousePositiona.y; 
 
+        // oof = Instantiate(UIHealthEnnemiPrefab, positiona, Quaternion.identity);
+        //Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
+        //for( int i =0; i< Ennemies.Length;i++)
+        //{
+        //    EnnemiesHWidgets[i] = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity,transform);
+        // }
+       /*
+        for (int i = 0; i < healthBarLimit; i++)
+        {
+            EnnemiesHWidgets[i] = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform.parent);
+
+        }
+       */
     }
+    void AddHealthToEnnemies()
+    {
+        Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
+        for (int i = 0; i < Ennemies.Length; i++)
+        {
+            if(Ennemies[i].GetComponent<EnemyManager>().HealthBar == null)
+                Ennemies[i].GetComponent<EnemyManager>().HealthBar = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform);
+            else
+            {
+                GameObject HealthBar = Ennemies[i].GetComponent<EnemyManager>().HealthBar;
+                Vector2 gfgfg = Camera.main.WorldToScreenPoint(Ennemies[i].transform.position);
+                HealthBar.transform.position = gfgfg + new Vector2(0, 30);
+                Vector3 Scale = HealthBar.transform.GetChild(1).GetComponent<RectTransform>().localScale;
 
+                Scale.x = (float)Ennemies[i].GetComponent<EnemyManager>().health / (float)Ennemies[i].GetComponent<EnemyManager>().maxHealth;
+                if (Scale.x < 0) Scale.x = 0;
+                if (Scale.x > 1) Scale.x = 1;
+                HealthBar.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
+            }
+        }
+            /*
+            // utilisez la technique des child
+            float[] myfloatarray = new float[Ennemies.Length];
+            GameObject[] EnnemiesBIS = new GameObject[Ennemies.Length];
+            GameObject[] EnnemiesSorted = new GameObject[Ennemies.Length];
+            for (int i = 0; i < myfloatarray.Length; i++)
+            {
+                myfloatarray[i] = Vector2.Distance(Ennemies[i].transform.position, InstanceRef.transform.position);
+                EnnemiesBIS[i] = Ennemies[i];
+            }
+             Array.Sort(myfloatarray);
+
+            for (int i = 0; i < myfloatarray.Length; i++)
+            {
+                for (int j = 0; j < EnnemiesBIS.Length; j++)
+                {
+                    float temp = Vector2.Distance(EnnemiesBIS[j].transform.position, InstanceRef.transform.position);
+                    if(myfloatarray[i] == temp)
+                    {
+                        EnnemiesSorted.SetValue(EnnemiesBIS[j], i);
+                    }
+
+                }
+            }
+            //print(sssss);
+
+
+            for (int i = 0; i < EnnemiesSorted.Length; i++)
+            {
+                Vector2 gfgfg = Camera.main.WorldToScreenPoint(EnnemiesSorted[i].transform.position);
+
+                EnnemiesHWidgets[i].SetActive(true);
+                EnnemiesHWidgets[i].transform.position = gfgfg + new Vector2(0, 30);
+                //EnnemiesHWidgets[i].transform.GetChild(1).localScale = EnnemiesHWidgets[i].transform.GetChild(2).localScale; // pour eviter de voir la bardamaged quand le widget est attribué à un autre ennemies
+                Vector3 Scale = EnnemiesHWidgets[i].transform.GetChild(1).GetComponent<RectTransform>().localScale;
+
+                Scale.x = (float)EnnemiesSorted[i].GetComponent<EnemyManager>().health / (float)EnnemiesSorted[i].GetComponent<EnemyManager>().maxHealth;
+                if (Scale.x < 0) Scale.x = 0;
+                if (Scale.x > 1) Scale.x = 1;
+                EnnemiesHWidgets[i].transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
+            }
+            // On désac les healthbar non utilisé
+            for (int i = Ennemies.Length; i < EnnemiesHWidgets.Length; i++) 
+            {
+                EnnemiesHWidgets[i].SetActive(false);
+            }
+            */
+        }
     // Update is called once per frame
     void Update()
     {
-        if (oof == null )
-            oof = Instantiate(UIHealthEnnemiPrefab);
-        if(Ennemi != null)
-        {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3 position = oof.gameObject.transform.position;
-            position.x = mousePosition.x; // On met le viseur sur la position de la souris à l'écran
-            position.y = mousePosition.y; // On met le viseur sur la position de la souris à l'écran
-            oof.transform.position = Ennemi.transform.position;
-        }
-     
-
-
-        
-        if(InstanceRef != null)
+        AddHealthToEnnemies();
+   
+        if (InstanceRef != null)
         {
             UpdateUIElements();
             if (InstanceRefController.CurrentWeapon != null)
@@ -140,7 +221,7 @@ public class HUDManager : MonoBehaviour
                 ReduceOpacity(UIPlayerWeaponDistance.GetComponent<Image>() );
                 Opacity(UIPlayerWeaponMelee.GetComponent<Image>());
                 //Debug.Log("UI UPDATE : WeaponDistanceIcon");
-                UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().textureWeapon; // TODO : faut crée la variable HUDIcon 
+                //UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon; 
             }
             else
             {

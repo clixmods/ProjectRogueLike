@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerControler : MonoBehaviour
 {
 
-    public int PlayerHealth;
+    public int health;
     public int PlayerShield;
     public int PlayerLifes;
 

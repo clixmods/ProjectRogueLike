@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    public GameObject HudPrefab;
     public GameObject prefabSpawnRoom;
     GameObject spawnRoom;
     public GameObject prefabListRoom;
@@ -27,6 +28,7 @@ public class LevelManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instantiate(HudPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
         checkReceve = false;
         spawnRoom = Instantiate(prefabSpawnRoom, new Vector3(0f, 0f, 0f), Quaternion.identity);
         listRoom = Instantiate(prefabListRoom, new Vector3(0f, 0f, 0f), Quaternion.identity);

@@ -50,8 +50,12 @@ public class EnnemieSpawn : MonoBehaviour
             {
 
                 print("cc");
+                if (!gameObject.transform.GetChild(i).gameObject.activeSelf)
+                    gameObject.transform.GetChild(i).gameObject.transform.position = gameObject.transform.position;
+
                 gameObject.transform.GetChild(i).gameObject.SetActive(true);
-                gameObject.transform.GetChild(i).gameObject.transform.position = gameObject.transform.position;
+                
+
                 time = 0;
             }
         }

@@ -18,6 +18,7 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
     public float speedOfTheAttack;
     float reachSpeedAttack;
 
+    Quaternion initialRot;
 
 
     // Start is called before the first frame update
@@ -26,7 +27,7 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
         attackPoint = gameObject.transform.GetChild(0).transform;
  
         reachSpeedAttack = speedOfTheAttack;
-        
+        initialRot = transform.parent.rotation;
     }
 
     // Update is called once per frame
@@ -40,6 +41,9 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
        
         if (reachSpeedAttack <= speedOfTheAttack)
         {
+            transform.parent.Rotate(new Vector3(0,0, 0));
+            transform.parent.rotation = Quaternion.Lerp(initialRot, new Quaternion(0, 0, 0, 90), 0.5f * Time.deltaTime);
+
             reachSpeedAttack += Time.deltaTime;
 
             if (reachSpeedAttack >= speedOfTheAttack)

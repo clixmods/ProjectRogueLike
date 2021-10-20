@@ -50,6 +50,7 @@ public class CursorManager : MonoBehaviour
                     CursorRenderer.sprite = CursorAttackDistance;
                     break;
                 case "Ennemies":
+
                     CursorRenderer.sprite = CursorAttackMelee;
                     break;
                 case "Finish":
