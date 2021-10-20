@@ -7,7 +7,7 @@ public class EnemyManager : MonoBehaviour
 { 
     private Transform enemy;
     public Transform player;
-
+    public float SpeedVariationMultiplier = 1;
     public int health = 100;
     public int maxHealth;
     NavMeshAgent navMeshAgent;
@@ -24,9 +24,13 @@ public class EnemyManager : MonoBehaviour
     // ui
     public GameObject HealthBar;
 
+    public GameObject aPotentialTarget;
 
     private void Start()
     {
+        
+        float newSpeed = Random.Range(1 , SpeedVariationMultiplier);
+        transform.GetComponent<NavMeshAgent>().speed = transform.GetComponent<NavMeshAgent>().speed * newSpeed;
         maxHealth = health;
          navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
@@ -37,12 +41,19 @@ public class EnemyManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //if (!NeverChangeTarget)  // Si la cible n'est pas forcé, on lance le dectector
+        aPotentialTarget = transform.GetChild(0).GetComponent<DetectionTarget>().target;
+        if(aPotentialTarget != null)
+            navMeshAgent.SetDestination(aPotentialTarget.transform.position);
+
 
         MeleyEnemyMovment();
         player = GameObject.FindGameObjectWithTag("Player").transform;
 
         if(health <= 0)
         {
+            TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
+            trigSalle.countEnnemie--;
             Destroy(HealthBar);
             Destroy(gameObject);
         }
@@ -53,26 +64,26 @@ public class EnemyManager : MonoBehaviour
                 
                 count += 0.1f * Time.deltaTime;
                 //print( toCount / 8f);
-                print(count);
+               // print(count);
                 if (count <= toCount / 8f && count >= toCount / 10f)
                 {
                     gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
-                    print("oof 1");
+                 //   print("oof 1");
                 }
                 else if (count <= toCount / 6f && count >= toCount / 8f)
                 {
                     gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
-                    print("oof 2");
+                   // print("oof 2");
                 }
                 else if (count <= toCount / 4f && count >= toCount / 6f)
                 {
                     gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
-                    print("oof 3");
+                    //print("oof 3");
                 }
                 else if (count <= toCount / 2f && count >= toCount / 4f)
                 {
                     gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
-                    print("oof 4");
+                    //print("oof 4");
                 }
 
             }
@@ -98,7 +109,7 @@ public class EnemyManager : MonoBehaviour
             }
             float AttackAngle = AngleBetweenTwoPoints(transform.position, player.position);
             
-            navMeshAgent.SetDestination(player.position);
+            //navMeshAgent.SetDestination(player.position);
 
             
 
@@ -116,9 +127,8 @@ public class EnemyManager : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            TriggerSalle trigSalle = gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject.GetComponent<TriggerSalle>();
-            trigSalle.countEnnemie--;
-            Destroy(gameObject);
+            health = 0;
+            //Destroy(gameObject);
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("CorpACorp") ||
             collision.gameObject.layer == LayerMask.NameToLayer("Distance"))

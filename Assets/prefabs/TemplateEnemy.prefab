@@ -117,11 +117,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  SpeedVariationMultiplier: 2
   health: 100
   maxHealth: 0
+  CurrentWeapon: {fileID: 0}
   flashDamage: {fileID: 2100000, guid: 55698ee3bd2a6df4e82f91aa8f9e4cb5, type: 2}
   mtlDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   isDamaged: 0
+  HealthBar: {fileID: 0}
+  aPotentialTarget: {fileID: 0}
 --- !u!1 &1844028205554167922
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,7 +135,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6111864785346067823}
-  m_Layer: 9
+  - component: {fileID: 6425610183462714341}
+  - component: {fileID: 4980756612625035288}
+  m_Layer: 0
   m_Name: view
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,6 +159,35 @@ Transform:
   m_Father: {fileID: 3002790756380879288}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &6425610183462714341
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844028205554167922}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 6
+--- !u!114 &4980756612625035288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1844028205554167922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2601ffc30e8576f40bb1cf126bb87d4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
 --- !u!1 &6938396418323491838
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +200,7 @@ GameObject:
   - component: {fileID: 742784426362986604}
   - component: {fileID: 958037660338308108}
   - component: {fileID: 5711874705597086186}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Texture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
