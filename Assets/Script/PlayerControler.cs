@@ -67,9 +67,10 @@ public class PlayerControler : MonoBehaviour
             return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
         }
         AttackAngle = AngleBetweenTwoPoints(transform.position, mousePosition);
-        listC.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
-        listD.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
-
+        //listC.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
+        //listD.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
+        if (!CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().IsFiring)
+            listD.transform.parent.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
 
         if ((AttackAngle >= -45 && AttackAngle <= 45) || (AttackAngle >= -135 && AttackAngle <= 45)) // on baisselayer wweapons
         {
@@ -123,6 +124,7 @@ public class PlayerControler : MonoBehaviour
                 CurrentWeapon.SetActive(false);
             }
             armeCorpACorp.SetActive(true);
+            armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
 
             CurrentWeapon = armeCorpACorp;
             CurrentWeapon.GetComponent<SpriteRenderer>().flipX = true;
@@ -186,10 +188,10 @@ public class PlayerControler : MonoBehaviour
             
 
 
-            if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 1)
+            if (Input.GetKeyDown(KeyCode.Mouse0) && distOrCorp == 1) // Coup par coup donc GetKeyDown nécessaire
             {
                 ManagerWeaponCorpAcopr cc = armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>();
-                cc.Attack();
+                cc.Attack(AttackAngle);
             }
             if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 2)
             {

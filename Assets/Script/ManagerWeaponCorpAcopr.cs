@@ -14,12 +14,14 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
 
     [Header ("Settings Of The Weapon")]
     public float attackRange;
-    public float attackDamage;
+    public int attackDamage;
     public float speedOfTheAttack;
-    float reachSpeedAttack;
+    public float reachSpeedAttack;
 
     Quaternion initialRot;
-
+    public bool IsFiring = false;
+    public float AttackAngle = 0; // From the owner
+    public GameObject Attacker;
 
     // Start is called before the first frame update
     void Start()
@@ -33,45 +35,82 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-    }
-
-    public void Attack()
-    {
-       
-        if (reachSpeedAttack <= speedOfTheAttack)
+        if(IsFiring)
         {
-            transform.parent.Rotate(new Vector3(0,0, 0));
-            transform.parent.rotation = Quaternion.Lerp(initialRot, new Quaternion(0, 0, 0, 90), 0.5f * Time.deltaTime);
+           // print("yobg");
+            float targetAngle = AttackAngle-45;
+            float turnSpeed = 5;  // new Quaternion(.x, transform.parent.parent.rotation.y, transform.parent.parent.rotation.z, transform.parent.parent.rotation.w)
+            //transform.parent.parent.rotation = Quaternion.Slerp(transform.parent.parent.rotation, Quaternion.Euler(0, 0, AttackAngle ), turnSpeed * Time.deltaTime);
+            transform.parent.parent.rotation = Quaternion.Slerp(transform.parent.parent.rotation, Quaternion.Euler(0, 0, targetAngle), turnSpeed * Time.deltaTime);
 
-            reachSpeedAttack += Time.deltaTime;
-
-            if (reachSpeedAttack >= speedOfTheAttack)
+            if (reachSpeedAttack <= speedOfTheAttack)
             {
-                Debug.Log("coucou");
-                
-                Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
+                //transform.parent.Rotate(new Vector3(0,0, 0));
+                //transform.parent.rotation = Quaternion.Lerp(initialRot, new Quaternion(0, 0, 0, 90), 0.5f * Time.deltaTime);
 
-                foreach (Collider2D enemie in hitenemy)
+                reachSpeedAttack += Time.deltaTime;
+
+
+                IsFiring = true;
+                if (reachSpeedAttack >= speedOfTheAttack)
                 {
-                    if (enemie.tag == "EnemieCorpACorp")
-                    {
-                        //enemie.GetComponent<EnemieScript>().takedamage(attackDamage);
-                    }
+
+                    Debug.Log("coucou");
+
+                 
+                    //pivotWeapon = initPivotWeapon;
+                    reachSpeedAttack = 0;
+                    IsFiring = false;
                 }
-                //pivotWeapon = initPivotWeapon;
-                reachSpeedAttack = 0;
-                
+
             }
-            
         }
-      
     }
 
-    private void OnDrawGizmosSelected()
+    public void Attack(float Angle = 0)
     {
-        if (attackPoint == null)
-            return;
+        AttackAngle = Angle;
+         IsFiring = true;
+        transform.parent.parent.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle+45));
+
+        Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
+
+        foreach (Collider2D enemie in hitenemy)
+        {
+            print("BOY");
+            if (enemie.gameObject == Attacker || enemie.gameObject.CompareTag(gameObject.tag))
+                print("Attack himself ");  //return;
+
+            else
+            {
+                //if (enemie.tag == "Ennemies")
+               // {
+                    // enemie.GetComponent<EnemyManager>().takedamage(attackDamage);
+                   
+                if (Attacker.CompareTag("Player"))
+                {
+                    print("TOUCHED");
+                }
+                enemie.GetComponent<EnemyManager>().health -= attackDamage;
+                    //Destroy(collision.gameObject);
+
+                    enemie.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = enemie.GetComponent<EnemyManager>().flashDamage;
+                    enemie.GetComponent<EnemyManager>().isDamaged = true;
+               
+                //}
+            }
+
+        }
+        // if (IsFiring)
+        //    return;
+
+
+    }
+
+    private void OnDrawGizmos()
+    {
+      //  if (attackPoint == null)
+        //    return;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
     }
 }

@@ -54,7 +54,7 @@ MonoBehaviour:
   FireRate: 1
   Cooldown: 0
   ProjectileLifeTime: 5
-  DamageAmount: 1
+  DamageAmount: 60
   AmmoTypeId: 0
   MaxAmmoCount: 500000
   HeatingMultiplier: 1

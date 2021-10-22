@@ -14,6 +14,7 @@ public class EnemyManager : MonoBehaviour
     
     Animator animeFront;
     public GameObject CurrentWeapon;
+    GameObject weaponObject;
     // Damage Event
     public Material flashDamage;
     public Material mtlDefault;
@@ -36,8 +37,20 @@ public class EnemyManager : MonoBehaviour
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
         animeFront = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Animator>();
-    }
 
+
+        InitWeapon();
+    }
+    void InitWeapon()
+    {
+        if(CurrentWeapon != null)
+        {
+            weaponObject = Instantiate(CurrentWeapon, transform.position, new Quaternion(0,0,0,0), transform.GetChild(1).GetChild(0));
+            weaponObject.transform.localPosition = new Vector2(0, 0);
+            weaponObject.transform.localRotation = new Quaternion(0,0,0, 0);
+            weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
+        }
+    }
     // Update is called once per frame
     void Update()
     {
@@ -114,12 +127,35 @@ public class EnemyManager : MonoBehaviour
             }
             float AttackAngle = AngleBetweenTwoPoints(transform.position, player.position);
             
+            if(!weaponObject.GetComponent<ManagerWeaponCorpAcopr>().IsFiring)
+                transform.GetChild(1).transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle+90));
+            
             //navMeshAgent.SetDestination(player.position);
+            if ((AttackAngle >= -45 && AttackAngle <= 45) || (AttackAngle >= -135 && AttackAngle <= 45)) // on baisselayer wweapons
+            {
+                Debug.Log("1");
+                weaponObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                //animeFront.Play("LeftWalkPlayer");
 
-            
+            }
+            else if ((AttackAngle >= 45 && AttackAngle <= 135) || (AttackAngle >= 135 && AttackAngle <= 225))
+            {
+                Debug.Log("2");
+                weaponObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                //animeFront.Play("FrontWalkPlayer");7
 
-           
-            
+            }
+
+            float AttackChance = Random.Range(0, 100);
+            if(AttackChance > 98)
+            {
+                
+                weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attack(AttackAngle);
+            }
+
+
+
+
 
 
 

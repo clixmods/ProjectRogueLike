@@ -82,8 +82,8 @@ public class HUDManager : MonoBehaviour
             else
             {
                 GameObject HealthBar = Ennemies[i].GetComponent<EnemyManager>().HealthBar;
-                Vector2 gfgfg = Camera.main.WorldToScreenPoint(Ennemies[i].transform.position);
-                HealthBar.transform.position = gfgfg + new Vector2(0, 30);
+                Vector2 gfgfg = Camera.main.WorldToScreenPoint(Ennemies[i].transform.position + new Vector3(0, 0.6f,0));
+                HealthBar.transform.position = gfgfg ;
                 Vector3 Scale = HealthBar.transform.GetChild(1).GetComponent<RectTransform>().localScale;
 
                 Scale.x = (float)Ennemies[i].GetComponent<EnemyManager>().health / (float)Ennemies[i].GetComponent<EnemyManager>().maxHealth;

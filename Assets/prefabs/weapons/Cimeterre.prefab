@@ -127,6 +127,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textureWeapon: {fileID: 21300000, guid: 11cfb14eb6472654e8859cbad48c7c04, type: 3}
-  attackRange: 0
-  attackDamage: 0
-  speedOfTheAttack: 0
+  attackRange: 1.8
+  attackDamage: 1.83
+  speedOfTheAttack: 1.26
+  IsFiring: 0
+  AttackAngle: 0
