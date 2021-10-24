@@ -164,7 +164,8 @@ MonoBehaviour:
   health: 300
   MaxHealth: 300
   PlayerShield: 0
-  PlayerLifes: 10
+  PlayerLifes: 1
+  PlayerMaxLifes: 3
   playerMoveSpeed: 2
   armeCorpACorp: {fileID: 0}
   armeDistance: {fileID: 0}

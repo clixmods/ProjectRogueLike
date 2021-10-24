@@ -36,7 +36,13 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
         reachSpeedAttack = speedOfTheAttack;
         initialRot = transform.parent.rotation;
     }
-
+    void OnDisable()
+    {
+        IsFiring = false;
+        reachSpeedAttack = 0;
+        if (gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>() != null)
+            gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -66,6 +72,7 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
         }
         else
         {
+            reachSpeedAttack = 0;
             if (gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>() != null)
                 gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
         }

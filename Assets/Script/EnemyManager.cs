@@ -6,7 +6,8 @@ using UnityEngine.AI;
 public class EnemyManager : MonoBehaviour
 { 
     private Transform enemy;
-    public Transform player;
+
+    [Range(0, 3)]
     public float SpeedVariationMultiplier = 1;
     public int health = 100;
     public int maxHealth;
@@ -22,6 +23,9 @@ public class EnemyManager : MonoBehaviour
     private float count = 0;
     private float toCount = 0.25f;
 
+    [Range(0, 5)]
+    public float DistanceTarget = 1;
+
     // ui
     public GameObject HealthBar;
 
@@ -36,7 +40,6 @@ public class EnemyManager : MonoBehaviour
 
 
         maxHealth = health;
-
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
@@ -55,31 +58,20 @@ public class EnemyManager : MonoBehaviour
             weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
         }
     }
+
     // Update is called once per frame
     void Update()
     {
         //if (!NeverChangeTarget)  // Si la cible n'est pas forcé, on lance le dectector
         aPotentialTarget = transform.GetChild(0).GetComponent<DetectionTarget>().target;
-        if(aPotentialTarget != null)
-            navMeshAgent.SetDestination(aPotentialTarget.transform.position);
+        MovementBehavior();
 
 
         MeleyEnemyMovment();
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        checkHealth();
 
-        if(health <= 0)
-        {
-            // au cas ou on test nos ennemies sans spawner
-            if (gameObject.transform.parent != null && 
-                gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>() != null) 
-            {
-                TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
-                trigSalle.countEnnemie--;
-            }
-            Destroy(HealthBar);
-            Destroy(gameObject);
-        }
-        if(isDamaged)
+
+        if (isDamaged)
         {
             if(count < toCount )
             {
@@ -112,17 +104,50 @@ public class EnemyManager : MonoBehaviour
             }
         }
     }
+    private void MovementBehavior()
+    {
+        if (aPotentialTarget == null)
+            return;    
 
+        // Fonce attaquez au corps à corps sur sa cible
+        if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null)
+        {
+           navMeshAgent.SetDestination(aPotentialTarget.transform.position);
+        }
+        // Reste à distance pour attaquer sa cible de loin
+        if (weaponObject.GetComponent<WeaponManager>() != null)
+        {
+           // print(Vector3.Distance(transform.position, aPotentialTarget.transform.position));
+            if(Vector3.Distance(transform.position, aPotentialTarget.transform.position) > DistanceTarget)
+                navMeshAgent.SetDestination(aPotentialTarget.transform.position);
+            
+        }
+    }
+    private void checkHealth()
+    {
+        if (health <= 0)
+        {
+            // au cas ou on test nos ennemies sans spawner
+            if (gameObject.transform.parent != null &&
+                gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>() != null)
+            {
+                TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
+                trigSalle.countEnnemie--;
+            }
+            Destroy(HealthBar);
+            Destroy(gameObject);
+        }
+    }
     private void MeleyEnemyMovment()
     {
-        if (player != null)
+        if (aPotentialTarget != null)
         {
             float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
             {
                 return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
 
             }
-            float AttackAngle = AngleBetweenTwoPoints(transform.position, player.position);
+            float AttackAngle = AngleBetweenTwoPoints(transform.position, aPotentialTarget.transform.position);
 
             if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null)
             {
@@ -132,27 +157,10 @@ public class EnemyManager : MonoBehaviour
             else
                 transform.GetChild(1).transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
 
+            ChangeOrderLayerWithAngle(AttackAngle);
 
-
-
-            //navMeshAgent.SetDestination(player.position);
-            if ((AttackAngle >= -45 && AttackAngle <= 45) || (AttackAngle >= -135 && AttackAngle <= 45)) // on baisselayer wweapons
-            {
-               // Debug.Log("1");
-                weaponObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                //animeFront.Play("LeftWalkPlayer");
-
-            }
-            else if ((AttackAngle >= 45 && AttackAngle <= 135) || (AttackAngle >= 135 && AttackAngle <= 225))
-            {
-               // Debug.Log("2");
-                weaponObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 3;
-                //animeFront.Play("FrontWalkPlayer");7
-
-            }
 
             float AttackChance = Random.Range(0, 100);
-          
                 if(weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && AttackChance > 98)
                     weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attack(AttackAngle);
 
@@ -161,41 +169,22 @@ public class EnemyManager : MonoBehaviour
                     print("ennemi tire");
                     weaponObject.GetComponent<WeaponManager>().Attack(gameObject, AttackAngle);
                 }
-                    
-            
-
-
-
-
-
-
-
+                
         }
-
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        void ChangeOrderLayerWithAngle(float AttackAngle)
         {
-            //health = 0;
-            //Destroy(gameObject);
+            if ((AttackAngle >= -45 && AttackAngle <= 45) || (AttackAngle >= -135 && AttackAngle <= 45))
+            {
+                weaponObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                //animeFront.Play("LeftWalkPlayer");
+            }
+            else if ((AttackAngle >= 45 && AttackAngle <= 135) || (AttackAngle >= 135 && AttackAngle <= 225))
+            {
+                weaponObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 3;
+                //animeFront.Play("FrontWalkPlayer");7
+            }
         }
-        if ((collision.gameObject.layer == LayerMask.NameToLayer("CorpACorp") ||
-            collision.gameObject.layer == LayerMask.NameToLayer("Distance") ) && 
-            gameObject != transform.GetComponent<ProjectileManager>().Attacker)
-        {
-            Debug.Log(gameObject.name+" have been attacked");
-            //LastAttacker = collision.gameObject.transform.GetComponent<BulletProperty>().attacker;
-            health -= collision.gameObject.transform.GetComponent<ProjectileManager>().DamageAmount;
-            Destroy(collision.gameObject);
 
-            gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
-            isDamaged = true;
-            //isDamaged = false;
-
-        }
-        
     }
 
 }

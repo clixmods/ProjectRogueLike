@@ -156,43 +156,18 @@ public class PlayerControler : MonoBehaviour
         }
       if (distOrCorp == 1)
         {
-            //if(Input.GetKeyDown(KeyCode.R))
-            //{
-            //    armeCorpACorp.SetActive(false);
-            //    selectCorpACorp = selectCorpACorp + 1;
-            //    if (listC.transform.childCount - 1 >= selectCorpACorp)
-            //    {
-            //        Debug.Log(listC.transform.childCount);
-            //        armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
-            //    }
-            //    else if (listC.transform.childCount - 1 < selectCorpACorp)
-            //    {
-            //        selectCorpACorp = 0;
-            //        armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
-            //    }
-            //    armeCorpACorp.SetActive(true);
-            //    CurrentWeapon = armeCorpACorp;
-            //}
-
             if (Input.GetAxis("Mouse ScrollWheel") != 0) // On change d'arme avec la molette
             {
                 armeCorpACorp.SetActive(false);
-                print(selectCorpACorp);
                 selectCorpACorp += Mathf.FloorToInt(Input.GetAxis("Mouse ScrollWheel") * 10);
-                if (listC.transform.childCount - 1 < selectCorpACorp)
-                {
-                    selectCorpACorp = 0;
 
-                }
-                if (selectCorpACorp < 0)
-                {
-                    selectCorpACorp = listC.transform.childCount - 1;
+                if (listC.transform.childCount - 1 < selectCorpACorp)   selectCorpACorp = 0;
+              
+                if (selectCorpACorp < 0)  selectCorpACorp = listC.transform.childCount - 1;
 
-                }
                 armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
                 armeCorpACorp.SetActive(true);
                 CurrentWeapon = armeCorpACorp;
-
             }
         }
         
@@ -203,6 +178,7 @@ public class PlayerControler : MonoBehaviour
             CurrentWeapon = armeDistance;
             distOrCorp = 2;
         }
+
         if (distOrCorp == 2)
         {
             if (Input.GetAxis("Mouse ScrollWheel") != 0) // On change d'arme avec la molette
@@ -242,7 +218,7 @@ public class PlayerControler : MonoBehaviour
             }
             if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 2)
             {
-                armeDistance.GetComponent<WeaponManager>().Attack(armeDistance, AttackAngle);
+                armeDistance.GetComponent<WeaponManager>().Attack(gameObject, AttackAngle);
 
             }
         }

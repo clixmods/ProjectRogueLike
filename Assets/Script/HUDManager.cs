@@ -186,9 +186,12 @@ public class HUDManager : MonoBehaviour
        InstanceRefController.CurrentWeapon != null &&
        InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>() != null)
         {
+            //if (UIPlayerWeaponMelee.GetComponent<Image>().sprite == InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon)
+             //   return;
+
             ReduceOpacity(UIPlayerWeaponDistance.GetComponent<Image>());
             Opacity(UIPlayerWeaponMelee.GetComponent<Image>());
-            //Debug.Log("UI UPDATE : WeaponDistanceIcon");
+           // Debug.Log("UI UPDATE : WeaponDistanceIcon");
             UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon;
         }
         else
@@ -202,7 +205,10 @@ public class HUDManager : MonoBehaviour
        InstanceRefController.CurrentWeapon != null &&
        InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>() != null)
         {
-            //Debug.Log("UI UPDATE : WeaponDistanceIcon");
+           // if (UIPlayerWeaponDistance.GetComponent<Image>().sprite == InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>().HUDIcon)
+            //    return;
+            
+           // Debug.Log("UI UPDATE : WeaponDistanceIcon");
             ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
             Opacity(UIPlayerWeaponDistance.GetComponent<Image>());
             UIPlayerAmmoCount.GetComponent<Text>().text = PlayerAmmoCount;

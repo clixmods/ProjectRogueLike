@@ -169,7 +169,7 @@ MonoBehaviour:
   textureWeapon: {fileID: 21300000, guid: 79094c19718b9254eb91bd6f848207df, type: 3}
   HUDIcon: {fileID: 21300000, guid: 79094c19718b9254eb91bd6f848207df, type: 3}
   attackRange: 1
-  attackDamage: 22
+  attackDamage: 30
   speedOfTheAttack: 1.7
   reachSpeedAttack: 0
   IsFiring: 0
@@ -177,3 +177,4 @@ MonoBehaviour:
   Attacker: {fileID: 0}
   CollisionWeapon: {fileID: 0}
   checkCollision: 0
+  FirstCheck: 0
