@@ -8,7 +8,10 @@ public class PlayerControler : MonoBehaviour
     public int health;
     public int MaxHealth;
     public int PlayerShield;
+    [Range(0, 10)]
     public int PlayerLifes;
+    [Range(0, 10)]
+    public int PlayerMaxLifes;
 
 
     public float playerMoveSpeed = 1;
@@ -55,8 +58,24 @@ public class PlayerControler : MonoBehaviour
         Movment();
         Weapon();
         AimManager();
+        CheckHealth();
     }
-
+    private void CheckHealth()
+    {
+        if(health < 0)
+        {
+            health = 0;
+            if (PlayerLifes > 0)
+            {
+                health = MaxHealth;
+                PlayerLifes--;
+            }
+            else // Player is dead
+            {
+                Debug.Log("The player is dead");
+            }
+        }
+    }
     private void AimManager()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -137,22 +156,43 @@ public class PlayerControler : MonoBehaviour
         }
       if (distOrCorp == 1)
         {
-            if(Input.GetKeyDown(KeyCode.R))
+            //if(Input.GetKeyDown(KeyCode.R))
+            //{
+            //    armeCorpACorp.SetActive(false);
+            //    selectCorpACorp = selectCorpACorp + 1;
+            //    if (listC.transform.childCount - 1 >= selectCorpACorp)
+            //    {
+            //        Debug.Log(listC.transform.childCount);
+            //        armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
+            //    }
+            //    else if (listC.transform.childCount - 1 < selectCorpACorp)
+            //    {
+            //        selectCorpACorp = 0;
+            //        armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
+            //    }
+            //    armeCorpACorp.SetActive(true);
+            //    CurrentWeapon = armeCorpACorp;
+            //}
+
+            if (Input.GetAxis("Mouse ScrollWheel") != 0) // On change d'arme avec la molette
             {
                 armeCorpACorp.SetActive(false);
-                selectCorpACorp = selectCorpACorp + 1;
-                if (listC.transform.childCount - 1 >= selectCorpACorp)
-                {
-                    Debug.Log(listC.transform.childCount);
-                    armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
-                }
-                else if (listC.transform.childCount - 1 < selectCorpACorp)
+                print(selectCorpACorp);
+                selectCorpACorp += Mathf.FloorToInt(Input.GetAxis("Mouse ScrollWheel") * 10);
+                if (listC.transform.childCount - 1 < selectCorpACorp)
                 {
                     selectCorpACorp = 0;
-                    armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
+
                 }
+                if (selectCorpACorp < 0)
+                {
+                    selectCorpACorp = listC.transform.childCount - 1;
+
+                }
+                armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
                 armeCorpACorp.SetActive(true);
                 CurrentWeapon = armeCorpACorp;
+
             }
         }
         
@@ -165,29 +205,28 @@ public class PlayerControler : MonoBehaviour
         }
         if (distOrCorp == 2)
         {
-            // if (Input.GetKeyDown(KeyCode.R))
-            //{
-            if (Input.GetAxis("Mouse ScrollWheel") != 0)
+            if (Input.GetAxis("Mouse ScrollWheel") != 0) // On change d'arme avec la molette
             {
                 armeDistance.SetActive(false);
                 print(selectDist);
                 selectDist += Mathf.FloorToInt(Input.GetAxis("Mouse ScrollWheel") * 10);
-            }
-            
-               // selectDist = selectDist + 1;
-                if (listD.transform.childCount - 1 >= selectDist)
-                {
-                    //Debug.Log(listD.transform.childCount);
-                    armeDistance = listD.transform.GetChild(selectDist).gameObject;
-                }
-                else if (listD.transform.childCount - 1 < selectDist)
+                if (listD.transform.childCount - 1 < selectDist)
                 {
                     selectDist = 0;
-                    armeDistance = listD.transform.GetChild(selectDist).gameObject;
+                    
                 }
+                if (selectDist < 0)
+                {
+                    selectDist = listD.transform.childCount - 1;
+                    
+                }
+                armeDistance = listD.transform.GetChild(selectDist).gameObject;
                 armeDistance.SetActive(true);
                 CurrentWeapon = armeDistance;
-           // }
+
+            }
+
+        
         }
         if (CurrentWeapon != null)
         {
