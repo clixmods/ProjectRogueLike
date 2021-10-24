@@ -7,7 +7,7 @@ public class DetectionTarget : MonoBehaviour
     public GameObject target;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("OnCollisionEnter");
+       // Debug.Log("OnCollisionEnter");
         if (collision.gameObject.CompareTag("Player"))
         {
             //transform.parent.GetComponent<SphereCollider>().enabled = false;

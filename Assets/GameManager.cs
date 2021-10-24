@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(gameObject);
-        DontDestroyOnLoad(HUD);
-        if (CurrentCamera == null)
+        //DontDestroyOnLoad(HUD);
+        if (CurrentCamera == null && Camera.main != null)
             CurrentCamera = Camera.main.gameObject; 
         //DontDestroyOnLoad(CurrentCamera);
     }
@@ -43,7 +43,8 @@ public class GameManager : MonoBehaviour
     {
         if (CurrentScene == null || CurrentScene == "MainMenu")
             return;
-        if(CurrentPlayer != null)
+
+        if (CurrentPlayer != null)
         {
             FixCameraToPlayer();
         }
@@ -51,6 +52,10 @@ public class GameManager : MonoBehaviour
         {
             TryToGetPlayerEntity();
         }
+        //if (HUD == null)
+        //{
+        //    HUD = GameObject.Find("HUD");
+        //}
     }
     void TryToGetPlayerEntity()
     {

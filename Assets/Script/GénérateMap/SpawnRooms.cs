@@ -118,7 +118,11 @@ public class SpawnRooms : MonoBehaviour
     {
         if (collision.CompareTag("SpawnPointSalle") && collision.gameObject.layer != LayerMask.NameToLayer("SpawnPointMid"))
         {
-            if (collision.transform.GetComponent<SpawnRooms>().spawnOrNot == false && spawnOrNot == false)
+            if (listRoomsForSpawn.roomsOnLeft[5] != null
+                && collision.transform.GetComponent<SpawnRooms>() != null
+                && collision.transform.GetComponent<SpawnRooms>().spawnOrNot == false 
+                && spawnOrNot == false 
+                )
             {
                 Instantiate(listRoomsForSpawn.roomsOnLeft[5], gameObject.transform.position, Quaternion.identity);
                 //Instantiate(listRoomsForSpawn.closedRoom, gameObject.transform.position, Quaternion.identity);

@@ -11,7 +11,7 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
 
     [Header ("Look Othe Weapon")]
     public Sprite textureWeapon;
-
+    public Sprite HUDIcon;
     [Header ("Settings Of The Weapon")]
     public float attackRange;
     public int attackDamage;
@@ -22,12 +22,17 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
     public bool IsFiring = false;
     public float AttackAngle = 0; // From the owner
     public GameObject Attacker;
+    public BoxCollider2D CollisionWeapon;
+    public bool checkCollision = false;
+
+    public bool FirstCheck = false;
 
     // Start is called before the first frame update
     void Start()
     {
         attackPoint = gameObject.transform.GetChild(0).transform;
- 
+        //CollisionWeapon = gameObject.GetComponentInChildren<BoxCollider2D>();
+
         reachSpeedAttack = speedOfTheAttack;
         initialRot = transform.parent.rotation;
     }
@@ -35,50 +40,56 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if(IsFiring)
         {
-           // print("yobg");
-            float targetAngle = AttackAngle-45;
+            if(gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>() != null)
+                gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = true;
+
+            // print("yobg");
+            float targetAngle = AttackAngle-65;
             float turnSpeed = 5;  // new Quaternion(.x, transform.parent.parent.rotation.y, transform.parent.parent.rotation.z, transform.parent.parent.rotation.w)
-            //transform.parent.parent.rotation = Quaternion.Slerp(transform.parent.parent.rotation, Quaternion.Euler(0, 0, AttackAngle ), turnSpeed * Time.deltaTime);
             transform.parent.parent.rotation = Quaternion.Slerp(transform.parent.parent.rotation, Quaternion.Euler(0, 0, targetAngle), turnSpeed * Time.deltaTime);
 
             if (reachSpeedAttack <= speedOfTheAttack)
             {
-                //transform.parent.Rotate(new Vector3(0,0, 0));
-                //transform.parent.rotation = Quaternion.Lerp(initialRot, new Quaternion(0, 0, 0, 90), 0.5f * Time.deltaTime);
-
                 reachSpeedAttack += Time.deltaTime;
-
-
                 IsFiring = true;
                 if (reachSpeedAttack >= speedOfTheAttack)
                 {
-
-                    Debug.Log("coucou");
-
-                 
-                    //pivotWeapon = initPivotWeapon;
+                    Debug.Log("coucou"); 
                     reachSpeedAttack = 0;
                     IsFiring = false;
                 }
 
             }
         }
+        else
+        {
+            if (gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>() != null)
+                gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
+        }
     }
-
+   
+   
     public void Attack(float Angle = 0)
     {
-        AttackAngle = Angle;
-         IsFiring = true;
-        transform.parent.parent.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle+45));
+        if (IsFiring)
+            return;
 
-        Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
+            reachSpeedAttack = 0;
+            AttackAngle = Angle;
+            IsFiring = true;
+            FirstCheck = true;
+            transform.parent.parent.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle+45));
 
+       // Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
+        //OnDrawGizmos();
+        /*
         foreach (Collider2D enemie in hitenemy)
         {
             print("BOY");
-            if (enemie.gameObject == Attacker || enemie.gameObject.CompareTag(gameObject.tag))
+            if (enemie.gameObject == Attacker || enemie.gameObject.CompareTag(Attacker.tag))
                 print("Attack himself ");  //return;
 
             else
@@ -103,14 +114,16 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
         }
         // if (IsFiring)
         //    return;
-
+        */
 
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
-      //  if (attackPoint == null)
-        //    return;
+        if (attackPoint == null)
+            return;
         Gizmos.DrawWireSphere(attackPoint.position, attackRange);
+       // Gizmos.color = Color.yellow;
+       // Gizmos.DrawSphere(attackPoint.position, attackRange);
     }
 }

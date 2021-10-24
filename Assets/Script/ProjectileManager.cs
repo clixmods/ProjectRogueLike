@@ -6,6 +6,7 @@ public class ProjectileManager : MonoBehaviour
 {
     public Sprite ProjectileTexture;
     public int DamageAmount;
+    public GameObject Attacker;
     // Start is called before the first frame update
     void Start()
     {

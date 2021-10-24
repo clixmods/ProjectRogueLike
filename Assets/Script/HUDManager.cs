@@ -10,6 +10,8 @@ public class HUDManager : MonoBehaviour
     public PlayerControler InstanceRefController;
     [Header("HUD ELEMENTS")]
     public GameObject UIHealthBar;
+    public GameObject UIHealthBarDamaged;
+    public Text UIHealthText;
     public GameObject UILifes;
     public GameObject UIShieldBar;
     public GameObject UIPlayerScore;
@@ -19,23 +21,25 @@ public class HUDManager : MonoBehaviour
     public GameObject UIPlayerWeaponDistance;
     public GameObject UIHealthEnnemiPrefab;
     [Header("HUD INFO")]
-    public string PlayerHealth;
-    public string PlayerLife;
-    public string PlayerShield;
-    public string PlayerScore;
-    public string PlayerScoreMultiplier;
     public string PlayerAmmoCount;
+    //public string PlayerHealth;
+    //public string PlayerMaxHealth;
+    //public string PlayerLife;
+    //public string PlayerShield;
+    //public string PlayerScore;
+    //public string PlayerScoreMultiplier;
+
+
     private GameObject GameManager;
     public GameObject[] Ennemies;
     public GameObject[] EnnemiesHWidgets;
     private GameObject oof;
     public GameObject Ennemi;
-    GameObject HealthBar;
-
-    int healthBarLimit = 15;
-
-    string sssss;
-
+    
+    // isdamagedanim var
+    private bool isDamaged = false;
+    private float counter = 0;
+    private float timeToDoAnim = 5;
     // Start is called before the first frame update
     void Start()
     {
@@ -44,33 +48,6 @@ public class HUDManager : MonoBehaviour
         if(InstanceRef != null)
             InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
 
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3 position = transform.position;
-        position.x = mousePosition.x; // On met le viseur sur la position de la souris à l'écran
-        position.y = mousePosition.y; // On met le viseur sur la position de la souris à l'écran
-
-        //oof = Instantiate(UIHealthEnnemiPrefab, position,Quaternion.identity);
-        // Ennemies[0] = Instantiate(UIHealthEnnemiPrefab);
-        // Ennemies[1] = Instantiate(UIHealthEnnemiPrefab);
-        //   HealthBar = Instantiate(UIHealthEnnemiPrefab, transform);
-        //  Vector2 mousePositiona = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //  Vector3 positiona = transform.position;
-        // position.x = mousePositiona.x; 
-        //  position.y = mousePositiona.y; 
-
-        // oof = Instantiate(UIHealthEnnemiPrefab, positiona, Quaternion.identity);
-        //Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
-        //for( int i =0; i< Ennemies.Length;i++)
-        //{
-        //    EnnemiesHWidgets[i] = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity,transform);
-        // }
-       /*
-        for (int i = 0; i < healthBarLimit; i++)
-        {
-            EnnemiesHWidgets[i] = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform.parent);
-
-        }
-       */
     }
     void AddHealthToEnnemies()
     {
@@ -165,6 +142,11 @@ public class HUDManager : MonoBehaviour
                     PlayerAmmoCount = "0";
                 }
             }
+
+            if(isDamaged)
+            {
+
+            }
         }
         else
         { 
@@ -191,10 +173,26 @@ public class HUDManager : MonoBehaviour
         public string PlayerScoreMultiplier;
         public string PlayerAmmoCount;
     */
+        
+        GetAndSetHealthValue();
         void GetAndSetHealthValue()
         {
-           // UIHealthBar.GetComponent<>; // TODO : faut crée la variable HUDIcon 
+            if(InstanceRefController == null)
+            {
+                Debug.Log("func GetAndSetHealthValue : InstanceRefController is not defined");
+                return;
+            }
+            Vector3 localScale = UIHealthBar.GetComponent<RectTransform>().localScale; // TODO : faut crée la variable HUDIcon 
+            localScale.x = (float)InstanceRefController.health / (float)InstanceRefController.MaxHealth;
+            if (localScale.x > 1)
+                localScale.x = 1;
+            else if (localScale.x < 0)
+                localScale.x = 0;
+
             
+
+            UIHealthText.text = InstanceRefController.health.ToString();
+            UIHealthBar.GetComponent<RectTransform>().localScale = localScale;
         }
 
 
@@ -221,7 +219,7 @@ public class HUDManager : MonoBehaviour
                 ReduceOpacity(UIPlayerWeaponDistance.GetComponent<Image>() );
                 Opacity(UIPlayerWeaponMelee.GetComponent<Image>());
                 //Debug.Log("UI UPDATE : WeaponDistanceIcon");
-                //UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon; 
+                UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon; 
             }
             else
             {

@@ -28,6 +28,7 @@ public class WeaponManager : MonoBehaviour
     public float CooldownHeating = 3;
     private float CurrentCooldownHeating = 0;
     public float DiscreaseHeatingMultiplier = 1;
+    public GameObject Attacker;
 
     public GameObject projectilDoss;
 
@@ -45,6 +46,7 @@ public class WeaponManager : MonoBehaviour
         gameObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
         GameObject projectile = Instantiate(Projectile, transform.position, Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)), projectilDoss.transform);
         projectile.transform.GetComponent<ProjectileManager>().DamageAmount = DamageAmount;
+        projectile.transform.GetComponent<ProjectileManager>().Attacker = Attacker;
         projectile.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)); // Permet au projectile d'avoir la bonne rotation au niveau texture
         projectile.transform.GetComponent<Rigidbody2D>().AddForce(-transform.right * Speed * 1000);
         // On assigne au projectile le scale assigné 
@@ -109,9 +111,5 @@ public class WeaponManager : MonoBehaviour
 
         }
 
-
-
-
-        
     }
 }

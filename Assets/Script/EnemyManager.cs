@@ -29,11 +29,15 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
-        
+        // On change le speed de l'ennemi pour varier un peu les mouvements à l'écran,
+        // comme ça des ennemies de même type ne seront pas forcèment coller entre eux
         float newSpeed = Random.Range(1 , SpeedVariationMultiplier);
         transform.GetComponent<NavMeshAgent>().speed = transform.GetComponent<NavMeshAgent>().speed * newSpeed;
+
+
         maxHealth = health;
-         navMeshAgent = GetComponent<NavMeshAgent>();
+
+        navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
         animeFront = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Animator>();
@@ -81,27 +85,22 @@ public class EnemyManager : MonoBehaviour
             {
                 
                 count += 0.1f * Time.deltaTime;
-                //print( toCount / 8f);
-               // print(count);
+    
                 if (count <= toCount / 8f && count >= toCount / 10f)
                 {
                     gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
-                 //   print("oof 1");
                 }
                 else if (count <= toCount / 6f && count >= toCount / 8f)
                 {
                     gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
-                   // print("oof 2");
                 }
                 else if (count <= toCount / 4f && count >= toCount / 6f)
                 {
                     gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
-                    //print("oof 3");
                 }
                 else if (count <= toCount / 2f && count >= toCount / 4f)
                 {
                     gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
-                    //print("oof 4");
                 }
 
             }
@@ -116,8 +115,6 @@ public class EnemyManager : MonoBehaviour
 
     private void MeleyEnemyMovment()
     {
-
-
         if (player != null)
         {
             float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
@@ -126,33 +123,46 @@ public class EnemyManager : MonoBehaviour
 
             }
             float AttackAngle = AngleBetweenTwoPoints(transform.position, player.position);
-            
-            if(!weaponObject.GetComponent<ManagerWeaponCorpAcopr>().IsFiring)
-                transform.GetChild(1).transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle+90));
-            
+
+            if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null)
+            {
+                if (!weaponObject.GetComponent<ManagerWeaponCorpAcopr>().IsFiring)
+                    transform.GetChild(1).transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
+            }
+            else
+                transform.GetChild(1).transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
+
+
+
+
             //navMeshAgent.SetDestination(player.position);
             if ((AttackAngle >= -45 && AttackAngle <= 45) || (AttackAngle >= -135 && AttackAngle <= 45)) // on baisselayer wweapons
             {
-                Debug.Log("1");
+               // Debug.Log("1");
                 weaponObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 1;
                 //animeFront.Play("LeftWalkPlayer");
 
             }
             else if ((AttackAngle >= 45 && AttackAngle <= 135) || (AttackAngle >= 135 && AttackAngle <= 225))
             {
-                Debug.Log("2");
+               // Debug.Log("2");
                 weaponObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 3;
                 //animeFront.Play("FrontWalkPlayer");7
 
             }
 
             float AttackChance = Random.Range(0, 100);
-            if(AttackChance > 98)
-            {
-                
-                weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attack(AttackAngle);
-            }
+          
+                if(weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && AttackChance > 98)
+                    weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attack(AttackAngle);
 
+                if (weaponObject.GetComponent<WeaponManager>() != null && AttackChance > 1)
+                {
+                    print("ennemi tire");
+                    weaponObject.GetComponent<WeaponManager>().Attack(gameObject, AttackAngle);
+                }
+                    
+            
 
 
 
@@ -168,11 +178,12 @@ public class EnemyManager : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            health = 0;
+            //health = 0;
             //Destroy(gameObject);
         }
-        if (collision.gameObject.layer == LayerMask.NameToLayer("CorpACorp") ||
-            collision.gameObject.layer == LayerMask.NameToLayer("Distance"))
+        if ((collision.gameObject.layer == LayerMask.NameToLayer("CorpACorp") ||
+            collision.gameObject.layer == LayerMask.NameToLayer("Distance") ) && 
+            gameObject != transform.GetComponent<ProjectileManager>().Attacker)
         {
             Debug.Log(gameObject.name+" have been attacked");
             //LastAttacker = collision.gameObject.transform.GetComponent<BulletProperty>().attacker;

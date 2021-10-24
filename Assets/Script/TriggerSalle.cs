@@ -33,8 +33,8 @@ public class TriggerSalle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(ennemieL.Count);
-        print(countEnnemie);
+        //print(ennemieL.Count);
+        //print(countEnnemie);
         if(countEnnemie == 0)
         {
             levelManager.roomDone++;
