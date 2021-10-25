@@ -1200,7 +1200,7 @@ GameObject:
   - component: {fileID: 164111181583416182}
   m_Layer: 0
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1858,7 +1858,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6886650596472307685}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1664042247840854217
 MonoBehaviour:
@@ -2051,8 +2051,8 @@ Transform:
   - {fileID: 1535220438406611260}
   - {fileID: 9072715979854832867}
   - {fileID: 2126633585808208387}
-  - {fileID: 1908736264207786725}
   - {fileID: 1745968327578399191}
+  - {fileID: 1908736264207786725}
   m_Father: {fileID: 8295296011447165781}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2117,7 +2117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 911878067503057738, guid: 35d25858489dca446a422d4f3d569f01, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 911878067503057738, guid: 35d25858489dca446a422d4f3d569f01, type: 3}
       propertyPath: m_LocalPosition.x

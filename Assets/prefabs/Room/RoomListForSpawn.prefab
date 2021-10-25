@@ -58,3 +58,5 @@ MonoBehaviour:
   - {fileID: 3613797276602430416, guid: e59f0c67a6045d84ebc70d9c2edeb12d, type: 3}
   - {fileID: 5952328782725984531, guid: 05fba861e4c6a1a4b80e3d17724de206, type: 3}
   closedRoom: {fileID: 7521974025580781619, guid: 4c08da684378b4a40add4ad191783846, type: 3}
+  numberOfRooms: []
+  spawnBoss: {fileID: 681411343179332196, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
