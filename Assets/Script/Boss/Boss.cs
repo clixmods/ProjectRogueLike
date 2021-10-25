@@ -31,10 +31,14 @@ public class Boss : MonoBehaviour
     public int maxCheckFonce;
     int checkLaser;
     public int maxCheckLaser;
+    public int damageAmount = 10;
 
+    public int health;
 
     bool test;
     int passageAttack;
+    // ui
+    public GameObject HealthBar;
 
 
     // Start is called before the first frame update
@@ -58,13 +62,14 @@ public class Boss : MonoBehaviour
 
         test = false;
         passageAttack = 1;
+        health = bossHealth;
 
-    }
+}
 
     // Update is called once per frame
     void Update()
     {
-        if(bossHealth <= bossHealth/3) // phase3
+        if(health <= bossHealth/3) // phase3
         {
             if (checkLaser <= maxCheckLaser && passageAttack == 1)
             {
@@ -97,7 +102,7 @@ public class Boss : MonoBehaviour
             }
             
         }
-        if(bossHealth > bossHealth/3 && bossHealth <= (bossHealth/3)*2)
+        if(health > bossHealth/3 && health <= (bossHealth/3)*2)
         {
             if (checkLaser <= maxCheckLaser && test)
             {
@@ -122,14 +127,14 @@ public class Boss : MonoBehaviour
             }
 
         }
-        if (bossHealth > (bossHealth/3)*2)
+        if (health > (bossHealth/3)*2)
         {
             
 
             
             if ((checkBoule <= maxSpawnCheckBoule) && !test)
              {
-
+                Debug.Log("Pog");
                  BouleDefeu();
 
              }
@@ -152,15 +157,14 @@ public class Boss : MonoBehaviour
 
         }
 
+        if(HealthBar != null)
+        {
 
+        }
     }
 
     void BouleDefeu(  )
     {
-        
-
-        
-
         if (ball1 == 1)
         {
             List<GameObject> balla = new List<GameObject>();
@@ -256,8 +260,8 @@ public class Boss : MonoBehaviour
                 Debug.Log(hit[i].transform.name);
                 if (hit[i].transform.gameObject.layer == LayerMask.NameToLayer("Player"))
                 {
-
-                    
+                    hit[i].transform.GetComponent<PlayerControler>().health -= 10;// TODO damage a def
+                 
                     tst = false;
                     arr = false;
                    
@@ -324,7 +328,11 @@ public class Boss : MonoBehaviour
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             collision.transform.Translate(((collision.transform.position - gameObject.transform.position).normalized) * 20 * Time.deltaTime);
+
             //collision.transform.GetComponent<Rigidbody2D>().AddForce(((gameObject.transform.position - collision.transform.position).normalized) * 5);
+        
+             collision.gameObject.GetComponent<PlayerControler>().health -= 10; // TODO damage à définir
+           
         }
     }
 }

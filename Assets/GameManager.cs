@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     public void StartLevel()
     {
         // Start First Scene
-        SceneManager.LoadSceneAsync("TestLevel", LoadSceneMode.Single);
+        SceneManager.LoadSceneAsync("TstLvlManager", LoadSceneMode.Single);
         
         CurrentScene = "TestLevel";
         CurrentPlayer = GameObject.FindWithTag("Player");
