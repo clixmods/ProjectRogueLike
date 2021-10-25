@@ -27,8 +27,6 @@ public class ProjectileManager : MonoBehaviour
         {
             if (collision.gameObject.GetComponent<PlayerControler>() != null)
             {
-                
-             
                 collision.gameObject.GetComponent<PlayerControler>().health -= DamageAmount;
             }
             if (collision.gameObject.GetComponent<EnemyManager>() != null)
@@ -36,6 +34,16 @@ public class ProjectileManager : MonoBehaviour
                 collision.gameObject.GetComponent<EnemyManager>().health -= DamageAmount;
                 collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
                 collision.gameObject.GetComponent<EnemyManager>().isDamaged = true;
+            }
+            if (collision.gameObject.GetComponent<Boss>() != null)
+            {
+                collision.gameObject.GetComponent<Boss>().health -= gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().attackDamage;
+                // collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
+                // collision.gameObject.GetComponent<Boss>().isDamaged = true;
+            }
+            if (collision.transform.tag == "Wall")
+            {
+                Destroy(gameObject);
             }
         }
     }

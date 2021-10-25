@@ -965,6 +965,7 @@ MonoBehaviour:
   UIPlayerWeaponMelee: {fileID: 9142069932700882160}
   UIPlayerWeaponDistance: {fileID: 9142069932439574380}
   UIHealthEnnemiPrefab: {fileID: 8052959119265304825, guid: 5684f7b673edb864e86a96b3e0f85ee6, type: 3}
+  UIHealthBoss: {fileID: 3907767377880536892}
   PlayerAmmoCount: 
   Ennemies: []
   EnnemiesHWidgets:

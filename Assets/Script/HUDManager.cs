@@ -21,6 +21,7 @@ public class HUDManager : MonoBehaviour
     public GameObject UIPlayerWeaponMelee;
     public GameObject UIPlayerWeaponDistance;
     public GameObject UIHealthEnnemiPrefab;
+    public GameObject UIHealthBoss;
     [Header("HUD INFO")]
     public string PlayerAmmoCount;
     //public string PlayerHealth;
@@ -224,6 +225,26 @@ public class HUDManager : MonoBehaviour
         Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
         for (int i = 0; i < Ennemies.Length; i++)
         {
+            if (Ennemies[i].GetComponent<Boss>() != null && Ennemies[i].GetComponent<Boss>().HealthBar == null)
+            {
+                Ennemies[i].GetComponent<Boss>().HealthBar = UIHealthBoss;
+                UIHealthBoss.SetActive(true);
+            }
+            else if (Ennemies[i].GetComponent<Boss>().HealthBar != null)
+            {
+                Vector3 Scale = UIHealthBoss.transform.GetChild(1).GetComponent<RectTransform>().localScale;
+
+                Scale.x = (float)Ennemies[i].GetComponent<Boss>().health / (float)Ennemies[i].GetComponent<Boss>().bossHealth;
+                if (Scale.x < 0) Scale.x = 0;
+                if (Scale.x > 1) Scale.x = 1;
+                UIHealthBoss.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
+            }
+            else if (Ennemies[i].GetComponent<Boss>() != null)
+            {
+                continue;
+            }
+
+
             if (Ennemies[i].GetComponent<EnemyManager>().HealthBar == null)
                 Ennemies[i].GetComponent<EnemyManager>().HealthBar = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform);
             else

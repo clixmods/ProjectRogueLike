@@ -34,6 +34,14 @@ public class MeleeCollider : MonoBehaviour
                 collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
                 collision.gameObject.GetComponent<EnemyManager>().isDamaged = true;
             }
+            if (collision.gameObject.GetComponent<Boss>() != null)
+            {
+                collision.gameObject.GetComponent<Boss>().health -= gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().attackDamage;
+               // collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
+               // collision.gameObject.GetComponent<Boss>().isDamaged = true;
+            }
+
+
         }
     }
 }
