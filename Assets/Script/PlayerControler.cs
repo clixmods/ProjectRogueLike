@@ -6,8 +6,12 @@ public class PlayerControler : MonoBehaviour
 {
 
     public int health;
+    public int MaxHealth;
     public int PlayerShield;
+    [Range(0, 10)]
     public int PlayerLifes;
+    [Range(0, 10)]
+    public int PlayerMaxLifes;
 
 
     public float playerMoveSpeed = 1;
@@ -26,18 +30,16 @@ public class PlayerControler : MonoBehaviour
     float AttackAngle;
     private void Start()
     {
-       
-
         Debug.Log("LE BAD");
         print("Bas Oui tu as raisond c'est le bad");
         listC = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
         listD = gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
 
-
         for (int i = 0; i <= listC.transform.childCount - 1; i++)
         {
             armeCorpACorp = listC.transform.GetChild(i).gameObject;
             armeCorpACorp.SetActive(false);
+            armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
         }
         for (int i = 0; i <= listD.transform.childCount - 1; i++)
         {
@@ -56,8 +58,24 @@ public class PlayerControler : MonoBehaviour
         Movment();
         Weapon();
         AimManager();
+        CheckHealth();
     }
-
+    private void CheckHealth()
+    {
+        if(health < 0)
+        {
+            health = 0;
+            if (PlayerLifes > 0)
+            {
+                health = MaxHealth;
+                PlayerLifes--;
+            }
+            else // Player is dead
+            {
+                Debug.Log("The player is dead");
+            }
+        }
+    }
     private void AimManager()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -67,28 +85,32 @@ public class PlayerControler : MonoBehaviour
             return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
         }
         AttackAngle = AngleBetweenTwoPoints(transform.position, mousePosition);
-        listC.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
-        listD.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
-
+        //listC.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
+        //listD.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
+        if(CurrentWeapon != null)
+        {
+            AimManagerForWeapon();
+        }
+       
+    }
+    void AimManagerForWeapon()
+    {
+        if (CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>() != null )
+        {
+            if (!CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().IsFiring )
+                listD.transform.parent.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
+        }
+        else if(CurrentWeapon.GetComponent<WeaponManager>() != null)
+            listD.transform.parent.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
 
         if ((AttackAngle >= -45 && AttackAngle <= 45) || (AttackAngle >= -135 && AttackAngle <= 45)) // on baisselayer wweapons
         {
-            Debug.Log("1");
             CurrentWeapon.transform.GetComponent<SpriteRenderer>().sortingOrder = 1;
-            //animeFront.Play("LeftWalkPlayer");
-           
         }
         else if ((AttackAngle >= 45 && AttackAngle <= 135) || (AttackAngle >= 135 && AttackAngle <= 225))
         {
-            Debug.Log("2");
             CurrentWeapon.transform.GetComponent<SpriteRenderer>().sortingOrder = 3;
-            //animeFront.Play("FrontWalkPlayer");7
-
         }
-       
-     
-
-
     }
 
     private void Movment()
@@ -123,30 +145,27 @@ public class PlayerControler : MonoBehaviour
                 CurrentWeapon.SetActive(false);
             }
             armeCorpACorp.SetActive(true);
+            
 
             CurrentWeapon = armeCorpACorp;
-            CurrentWeapon.GetComponent<SpriteRenderer>().flipX = true;
+           // CurrentWeapon.GetComponent<SpriteRenderer>().flipX = true;
             distOrCorp = 1;
-            
-            
-            
+
+            armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
+
         }
       if (distOrCorp == 1)
         {
-            if(Input.GetKeyDown(KeyCode.R))
+            if (Input.GetAxis("Mouse ScrollWheel") != 0) // On change d'arme avec la molette
             {
                 armeCorpACorp.SetActive(false);
-                selectCorpACorp = selectCorpACorp + 1;
-                if (listC.transform.childCount - 1 >= selectCorpACorp)
-                {
-                    Debug.Log(listC.transform.childCount);
-                    armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
-                }
-                else if (listC.transform.childCount - 1 < selectCorpACorp)
-                {
-                    selectCorpACorp = 0;
-                    armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
-                }
+                selectCorpACorp += Mathf.FloorToInt(Input.GetAxis("Mouse ScrollWheel") * 10);
+
+                if (listC.transform.childCount - 1 < selectCorpACorp)   selectCorpACorp = 0;
+              
+                if (selectCorpACorp < 0)  selectCorpACorp = listC.transform.childCount - 1;
+
+                armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
                 armeCorpACorp.SetActive(true);
                 CurrentWeapon = armeCorpACorp;
             }
@@ -159,25 +178,31 @@ public class PlayerControler : MonoBehaviour
             CurrentWeapon = armeDistance;
             distOrCorp = 2;
         }
+
         if (distOrCorp == 2)
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            if (Input.GetAxis("Mouse ScrollWheel") != 0) // On change d'arme avec la molette
             {
                 armeDistance.SetActive(false);
-                selectDist = selectDist + 1;
-                if (listD.transform.childCount - 1 >= selectDist)
-                {
-                    Debug.Log(listD.transform.childCount);
-                    armeDistance = listD.transform.GetChild(selectDist).gameObject;
-                }
-                else if (listD.transform.childCount - 1 < selectDist)
+                print(selectDist);
+                selectDist += Mathf.FloorToInt(Input.GetAxis("Mouse ScrollWheel") * 10);
+                if (listD.transform.childCount - 1 < selectDist)
                 {
                     selectDist = 0;
-                    armeDistance = listD.transform.GetChild(selectDist).gameObject;
+                    
                 }
+                if (selectDist < 0)
+                {
+                    selectDist = listD.transform.childCount - 1;
+                    
+                }
+                armeDistance = listD.transform.GetChild(selectDist).gameObject;
                 armeDistance.SetActive(true);
                 CurrentWeapon = armeDistance;
+
             }
+
+        
         }
         if (CurrentWeapon != null)
         {
@@ -186,14 +211,14 @@ public class PlayerControler : MonoBehaviour
             
 
 
-            if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 1)
+            if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 1) 
             {
                 ManagerWeaponCorpAcopr cc = armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>();
-                cc.Attack();
+                cc.Attack(AttackAngle);
             }
             if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 2)
             {
-                armeDistance.GetComponent<WeaponManager>().Attack(armeDistance, AttackAngle);
+                armeDistance.GetComponent<WeaponManager>().Attack(gameObject, AttackAngle);
 
             }
         }

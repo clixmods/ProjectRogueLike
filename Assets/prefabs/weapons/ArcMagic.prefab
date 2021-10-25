@@ -51,15 +51,16 @@ MonoBehaviour:
   ProjectileTexture: {fileID: 21300000, guid: 1264b674c9fef834f8780e21a9eb9e9a, type: 3}
   ProjectileScale: 1
   Speed: 1
-  FireRate: 1
+  FireRate: 0.39
   Cooldown: 0
   ProjectileLifeTime: 5
-  DamageAmount: 1
+  DamageAmount: 30
   AmmoTypeId: 0
-  MaxAmmoCount: 500000
+  MaxAmmoCount: 150
   HeatingMultiplier: 1
   CooldownHeating: 3
   DiscreaseHeatingMultiplier: 1
+  Attacker: {fileID: 0}
   projectilDoss: {fileID: 5319332556057631282, guid: 71aca181ce15cd94e809df1f20259c1f, type: 3}
 --- !u!212 &3625165488627468012
 SpriteRenderer:
