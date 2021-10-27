@@ -118,7 +118,7 @@ public class SpawnRooms : MonoBehaviour
     {
         if (collision.CompareTag("SpawnPointSalle") && collision.gameObject.layer != LayerMask.NameToLayer("SpawnPointMid"))
         {
-            if (listRoomsForSpawn.roomsOnLeft[5] != null
+            if (listRoomsForSpawn.roomsOnLeft.Length >= 6
                 && collision.transform.GetComponent<SpawnRooms>() != null
                 && collision.transform.GetComponent<SpawnRooms>().spawnOrNot == false 
                 && spawnOrNot == false 

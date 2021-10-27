@@ -55,7 +55,14 @@ public class EnemyManager : MonoBehaviour
             weaponObject = Instantiate(CurrentWeapon, transform.position, new Quaternion(0,0,0,0), transform.GetChild(1).GetChild(0));
             weaponObject.transform.localPosition = new Vector2(0, 0);
             weaponObject.transform.localRotation = new Quaternion(0,0,0, 0);
-            weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
+
+            // On l'attribue le propriétaire de l'arme en attacker dans l'arme pour que les attaques puissent être identifier.
+            if(weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null)
+                weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
+            else if(weaponObject.GetComponent<WeaponManager>() != null)
+                weaponObject.GetComponent<WeaponManager>().Attacker = gameObject;
+
+
         }
     }
 
@@ -166,7 +173,6 @@ public class EnemyManager : MonoBehaviour
 
                 if (weaponObject.GetComponent<WeaponManager>() != null && AttackChance > 1)
                 {
-                    print("ennemi tire");
                     weaponObject.GetComponent<WeaponManager>().Attack(gameObject, AttackAngle);
                 }
                 

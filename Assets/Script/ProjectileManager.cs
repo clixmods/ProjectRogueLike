@@ -22,22 +22,26 @@ public class ProjectileManager : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         print(collision.tag);
-        if (collision.gameObject != Attacker &&
-            !collision.gameObject.CompareTag(Attacker.tag))
+        GameObject gObjct = collision.gameObject;
+        if (Attacker != null && // ca se peut que l'attacker meurt et que le projectile soit toujours la
+            gObjct != Attacker &&
+            !gObjct.CompareTag(Attacker.tag))
         {
-            if (collision.gameObject.GetComponent<PlayerControler>() != null)
+            if (gObjct.GetComponent<PlayerControler>() != null && !gObjct.GetComponent<PlayerControler>().isDamaged)
             {
-                collision.gameObject.GetComponent<PlayerControler>().health -= DamageAmount;
+                //collision.GetComponent<PlayerControler>().isDamaged = true;
+                gObjct.GetComponent<PlayerControler>().health -= DamageAmount;
+                gObjct.GetComponent<PlayerControler>().isDamaged = true;
             }
-            if (collision.gameObject.GetComponent<EnemyManager>() != null)
+            if (gObjct.GetComponent<EnemyManager>() != null)
             {
-                collision.gameObject.GetComponent<EnemyManager>().health -= DamageAmount;
-                collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
-                collision.gameObject.GetComponent<EnemyManager>().isDamaged = true;
+                gObjct.GetComponent<EnemyManager>().health -= DamageAmount;
+                gObjct.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = gObjct.GetComponent<EnemyManager>().flashDamage;
+                gObjct.GetComponent<EnemyManager>().isDamaged = true;
             }
-            if (collision.gameObject.GetComponent<Boss>() != null)
+            if (gObjct.GetComponent<Boss>() != null)
             {
-                collision.gameObject.GetComponent<Boss>().health -= gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().attackDamage;
+                gObjct.GetComponent<Boss>().health -= DamageAmount;
                 // collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
                 // collision.gameObject.GetComponent<Boss>().isDamaged = true;
             }

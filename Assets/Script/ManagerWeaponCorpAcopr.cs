@@ -63,7 +63,7 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
                 IsFiring = true;
                 if (reachSpeedAttack >= speedOfTheAttack)
                 {
-                    Debug.Log("coucou"); 
+                    //Debug.Log("Attack melee Completed"); 
                     reachSpeedAttack = 0;
                     IsFiring = false;
                 }

@@ -28,10 +28,13 @@ public class PlayerControler : MonoBehaviour
     int selectDist = 0;
 
     float AttackAngle;
+    //Cooldown between damage
+    float currentCooldown = 0;
+    public float maxCooldown = 1.5f;
+    public bool isDamaged = false;
+
     private void Start()
     {
-        Debug.Log("LE BAD");
-        print("Bas Oui tu as raisond c'est le bad");
         listC = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
         listD = gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
 
@@ -62,6 +65,18 @@ public class PlayerControler : MonoBehaviour
     }
     private void CheckHealth()
     {
+        if(isDamaged)
+        {
+            if(currentCooldown < maxCooldown)
+            {
+                currentCooldown += Time.deltaTime;
+            }
+            else
+            {
+                currentCooldown = 0;
+                isDamaged = false;
+            }
+        }
         if(health < 0)
         {
             health = 0;

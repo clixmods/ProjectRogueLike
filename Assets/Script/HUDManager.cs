@@ -84,9 +84,12 @@ public class HUDManager : MonoBehaviour
             }
         }
         else
-        { 
-            InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
-            InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
+        {
+            if (GameManager.GetComponent<GameManager>().CurrentPlayer != null)
+            {
+                InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
+                InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
+            }
         }
     }
 
@@ -115,7 +118,7 @@ public class HUDManager : MonoBehaviour
     }
     void GetAndSetLifesValue()
     {
-        // On check si le nombre de maxlife sur lHUD est correspondant à ce qu'a le joueur
+        // On check si le nombre de maxlife sur lHUD est correspondant ï¿½ ce qu'a le joueur
         if (InstanceRefController.PlayerMaxLifes < 1)
             return;
 
@@ -139,7 +142,7 @@ public class HUDManager : MonoBehaviour
             }
 
         }
-        // On check si les lifes sur l'hud correspondent à ceux du joueur
+        // On check si les lifes sur l'hud correspondent ï¿½ ceux du joueur
         for (int i = 0; i < InstanceRefController.PlayerLifes; i++)
         {
             if (!UILifes.transform.GetChild(i).GetChild(0).gameObject.activeSelf)
@@ -157,7 +160,7 @@ public class HUDManager : MonoBehaviour
             Debug.Log("func GetAndSetHealthValue : InstanceRefController is not defined");
             return;
         }
-        Vector3 localScale = UIHealthBar.GetComponent<RectTransform>().localScale; // TODO : faut crée la variable HUDIcon 
+        Vector3 localScale = UIHealthBar.GetComponent<RectTransform>().localScale; // TODO : faut crï¿½e la variable HUDIcon 
         localScale.x = (float)InstanceRefController.health / (float)InstanceRefController.MaxHealth;
         if (localScale.x > 1)
             localScale.x = 1;
@@ -197,7 +200,7 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
-            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas défini");
+            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas dï¿½fini");
         }
     }
     void GetAndSetWeaponDistanceIcon()
@@ -217,7 +220,7 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
-            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas défini");
+            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas dï¿½fini");
         }
     }
     void AddHealthToEnnemies()
@@ -225,25 +228,25 @@ public class HUDManager : MonoBehaviour
         Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
         for (int i = 0; i < Ennemies.Length; i++)
         {
-            if (Ennemies[i].GetComponent<Boss>() != null && Ennemies[i].GetComponent<Boss>().HealthBar == null)
+            if (Ennemies[i].GetComponent<Boss>() != null)
             {
-                Ennemies[i].GetComponent<Boss>().HealthBar = UIHealthBoss;
-                UIHealthBoss.SetActive(true);
-            }
-            else if (Ennemies[i].GetComponent<Boss>().HealthBar != null)
-            {
-                Vector3 Scale = UIHealthBoss.transform.GetChild(1).GetComponent<RectTransform>().localScale;
+                if (Ennemies[i].GetComponent<Boss>().HealthBar == null)
+                {
+                    Ennemies[i].GetComponent<Boss>().HealthBar = UIHealthBoss;
+                    UIHealthBoss.SetActive(true);
+                }
+                else if (Ennemies[i].GetComponent<Boss>().HealthBar != null)
+                {
+                    Vector3 Scale = UIHealthBoss.transform.GetChild(1).GetComponent<RectTransform>().localScale;
 
-                Scale.x = (float)Ennemies[i].GetComponent<Boss>().health / (float)Ennemies[i].GetComponent<Boss>().bossHealth;
-                if (Scale.x < 0) Scale.x = 0;
-                if (Scale.x > 1) Scale.x = 1;
-                UIHealthBoss.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
-            }
-            else if (Ennemies[i].GetComponent<Boss>() != null)
-            {
+                    Scale.x = (float)Ennemies[i].GetComponent<Boss>().health / (float)Ennemies[i].GetComponent<Boss>().bossHealth;
+                    if (Scale.x < 0) Scale.x = 0;
+                    if (Scale.x > 1) Scale.x = 1;
+                    UIHealthBoss.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
+                }
                 continue;
             }
-
+    
 
             if (Ennemies[i].GetComponent<EnemyManager>().HealthBar == null)
                 Ennemies[i].GetComponent<EnemyManager>().HealthBar = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform);
@@ -293,7 +296,7 @@ public class HUDManager : MonoBehaviour
 
             EnnemiesHWidgets[i].SetActive(true);
             EnnemiesHWidgets[i].transform.position = gfgfg + new Vector2(0, 30);
-            //EnnemiesHWidgets[i].transform.GetChild(1).localScale = EnnemiesHWidgets[i].transform.GetChild(2).localScale; // pour eviter de voir la bardamaged quand le widget est attribué à un autre ennemies
+            //EnnemiesHWidgets[i].transform.GetChild(1).localScale = EnnemiesHWidgets[i].transform.GetChild(2).localScale; // pour eviter de voir la bardamaged quand le widget est attribuï¿½ ï¿½ un autre ennemies
             Vector3 Scale = EnnemiesHWidgets[i].transform.GetChild(1).GetComponent<RectTransform>().localScale;
 
             Scale.x = (float)EnnemiesSorted[i].GetComponent<EnemyManager>().health / (float)EnnemiesSorted[i].GetComponent<EnemyManager>().maxHealth;
@@ -301,7 +304,7 @@ public class HUDManager : MonoBehaviour
             if (Scale.x > 1) Scale.x = 1;
             EnnemiesHWidgets[i].transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
         }
-        // On désac les healthbar non utilisé
+        // On dï¿½sac les healthbar non utilisï¿½
         for (int i = Ennemies.Length; i < EnnemiesHWidgets.Length; i++) 
         {
             EnnemiesHWidgets[i].SetActive(false);
