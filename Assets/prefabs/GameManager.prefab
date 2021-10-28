@@ -55,3 +55,5 @@ MonoBehaviour:
   CurrentCamera: {fileID: 0}
   CurrentPlayer: {fileID: 0}
   CurrentScene: 
+  isGameover: 0
+  DefaultWeapon: {fileID: 6180235357644935982, guid: 427f65c58144e1c4abad646e911b25cb, type: 3}

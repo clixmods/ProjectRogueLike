@@ -6,29 +6,45 @@ using UnityEngine.AI;
 public class EnemyManager : MonoBehaviour
 { 
     private Transform enemy;
+    // Get au start
+    NavMeshAgent navMeshAgent;
+    Animator animator;
+    GameObject weaponObject;
 
+    [Header("ACTOR INFO")]
     [Range(0, 3)]
     public float SpeedVariationMultiplier = 1;
     public int health = 100;
-    public int maxHealth;
-    NavMeshAgent navMeshAgent;
-    
-    Animator animator;
+  
     public GameObject CurrentWeapon;
-    GameObject weaponObject;
+    [Range(0, 5)]
+    [Tooltip("Distance to keep between the attacker (self) and his target")]
+    public float DistanceTarget = 1;
+    public bool isDamaged;
+    
+    // If no CurrentWeapon 
+    [Header("IF NO CURRENT WEAPON")]
+    public float attackRange;
+    public int damageAmount;
+    //[Space]
+    
+    public float speedOfTheAttack;
+    public float reachSpeedAttack;
+
+    [Header("DAMAGE EVENT")]
     // Damage Event
     public Material flashDamage;
     public Material mtlDefault;
-    public bool isDamaged;
+
+    
     private float count = 0;
     private float toCount = 0.25f;
 
-    [Range(0, 5)]
-    public float DistanceTarget = 1;
-
-    // ui
+    
+    [Header("UPDATED BY THE GAME")]
+    [Tooltip("maxhealth is setup directly in the start")]
+    public int maxHealth;
     public GameObject HealthBar;
-
     public GameObject aPotentialTarget;
 
     private void Start()
@@ -63,6 +79,18 @@ public class EnemyManager : MonoBehaviour
             else if(weaponObject.GetComponent<WeaponManager>() != null)
                 weaponObject.GetComponent<WeaponManager>().Attacker = gameObject;
 
+
+        }
+        else
+        {
+           // Debug.Log("Arme crée");
+            weaponObject = Instantiate(GameManager.GameUtil.DefaultWeapon, transform.position, new Quaternion(0, 0, 0, 0), transform.GetChild(1).GetChild(0));
+            weaponObject.transform.localPosition = new Vector2(0, 0);
+            weaponObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
+            weaponObject.GetComponent<ManagerWeaponCorpAcopr>().attackDamage = damageAmount;
+            // On l'attribue le propriétaire de l'arme en attacker dans l'arme pour que les attaques puissent être identifier.
+            //if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null)
 
         }
     }
@@ -169,7 +197,11 @@ public class EnemyManager : MonoBehaviour
             float AttackChance = Random.Range(0, 100);
             if (CurrentWeapon == null)
             {
-
+                if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && AttackChance > 98)
+                {
+                    weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attack(AttackAngle);
+                    //PlayAnimation ici;
+                }
             }
             else
             {
@@ -186,6 +218,15 @@ public class EnemyManager : MonoBehaviour
             
                 
         }
+        /* This function is used when the ennemi have no weapon, 
+            - an animation for attack is required (state : 5)
+            - damageAmount 
+        */
+        void Attack()
+        {
+            
+        }
+
         void ChangeOrderLayerWithAngle(float AttackAngle)
         {
             if ((AttackAngle >= -45 && AttackAngle <= 45) || (AttackAngle >= -135 && AttackAngle <= 45))
