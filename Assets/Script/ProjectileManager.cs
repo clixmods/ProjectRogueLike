@@ -27,17 +27,19 @@ public class ProjectileManager : MonoBehaviour
             gObjct != Attacker &&
             !gObjct.CompareTag(Attacker.tag))
         {
-            if (gObjct.GetComponent<PlayerControler>() != null && !gObjct.GetComponent<PlayerControler>().isDamaged)
+
+            //CurrentWeapon.TryGetComponent<PlayerControler>(out PlayerControler Component)
+            if (gObjct.TryGetComponent<PlayerControler>(out PlayerControler Component) && !Component.isDamaged)
             {
                 //collision.GetComponent<PlayerControler>().isDamaged = true;
-                gObjct.GetComponent<PlayerControler>().health -= DamageAmount;
-                gObjct.GetComponent<PlayerControler>().isDamaged = true;
+                Component.health -= DamageAmount;
+                Component.isDamaged = true;
             }
-            if (gObjct.GetComponent<EnemyManager>() != null)
+            if (gObjct.TryGetComponent<EnemyManager>(out EnemyManager ComponentA))
             {
-                gObjct.GetComponent<EnemyManager>().health -= DamageAmount;
-                gObjct.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = gObjct.GetComponent<EnemyManager>().flashDamage;
-                gObjct.GetComponent<EnemyManager>().isDamaged = true;
+                ComponentA.health -= DamageAmount;
+                gObjct.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = ComponentA.flashDamage;
+                ComponentA.isDamaged = true;
             }
             if (gObjct.GetComponent<Boss>() != null)
             {

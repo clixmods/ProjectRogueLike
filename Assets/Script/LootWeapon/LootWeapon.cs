@@ -28,6 +28,7 @@ public class LootWeapon : MonoBehaviour
             {
                 gameObject.transform.position = collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).transform.position;
                 //GameObject weapon = gameObject.transform.GetChild(0).gameObject;
+               // HUDManager.HUDUtility.MSG
                 weapon.SetActive(false);
                 pivot.transform.GetChild(0).gameObject.transform.SetParent(collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).transform, false);
                 //Destroy(gameObject.transform.GetChild(0).gameObject);
