@@ -41,10 +41,12 @@ public class Boss : MonoBehaviour
     public GameObject HealthBar;
     public GameObject porteSortie;
 
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        animator = gameObject.transform.GetChild(2).transform.GetChild(0).gameObject.GetComponent<Animator>();
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
         arr = false;
@@ -253,6 +255,7 @@ public class Boss : MonoBehaviour
         if (!tst)
         {
             PositionPlayer();
+            animator.SetTrigger("Laser");
 
             tst = true;
         }
@@ -262,6 +265,7 @@ public class Boss : MonoBehaviour
         }
         else
         {
+            
            
             Vector3 direction = playerPos - gameObject.transform.position;
             RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, direction, 100f);
@@ -311,11 +315,13 @@ public class Boss : MonoBehaviour
             if (!tst)
             {
                 PositionPlayer();
+                animator.SetTrigger("Fonce");
 
                 tst = true;
             }
             if (gameObject.transform.position != playerPos)
             {
+               
                 force();
 
             }
