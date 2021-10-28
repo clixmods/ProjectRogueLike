@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour
     float cooldownToBackMainMenu = 5;
     float currentCooldown = 0;
 
+    // Common Prefab
+    public GameObject DefaultWeapon;
+
     // Start is called before the first frame update
     void Awake()
     {

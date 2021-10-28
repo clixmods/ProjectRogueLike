@@ -210,6 +210,8 @@ public class PlayerControler : MonoBehaviour
             transform.Translate(Vector2.right * playerMoveSpeed * Time.deltaTime);
             animator.SetInteger("state", 3);
         }
+
+        //animator.SetInteger("state", 0);
     }
 
     private void Weapon()

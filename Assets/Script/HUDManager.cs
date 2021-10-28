@@ -258,13 +258,16 @@ public class HUDManager : MonoBehaviour
     void GetAndSetWeaponDistanceIcon()
     {
         if (InstanceRef != null &&
-       InstanceRefController.CurrentWeapon != null &&
-       InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>() != null)
+                InstanceRefController.CurrentWeapon != null )
         {
-            ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
-            Opacity(UIPlayerWeaponDistance.GetComponent<Image>());
-            UIPlayerWeaponDistance.GetComponentInChildren<Text>().text = PlayerAmmoCount.ToString();
-            UIPlayerWeaponDistance.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>().HUDIcon;
+            if( InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>() != null)
+            {
+                ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
+                Opacity(UIPlayerWeaponDistance.GetComponent<Image>());
+                UIPlayerWeaponDistance.GetComponentInChildren<Text>().text = PlayerAmmoCount.ToString();
+                UIPlayerWeaponDistance.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>().HUDIcon;
+
+            }
         }
         else
         {
