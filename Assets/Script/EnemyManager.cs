@@ -201,22 +201,29 @@ public class EnemyManager : MonoBehaviour
 
             if (AttackAngle >= -45 && AttackAngle <= 45)
             {
-                animator.SetInteger("state", 1);
+                PlayAnimation(1);
            
             }
             else if (AttackAngle >= 45 && AttackAngle <= 135)
             {
-                animator.SetInteger("state", 2);
+                PlayAnimation(2);
   
             }
             else if (AttackAngle >= 135 && AttackAngle <= 225)
             {
-                animator.SetInteger("state", 3);          
+                PlayAnimation(3);          
             }
             else if (AttackAngle >= -135 && AttackAngle <= 45)
             {
-                animator.SetInteger("state", 4);            
+                PlayAnimation( 4);            
             }
+        }
+        void PlayAnimation(int id)
+        {
+            if (animator != null)
+                animator.SetInteger("state", id);
+            else
+                Debug.Log("Animation not set for " + gameObject.name);
         }
 
     }
