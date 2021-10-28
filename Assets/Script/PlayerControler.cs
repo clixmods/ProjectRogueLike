@@ -86,6 +86,9 @@ public class PlayerControler : MonoBehaviour
             {
                 case 0:
                     HUDManager.HUDUtility.PlayerAmmoCount = Component.CurrentAmmoCount;
+                    if(Component.CurrentAmmoCount <= 0)
+                        HUDManager.HUDUtility.SetMiddleMsg(2, "No ammo");
+
                     HUDManager.HUDUtility.isHeating = false;
                     break;
                 case 1:
@@ -243,6 +246,7 @@ public class PlayerControler : MonoBehaviour
                 armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
                 armeCorpACorp.SetActive(true);
                 CurrentWeapon = armeCorpACorp;
+                armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
             }
         }
         

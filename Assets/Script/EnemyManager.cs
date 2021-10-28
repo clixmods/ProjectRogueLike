@@ -15,12 +15,14 @@ public class EnemyManager : MonoBehaviour
     [Range(0, 3)]
     public float SpeedVariationMultiplier = 1;
     public int health = 100;
-  
+    [Range(1, 100)]
+    public int AttackChance = 5;
     public GameObject CurrentWeapon;
     [Range(0, 5)]
     [Tooltip("Distance to keep between the attacker (self) and his target")]
     public float DistanceTarget = 1;
     public bool isDamaged;
+
     
     // If no CurrentWeapon 
     [Header("IF NO CURRENT WEAPON")]
@@ -194,10 +196,13 @@ public class EnemyManager : MonoBehaviour
                 transform.GetChild(1).transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
 
             ChangeOrderLayerWithAngle(AttackAngle);
-            float AttackChance = Random.Range(0, 100);
+            float random = Random.Range(0, 100);
+
+            print(random);
             if (CurrentWeapon == null)
             {
-                if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && AttackChance > 98)
+                if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && random > 100-AttackChance
+                    && Vector3.Distance(transform.position, aPotentialTarget.transform.position) < 3)
                 {
                     weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attack(AttackAngle);
                     //PlayAnimation ici;
@@ -206,10 +211,14 @@ public class EnemyManager : MonoBehaviour
             else
             {
                 
-                if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && AttackChance > 98)
+                if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && random > 100- AttackChance
+                    && Vector3.Distance(transform.position, aPotentialTarget.transform.position) < 3  )
+                {
                     weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attack(AttackAngle);
 
-                if (weaponObject.GetComponent<WeaponManager>() != null && AttackChance > 1)
+                }
+
+                if (weaponObject.GetComponent<WeaponManager>() != null && random > 100 - AttackChance)
                 {
                     weaponObject.GetComponent<WeaponManager>().Attack(gameObject, AttackAngle);
                 }

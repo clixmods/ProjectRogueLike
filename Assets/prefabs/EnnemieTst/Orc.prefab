@@ -49,7 +49,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.012243539, y: 0}
+  m_Offset: {x: -0.02, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -93,7 +93,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.33
-  m_Speed: 1
+  m_Speed: 0.4
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -117,14 +117,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a68da7cc9a17694ab45eee1a89ab752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedVariationMultiplier: 2
-  health: 100
-  maxHealth: 0
+  SpeedVariationMultiplier: 1.41
+  health: 80
+  AttackChance: 5
   CurrentWeapon: {fileID: 5839044044379763499, guid: f771841e84e2f0f4da3efcfb08df9a6c, type: 3}
+  DistanceTarget: 1
+  isDamaged: 0
+  attackRange: 0
+  damageAmount: 0
+  speedOfTheAttack: 0
+  reachSpeedAttack: 0
   flashDamage: {fileID: 2100000, guid: 55698ee3bd2a6df4e82f91aa8f9e4cb5, type: 2}
   mtlDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  isDamaged: 0
-  DistanceTarget: 1
+  maxHealth: 0
   HealthBar: {fileID: 0}
   aPotentialTarget: {fileID: 0}
 --- !u!1 &1867255602067411376
@@ -245,7 +250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6932372682395535932}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.425, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6102142553195814061}

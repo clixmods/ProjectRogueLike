@@ -65,9 +65,9 @@ public class Boss : MonoBehaviour
 
         test = false;
         passageAttack = 1;
-        //health = bossHealth;
-
-}
+        health = bossHealth;
+        HUDManager.HUDUtility.UIHealthBoss.gameObject.SetActive(true);
+    }
 
     // Update is called once per frame
     void Update()
@@ -169,6 +169,7 @@ public class Boss : MonoBehaviour
 
         if(health <=0)
         {
+            HUDManager.HUDUtility.UIHealthBoss.gameObject.SetActive(false);
             Instantiate(porteSortie, gameObject.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }

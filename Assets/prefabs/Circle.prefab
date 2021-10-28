@@ -535,7 +535,7 @@ MonoBehaviour:
   arr: 0
   boule: 0
   timer: 0
-  bossHealth: 10000
+  bossHealth: 3000
   maxSpawnCheckBoule: 0
   maxCheckFonce: 0
   maxCheckLaser: 0

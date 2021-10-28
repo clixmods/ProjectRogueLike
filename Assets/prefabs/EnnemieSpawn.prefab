@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ennemieList: {fileID: 5112406799604537710, guid: 0a453a7d70082f44c91de218c121d59a, type: 3}
-  maxOfspawn: 10
+  maxOfspawn: 6
   minOfSpawn: 2
   time: 2
   timeToReach: 5

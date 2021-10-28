@@ -54,8 +54,9 @@ MonoBehaviour:
   FireRate: 0.39
   Cooldown: 0
   ProjectileLifeTime: 5
-  DamageAmount: 30
+  DamageAmount: 25
   AmmoTypeId: 0
+  IsMagical: 0
   MaxAmmoCount: 150
   HeatingMultiplier: 1
   CooldownHeating: 3

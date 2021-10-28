@@ -49,17 +49,19 @@ MonoBehaviour:
   HUDIcon: {fileID: -3647506040380314784, guid: 62395d391f8a66f41a9182a0fc2457f0, type: 3}
   Projectile: {fileID: 8069158063738369636, guid: 6616253bfc9ff16479fe7fcf65fc560c, type: 3}
   ProjectileTexture: {fileID: 21300000, guid: e6abf6c4b2c7b394ba37dab111f069d4, type: 3}
-  ProjectileScale: 1
-  Speed: 1
-  FireRate: 1
+  ProjectileScale: 2
+  Speed: 1.93
+  FireRate: 0.2
   Cooldown: 0
   ProjectileLifeTime: 5
-  DamageAmount: 1
+  DamageAmount: 10
   AmmoTypeId: 0
-  MaxAmmoCount: 500000
+  IsMagical: 0
+  MaxAmmoCount: 300
   HeatingMultiplier: 1
   CooldownHeating: 3
   DiscreaseHeatingMultiplier: 1
+  Attacker: {fileID: 0}
   projectilDoss: {fileID: 5319332556057631282, guid: 71aca181ce15cd94e809df1f20259c1f, type: 3}
 --- !u!212 &4859653186043004736
 SpriteRenderer:
