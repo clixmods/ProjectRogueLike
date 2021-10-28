@@ -428,6 +428,7 @@ MonoBehaviour:
   damageAmount: 10
   health: 0
   HealthBar: {fileID: 0}
+  porteSortie: {fileID: 9109747104445471078, guid: f95fc5a52a9c31645a7e9ee3f7203ea2, type: 3}
 --- !u!114 &8845959514055396129
 MonoBehaviour:
   m_ObjectHideFlags: 0
