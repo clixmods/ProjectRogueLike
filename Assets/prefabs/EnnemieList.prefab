@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabEnnemies:
-  - {fileID: 1748947582128342416, guid: 6321f6bd08e4f284a852ff1260e78ce6, type: 3}
-  - {fileID: 7248050433989646284, guid: cfd8d8d18e1a2b64599b6f99afbb06c8, type: 3}
+  - {fileID: 3861631168700637534, guid: 1e656dc3bb6546d4eb7d3e7758bc8ae0, type: 3}
+  - {fileID: 1746020612092240978, guid: 74ad375f4c88a904eb30b1e8c3c8cf40, type: 3}
