@@ -72,6 +72,11 @@ public class HUDManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Hum apparement HUDUtility n'est plus déf des qu'on update les scripts, du coup je met ça pour préshot
+        if (HUDUtility != this) 
+            HUDUtility = this;
+
+
         AddHealthToEnnemies();
    
         if (InstanceRef != null)
