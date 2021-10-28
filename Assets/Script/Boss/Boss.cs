@@ -34,6 +34,7 @@ public class Boss : MonoBehaviour
     public int damageAmount = 10;
 
     public int health;
+    int maxhealth;
 
     bool test;
     int passageAttack;
@@ -45,6 +46,7 @@ public class Boss : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        maxhealth = health;
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
         arr = false;
@@ -63,7 +65,7 @@ public class Boss : MonoBehaviour
 
         test = false;
         passageAttack = 1;
-        health = bossHealth;
+        //health = bossHealth;
 
 }
 
@@ -173,7 +175,8 @@ public class Boss : MonoBehaviour
     }
     void UpdateUI()
     {
-       // HUDManager.HUDUtility.
+        HUDManager.HUDUtility.BossMaxHealth = bossHealth;
+         HUDManager.HUDUtility.BossHealth = health;
     }
 
     void BouleDefeu(  )

@@ -114,9 +114,6 @@ public class PlayerControler : MonoBehaviour
                 currentCooldownLife = 0;
                 isLastStand = false;
                 PlayerLifes--;
-                
-
-
             }
         }
         if (isDamaged)
@@ -145,7 +142,6 @@ public class PlayerControler : MonoBehaviour
                 isDead = true;
                 HUDManager.HUDUtility.UIGameOverWidget.SetActive(true);
                 GameManager.GameUtil.isGameover = true;
-                Debug.Log("The player is dead");
             }
         }
     }
@@ -174,7 +170,8 @@ public class PlayerControler : MonoBehaviour
         else if(CurrentWeapon.GetComponent<WeaponManager>() != null)
             listD.transform.parent.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
 
-        if ((AttackAngle >= -45 && AttackAngle <= 45) || (AttackAngle >= -135 && AttackAngle <= 45)) // on baisselayer wweapons
+        // On change l'ordre des sprite order suivant l'angle pour que ce soit styler ta vue
+        if ((AttackAngle >= -45 && AttackAngle <= 45) || (AttackAngle >= -135 && AttackAngle <= 45)) 
         {
             CurrentWeapon.transform.GetComponent<SpriteRenderer>().sortingOrder = 1;
         }
@@ -234,7 +231,7 @@ public class PlayerControler : MonoBehaviour
         }
       if (distOrCorp == 1)
         {
-            if (Input.GetAxis("Mouse ScrollWheel") != 0) // On change d'arme avec la molette
+            if (Input.GetAxis("Mouse ScrollWheel") != 0 && !CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().IsFiring) // On change d'arme avec la molette
             {
                 armeCorpACorp.SetActive(false);
                 selectCorpACorp += Mathf.FloorToInt(Input.GetAxis("Mouse ScrollWheel") * 10);
