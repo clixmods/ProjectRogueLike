@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class hudInit : MonoBehaviour
@@ -16,6 +17,16 @@ public class hudInit : MonoBehaviour
     void Start()
     {
         
+    }
+
+    public void StartLevel()
+    {
+        // Start First Scene
+        SceneManager.LoadSceneAsync("TstLvlManager", LoadSceneMode.Single);
+
+        GameManager.GameUtil.CurrentScene = "TestLevel";
+        GameManager.GameUtil.CurrentPlayer = GameObject.FindWithTag("Player");
+        GameManager.GameUtil.CurrentCamera = Camera.main.gameObject;
     }
 
     // Update is called once per frame
