@@ -13,6 +13,7 @@ public class PlayerControler : MonoBehaviour
     [Range(0, 10)]
     public int PlayerMaxLifes;
 
+    public Animator animator;
 
     public float playerMoveSpeed = 1;
     public GameObject armeCorpACorp;
@@ -185,24 +186,29 @@ public class PlayerControler : MonoBehaviour
 
     private void Movment()
     {
-        if(Input.GetKey(KeyCode.Z))
+        
+        if (Input.GetKey(KeyCode.Z))
         {
             transform.Translate(Vector2.up * playerMoveSpeed * Time.deltaTime);
+            animator.SetInteger("state", 4);
         }
 
         if(Input.GetKey(KeyCode.S))
         {
             transform.Translate(Vector2.down * playerMoveSpeed * Time.deltaTime);
+            animator.SetInteger("state", 2);
         }
 
         if(Input.GetKey(KeyCode.Q))
         {
             transform.Translate(Vector2.left * playerMoveSpeed * Time.deltaTime);
+            animator.SetInteger("state", 1);
         }
 
         if(Input.GetKey(KeyCode.D))
         {
             transform.Translate(Vector2.right * playerMoveSpeed * Time.deltaTime);
+            animator.SetInteger("state", 3);
         }
     }
 
@@ -278,19 +284,38 @@ public class PlayerControler : MonoBehaviour
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris � l'�cran
+            if (Input.GetKey(KeyCode.Mouse0))
+            {
+                if (AttackAngle >= -45 && AttackAngle <= 45)
+                {
+                    animator.SetInteger("state", 1);
 
+                }
+                else if (AttackAngle >= 45 && AttackAngle <= 135)
+                {
+                    animator.SetInteger("state", 2);
+
+                }
+                else if (AttackAngle >= 135 && AttackAngle <= 225)
+                {
+                    animator.SetInteger("state", 3);
+                }
+                else if (AttackAngle >= -135 && AttackAngle <= 45)
+                {
+                    animator.SetInteger("state", 4);
+                }
+                if (distOrCorp == 1)
+                {
+                    ManagerWeaponCorpAcopr cc = armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>();
+                    cc.Attack(AttackAngle);
+                }
+                if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 2)
+                {
+                    armeDistance.GetComponent<WeaponManager>().Attack(gameObject, AttackAngle);
+
+                }
+            }
             
-
-            if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 1) 
-            {
-                ManagerWeaponCorpAcopr cc = armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>();
-                cc.Attack(AttackAngle);
-            }
-            if (Input.GetKey(KeyCode.Mouse0) && distOrCorp == 2)
-            {
-                armeDistance.GetComponent<WeaponManager>().Attack(gameObject, AttackAngle);
-
-            }
         }
 
     }

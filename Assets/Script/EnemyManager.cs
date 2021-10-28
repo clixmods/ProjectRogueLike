@@ -166,16 +166,24 @@ public class EnemyManager : MonoBehaviour
                 transform.GetChild(1).transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
 
             ChangeOrderLayerWithAngle(AttackAngle);
-
-
             float AttackChance = Random.Range(0, 100);
-                if(weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && AttackChance > 98)
+            if (CurrentWeapon == null)
+            {
+
+            }
+            else
+            {
+                
+                if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && AttackChance > 98)
                     weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attack(AttackAngle);
 
                 if (weaponObject.GetComponent<WeaponManager>() != null && AttackChance > 1)
                 {
                     weaponObject.GetComponent<WeaponManager>().Attack(gameObject, AttackAngle);
                 }
+            }
+
+            
                 
         }
         void ChangeOrderLayerWithAngle(float AttackAngle)

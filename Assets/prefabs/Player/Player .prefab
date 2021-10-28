@@ -167,6 +167,7 @@ MonoBehaviour:
   PlayerShield: 0
   PlayerLifes: 3
   PlayerMaxLifes: 3
+  animator: {fileID: 7520798427754605904}
   playerMoveSpeed: 2
   armeCorpACorp: {fileID: 0}
   armeDistance: {fileID: 0}
@@ -216,6 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7612312879651587803}
   - component: {fileID: 7612312879651587802}
+  - component: {fileID: 7520798427754605904}
   m_Layer: 0
   m_Name: Forme
   m_TagString: Untagged
@@ -288,6 +290,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &7520798427754605904
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7612312879651587800}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 333d29d6a0ebd4944a63a0cdc8fa5f1f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8325799129527061755
 GameObject:
   m_ObjectHideFlags: 0
