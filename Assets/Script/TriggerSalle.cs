@@ -21,13 +21,15 @@ public class TriggerSalle : MonoBehaviour
     int q;
 
     LevelManager levelManager;
-    
+
+    Animator animatorPorte;
 
     // Start is called before the first frame update
     void Start()
     {
         q = 0;
         levelManager = GameObject.Find("LevelManager").gameObject.transform.GetComponent<LevelManager>();
+        animatorPorte = prefabPorte.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -45,6 +47,9 @@ public class TriggerSalle : MonoBehaviour
                 levelManager.chestGot++;
                 levelManager.roomDone = 0;
             }
+            
+            animatorPorte.SetBool("OpenDoor", true);
+            animatorPorte.SetBool("CloseDoor", false);
             Destroy(gameObject);
         }
     }
