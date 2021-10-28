@@ -34,6 +34,7 @@ public class Boss : MonoBehaviour
     public int damageAmount = 10;
 
     public int health;
+    int maxhealth;
 
     bool test;
     int passageAttack;
@@ -41,12 +42,11 @@ public class Boss : MonoBehaviour
     public GameObject HealthBar;
     public GameObject porteSortie;
 
-    Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        animator = gameObject.transform.GetChild(2).transform.GetChild(0).gameObject.GetComponent<Animator>();
+        maxhealth = health;
         rigidbody = gameObject.GetComponent<Rigidbody2D>();
         player = GameObject.FindGameObjectWithTag("Player").gameObject;
         arr = false;
@@ -66,8 +66,8 @@ public class Boss : MonoBehaviour
         test = false;
         passageAttack = 1;
         health = bossHealth;
-
-}
+        HUDManager.HUDUtility.UIHealthBoss.gameObject.SetActive(true);
+    }
 
     // Update is called once per frame
     void Update()
@@ -169,13 +169,15 @@ public class Boss : MonoBehaviour
 
         if(health <=0)
         {
+            HUDManager.HUDUtility.UIHealthBoss.gameObject.SetActive(false);
             Instantiate(porteSortie, gameObject.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
     }
     void UpdateUI()
     {
-       // HUDManager.HUDUtility.
+        HUDManager.HUDUtility.BossMaxHealth = bossHealth;
+         HUDManager.HUDUtility.BossHealth = health;
     }
 
     void BouleDefeu(  )
@@ -255,7 +257,6 @@ public class Boss : MonoBehaviour
         if (!tst)
         {
             PositionPlayer();
-            animator.SetTrigger("Laser");
 
             tst = true;
         }
@@ -265,7 +266,6 @@ public class Boss : MonoBehaviour
         }
         else
         {
-            
            
             Vector3 direction = playerPos - gameObject.transform.position;
             RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, direction, 100f);
@@ -315,13 +315,11 @@ public class Boss : MonoBehaviour
             if (!tst)
             {
                 PositionPlayer();
-                animator.SetTrigger("Fonce");
 
                 tst = true;
             }
             if (gameObject.transform.position != playerPos)
             {
-               
                 force();
 
             }

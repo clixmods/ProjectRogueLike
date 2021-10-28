@@ -45,7 +45,7 @@ public class LevelManager : MonoBehaviour
         if (checkReceve == false)
         {
             Invoke("SendInformation", 2f);
-            HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, find him and kill him.");
+            
         }
     }
 
@@ -54,5 +54,6 @@ public class LevelManager : MonoBehaviour
         checkReceve = true;
         numberOfRooms = listRoom.transform.GetComponent<ListeRoomsForSpawn>().numberOfRooms.Count - 1;
         numberOfRoomToDo = Random.Range(((numberOfRooms/2)/2)+ 1, numberOfRooms/ 2);
+        HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, find him and kill him.");
     }
 }

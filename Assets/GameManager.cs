@@ -57,6 +57,76 @@ public class GameManager : MonoBehaviour
         CurrentPlayer = GameObject.FindWithTag("Player");
         CurrentCamera = Camera.main.gameObject;
     }
+    public void ChangeLevel(string name, bool dataPlayer = true, bool dataWeaponList = true)
+    {
+        Scene DesiredScene = SceneManager.GetSceneByName(name);
+        if (dataPlayer)
+        {
+            CurrentPlayer = GameObject.FindWithTag("Player");
+            //SceneManager.MoveGameObjectToScene(CurrentPlayer, DesiredScene);
+        }
+
+        if (dataWeaponList)
+        {
+            GameObject Data = GameObject.FindWithTag("Data");
+          //  SceneManager.MoveGameObjectToScene(Data, DesiredScene);
+        }
+        // Start First Scene
+         SceneManager.LoadSceneAsync(DesiredScene.name, LoadSceneMode.Single);
+        //StartCoroutine(loadScene(DesiredScene.buildIndex));
+
+        CurrentScene = name;
+        CurrentPlayer = GameObject.FindWithTag("Player");
+        CurrentCamera = Camera.main.gameObject;
+    }
+    /*
+    public GameObject UIRootObject;
+    private AsyncOperation sceneAsync;
+    private int sceneAsyncIndex;
+    //void Start()
+    // {
+    //     StartCoroutine(loadScene(2));
+    // }
+
+    IEnumerator loadScene(int index)
+    {
+        sceneAsyncIndex = index;
+        AsyncOperation scene = SceneManager.LoadSceneAsync(sceneAsyncIndex, LoadSceneMode.Single);
+        scene.allowSceneActivation = false;
+        sceneAsync = scene;
+
+        //Wait until we are done loading the scene
+        while (scene.progress < 0.9f)
+        {
+            Debug.Log("Loading scene " + " [][] Progress: " + scene.progress);
+            yield return null;
+        }
+        OnFinishedLoadingAllScene();
+    }
+
+    void enableScene(int index)
+    {
+        //Activate the Scene
+        sceneAsync.allowSceneActivation = true;
+
+
+        Scene sceneToLoad = SceneManager.GetSceneByBuildIndex(index);
+        if (sceneToLoad.IsValid())
+        {
+            Debug.Log("Scene is Valid");
+            SceneManager.MoveGameObjectToScene(CurrentPlayer, sceneToLoad);
+            SceneManager.SetActiveScene(sceneToLoad);
+        }
+    }
+
+    void OnFinishedLoadingAllScene()
+    {
+        Debug.Log("Done Loading Scene");
+        enableScene(sceneAsyncIndex);
+        Debug.Log("Scene Activated!");
+    }
+   
+    */
     public void BackToMainMenu()
     {
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
@@ -76,8 +146,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(isGameover)
+        if (GameManager.GameUtil == null)
+        {
+            GameUtil = this;
+        }
+        if (isGameover)
         {
             if (currentCooldown < cooldownToBackMainMenu)
                 currentCooldown += Time.deltaTime;

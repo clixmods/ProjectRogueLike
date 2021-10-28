@@ -8,6 +8,7 @@ TagManager:
   - Room
   - Ennemies
   - Wall
+  - Data
   layers:
   - Default
   - TransparentFX

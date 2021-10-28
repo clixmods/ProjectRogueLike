@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8455014803089209445}
   m_Layer: 0
   m_Name: WeaponList
-  m_TagString: Untagged
+  m_TagString: Data
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -46,9 +46,7 @@ MonoBehaviour:
   prefabWeapon:
   - {fileID: 6458837181824665519, guid: 9358336520861fa42b2b4665c06af7f1, type: 3}
   - {fileID: 4484914048284687114, guid: 076c886e136841344ace8e3d2ad01f96, type: 3}
-  - {fileID: 9010440143616854410, guid: 1c4fc173d081c3746b95ee9881e476fa, type: 3}
   - {fileID: 6222238429204522586, guid: dbd36bbf5d2878748948f1b6a6d2eb72, type: 3}
   - {fileID: 7920380807437772714, guid: 47ae1658d31456646ba830f85ca8e1f6, type: 3}
   - {fileID: 5839044044379763499, guid: f771841e84e2f0f4da3efcfb08df9a6c, type: 3}
-  - {fileID: 8921115975798115388, guid: 503d578b0450a9c42b4849295962d14d, type: 3}
   rand: 0

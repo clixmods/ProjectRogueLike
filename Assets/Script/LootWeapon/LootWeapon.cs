@@ -28,7 +28,8 @@ public class LootWeapon : MonoBehaviour
             {
                 gameObject.transform.position = collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).transform.position;
                 //GameObject weapon = gameObject.transform.GetChild(0).gameObject;
-               // HUDManager.HUDUtility.MSG
+                // HUDManager.HUDUtility.MSG
+                HUDManager.HUDUtility.SetMiddleMsg(2, "New melee weapon unlocked: "+ weapon.name);
                 weapon.SetActive(false);
                 pivot.transform.GetChild(0).gameObject.transform.SetParent(collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).transform, false);
                 //Destroy(gameObject.transform.GetChild(0).gameObject);
@@ -39,6 +40,7 @@ public class LootWeapon : MonoBehaviour
                 gameObject.transform.position = collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).transform.position;
                 //GameObject weapon = gameObject.transform.GetChild(0).gameObject;
                 weapon.SetActive(false);
+                HUDManager.HUDUtility.SetMiddleMsg(2, "New distance weapon unlocked: " + weapon.name);
                 pivot.transform.GetChild(0).gameObject.transform.SetParent(collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).transform, false);
                 //Destroy(gameObject.transform.GetChild(0).gameObject);
                 Destroy(gameObject);

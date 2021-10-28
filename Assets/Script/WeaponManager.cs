@@ -20,6 +20,8 @@ public class WeaponManager : MonoBehaviour
     public float ProjectileLifeTime = 5;
     public int DamageAmount = 1;
     public int AmmoTypeId = 0;
+
+    public bool IsMagical = false;
    
     [Header("Ammo Type [ID : 0]")]
     public int MaxAmmoCount;
@@ -104,5 +106,10 @@ public class WeaponManager : MonoBehaviour
             else
                 pourcentageHeating -= Time.deltaTime * DiscreaseHeatingMultiplier;
         }
+    }
+    // Permet de clean
+    private void OnDestroy() 
+    {
+         DestroyImmediate(projectilDoss);
     }
 }

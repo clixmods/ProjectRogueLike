@@ -209,8 +209,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a68da7cc9a17694ab45eee1a89ab752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SpeedVariationMultiplier: 2
-  health: 100
+  SpeedVariationMultiplier: 2.51
+  health: 40
+  AttackChance: 5
   CurrentWeapon: {fileID: 8921115975798115388, guid: 503d578b0450a9c42b4849295962d14d, type: 3}
   DistanceTarget: 5
   isDamaged: 0

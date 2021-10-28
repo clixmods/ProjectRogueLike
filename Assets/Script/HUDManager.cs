@@ -72,6 +72,11 @@ public class HUDManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Hum apparement HUDUtility n'est plus déf des qu'on update les scripts, du coup je met ça pour préshot
+        if (HUDUtility != this) 
+            HUDUtility = this;
+
+
         AddHealthToEnnemies();
    
         if (InstanceRef != null)
@@ -221,6 +226,9 @@ public class HUDManager : MonoBehaviour
         else if (localScale.x < 0)
             localScale.x = 0;
 
+        if (BossHealth < 0)
+            BossHealth = 0;
+
         UIHealthBoss.GetChild(3).GetComponent<Text>().text = BossHealth.ToString();
         UIHealthBoss.GetChild(2).GetComponent<RectTransform>().localScale = localScale;
     }
@@ -281,7 +289,7 @@ public class HUDManager : MonoBehaviour
         {
             if (Ennemies[i].GetComponent<Boss>() != null)
             {
-                if (Ennemies[i].GetComponent<Boss>().HealthBar == null)
+               /* if (Ennemies[i].GetComponent<Boss>().HealthBar == null)
                 {
                     Ennemies[i].GetComponent<Boss>().HealthBar = UIHealthBoss.gameObject;
                     UIHealthBoss.gameObject.SetActive(true);
@@ -295,6 +303,7 @@ public class HUDManager : MonoBehaviour
                     if (Scale.x > 1) Scale.x = 1;
                     UIHealthBoss.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
                 }
+               */
                 continue;
             }
     
