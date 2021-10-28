@@ -13,7 +13,7 @@ public class EnemyManager : MonoBehaviour
     public int maxHealth;
     NavMeshAgent navMeshAgent;
     
-    Animator animeFront;
+    Animator animator;
     public GameObject CurrentWeapon;
     GameObject weaponObject;
     // Damage Event
@@ -43,7 +43,8 @@ public class EnemyManager : MonoBehaviour
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
         navMeshAgent.updateUpAxis = false;
-        animeFront = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Animator>();
+        //animeFront = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Animator>();
+        animator = gameObject.transform.GetChild(0).GetChild(0).GetComponent<Animator>();
 
 
         InitWeapon();
@@ -188,6 +189,25 @@ public class EnemyManager : MonoBehaviour
             {
                 weaponObject.transform.GetComponent<SpriteRenderer>().sortingOrder = 3;
                 //animeFront.Play("FrontWalkPlayer");7
+            }
+
+            if (AttackAngle >= -45 && AttackAngle <= 45)
+            {
+                animator.SetInteger("state", 1);
+           
+            }
+            else if (AttackAngle >= 45 && AttackAngle <= 135)
+            {
+                animator.SetInteger("state", 2);
+  
+            }
+            else if (AttackAngle >= 135 && AttackAngle <= 225)
+            {
+                animator.SetInteger("state", 3);          
+            }
+            else if (AttackAngle >= -135 && AttackAngle <= 45)
+            {
+                animator.SetInteger("state", 4);            
             }
         }
 

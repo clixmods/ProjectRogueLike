@@ -50,16 +50,9 @@ public class HUDManager : MonoBehaviour
     public int BossLife;
     public int BossMaxLifes;
 
-
-
-
-
     private GameObject GameManager;
     GameObject[] Ennemies; // Permet de get les ennemies afin de spawn leur bar de vie
-    //public GameObject[] EnnemiesHWidgets;
-    //private GameObject oof;
-    //public GameObject Ennemi;
-    
+ 
     // isdamagedanim var
     private bool isDamaged = false;
     private bool isLastStand = false;
@@ -147,6 +140,11 @@ public class HUDManager : MonoBehaviour
     {
 
         UIMiddleScreenMsg.text = message;
+
+        Color Color = UIMiddleScreenMsg.color;
+        Color.a = 1;
+        UIMiddleScreenMsg.color = Color;
+
         counterMSM = 0;
         durationMSM = duration;
         isMiddleScreenMsg = true;
@@ -193,6 +191,15 @@ public class HUDManager : MonoBehaviour
     void GetAndSetHealthValue()
     {
         Vector3 localScale = UIHealthBar.GetChild(2).GetComponent<RectTransform>().localScale; // TODO : faut cr�e la variable HUDIcon 
+        if (PlayerHealth > 0)
+            localScale.x = (float)PlayerHealth / (float)PlayerMaxHealth;
+        else
+        {
+            PlayerHealth = 0;
+            localScale.x = 0;
+        }
+            
+
         localScale.x = (float)PlayerHealth / (float)PlayerMaxHealth;
         if (localScale.x > 1)
             localScale.x = 1;

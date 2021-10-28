@@ -161,15 +161,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8efa619ae7b30d343bcdb3325b0b46d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   health: 300
   MaxHealth: 300
   PlayerShield: 0
-  PlayerLifes: 1
+  PlayerLifes: 3
   PlayerMaxLifes: 3
   playerMoveSpeed: 2
   armeCorpACorp: {fileID: 0}
   armeDistance: {fileID: 0}
   CurrentWeapon: {fileID: 0}
+  maxCooldown: 1.5
+  isDamaged: 0
+  maxCooldownLife: 5
+  isLastStand: 0
 --- !u!1 &7612312879586307933
 GameObject:
   m_ObjectHideFlags: 0

@@ -37,6 +37,8 @@ public class PlayerControler : MonoBehaviour
     public float maxCooldownLife = 5;
     public bool isLastStand = false;
 
+ 
+
     private void Start()
     {
         listC = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
@@ -111,7 +113,7 @@ public class PlayerControler : MonoBehaviour
                 currentCooldownLife = 0;
                 isLastStand = false;
                 PlayerLifes--;
-                HUDManager.HUDUtility.SetMiddleMsg(4, "Life used.");
+                
 
 
             }
@@ -128,19 +130,20 @@ public class PlayerControler : MonoBehaviour
                 isDamaged = false;
             }
         }
-        if(health < 0)
+        if(health < 0 && !isLastStand)
         {
             health = 0;
-            if (PlayerLifes > 0)
+            if (PlayerLifes > 0 )
             {
                 isLastStand = true;
-                
+                HUDManager.HUDUtility.SetMiddleMsg(4, "Life used.");
+
             }
             else // Player is dead
             {
                 isDead = true;
                 HUDManager.HUDUtility.UIGameOverWidget.SetActive(true);
-
+                GameManager.GameUtil.isGameover = true;
                 Debug.Log("The player is dead");
             }
         }

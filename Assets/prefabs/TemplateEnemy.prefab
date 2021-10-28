@@ -117,7 +117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a68da7cc9a17694ab45eee1a89ab752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   SpeedVariationMultiplier: 2
   health: 100
   maxHealth: 0
@@ -125,6 +124,7 @@ MonoBehaviour:
   flashDamage: {fileID: 2100000, guid: 55698ee3bd2a6df4e82f91aa8f9e4cb5, type: 2}
   mtlDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   isDamaged: 0
+  DistanceTarget: 1
   HealthBar: {fileID: 0}
   aPotentialTarget: {fileID: 0}
 --- !u!1 &1844028205554167922
@@ -229,7 +229,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4129884003423735646}
   - component: {fileID: 742784426362986604}
-  - component: {fileID: 958037660338308108}
   - component: {fileID: 5711874705597086186}
   m_Layer: 0
   m_Name: Texture
@@ -303,24 +302,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!111 &958037660338308108
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6938396418323491838}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 1
-  m_CullingType: 0
 --- !u!95 &5711874705597086186
 Animator:
   serializedVersion: 3
@@ -331,7 +312,7 @@ Animator:
   m_GameObject: {fileID: 6938396418323491838}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 333d29d6a0ebd4944a63a0cdc8fa5f1f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
