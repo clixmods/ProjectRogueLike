@@ -25,6 +25,7 @@ public class BallOfBoss : MonoBehaviour
         if (collision.gameObject.GetComponent<PlayerControler>() != null)
         {
             collision.gameObject.GetComponent<PlayerControler>().health -= 10; // TODO damage à defs
+            Destroy(gameObject);
         }
 
 

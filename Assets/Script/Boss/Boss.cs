@@ -39,6 +39,7 @@ public class Boss : MonoBehaviour
     int passageAttack;
     // ui
     public GameObject HealthBar;
+    public GameObject porteSortie;
 
 
     // Start is called before the first frame update
@@ -160,6 +161,12 @@ public class Boss : MonoBehaviour
         if(HealthBar != null)
         {
 
+        }
+
+        if(health <=0)
+        {
+            Instantiate(porteSortie, gameObject.transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
     }
 
@@ -327,7 +334,7 @@ public class Boss : MonoBehaviour
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            collision.transform.Translate(((collision.transform.position - gameObject.transform.position).normalized) * 20 * Time.deltaTime);
+            collision.transform.Translate(((collision.transform.position - gameObject.transform.position).normalized) * 2 * Time.deltaTime);
 
             //collision.transform.GetComponent<Rigidbody2D>().AddForce(((gameObject.transform.position - collision.transform.position).normalized) * 5);
         
