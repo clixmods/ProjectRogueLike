@@ -383,7 +383,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &8087031110139753560
 RectTransform:
   m_ObjectHideFlags: 0
@@ -433,7 +433,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
-    m_FontSize: 43
+    m_FontSize: 44
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -443,7 +443,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 0.73
+    m_LineSpacing: 0.67
   m_Text: 'New object unlocked New object unlocked New object unlocked New object
     unlocked New object unlocked New object unlocked New object unlocked New object
     unlocked New object unlocked '
@@ -953,39 +953,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InstanceRef: {fileID: 0}
   InstanceRefController: {fileID: 0}
-  UIHealthBar: {fileID: 9142069933282850064}
-  UIHealthBarDamaged: {fileID: 6500495812825804192}
-  UIHealthText: {fileID: 9142069931761659898}
+  UIGameOverWidget: {fileID: 7604995089897191537}
+  UIHealthBar: {fileID: 5600221472913626269}
+  UIHealthBoss: {fileID: 6958740799056430497}
   UILifes: {fileID: 9142069932372984577}
   UILifePrefab: {fileID: 2507443263286787600, guid: 2442426b23ff18e408360e1cafe9c944, type: 3}
-  UIShieldBar: {fileID: 0}
-  UIPlayerScore: {fileID: 0}
-  UIPlayerScoreMultiplier: {fileID: 0}
-  UIPlayerAmmoCount: {fileID: 9142069933609580614}
   UIPlayerWeaponMelee: {fileID: 9142069932700882160}
   UIPlayerWeaponDistance: {fileID: 9142069932439574380}
   UIHealthEnnemiPrefab: {fileID: 8052959119265304825, guid: 5684f7b673edb864e86a96b3e0f85ee6, type: 3}
-  UIHealthBoss: {fileID: 3907767377880536892}
-  PlayerAmmoCount: 
-  Ennemies: []
-  EnnemiesHWidgets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  Ennemi: {fileID: 0}
+  UIMiddleScreenMsg: {fileID: 1433124128427792285}
+  PlayerAmmoCount: 0
+  isHeating: 0
+  PlayerHealth: 0
+  PlayerMaxHealth: 0
+  PlayerLife: 0
+  PlayerMaxLifes: 0
+  BossHealth: 0
+  BossMaxHealth: 0
+  BossLife: 0
+  BossMaxLifes: 0
 --- !u!1 &9142069932372984577
 GameObject:
   m_ObjectHideFlags: 0

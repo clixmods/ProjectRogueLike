@@ -70,6 +70,8 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        UpdateUI();
+
         if(health <= bossHealth/3) // phase3
         {
             if (checkLaser <= maxCheckLaser && passageAttack == 1)
@@ -168,6 +170,10 @@ public class Boss : MonoBehaviour
             Instantiate(porteSortie, gameObject.transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
+    }
+    void UpdateUI()
+    {
+       // HUDManager.HUDUtility.
     }
 
     void BouleDefeu(  )

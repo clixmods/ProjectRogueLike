@@ -6,45 +6,68 @@ using UnityEngine.UI;
 
 public class HUDManager : MonoBehaviour
 {
+
+    public static HUDManager HUDUtility; // permet de get le hud dans nimporte quelle script
     public GameObject InstanceRef;
     public PlayerControler InstanceRefController;
-    [Header("HUD ELEMENTS")]
-    public GameObject UIHealthBar;
-    public GameObject UIHealthBarDamaged;
-    public Text UIHealthText;
+    [Header("HUD WIDGETS")]
+    public GameObject UIGameOverWidget;
+    public Transform UIHealthBar; // contient tout les Ã©lÃ©ment pour la vie du joueur
+    public Transform UIHealthBoss;
+    //public GameObject UIHealthBarDamaged;
+    //public Text UIHealthText;
     public GameObject UILifes;
     public GameObject UILifePrefab;
-    public GameObject UIShieldBar;
-    public GameObject UIPlayerScore;
-    public GameObject UIPlayerScoreMultiplier;
-    public GameObject UIPlayerAmmoCount;
+    //public GameObject UIShieldBar;
+    //public GameObject UIPlayerScore;
+   // public GameObject UIPlayerScoreMultiplier;
+    //public GameObject UIPlayerAmmoCount;
     public GameObject UIPlayerWeaponMelee;
     public GameObject UIPlayerWeaponDistance;
     public GameObject UIHealthEnnemiPrefab;
-    public GameObject UIHealthBoss;
-    [Header("HUD INFO")]
-    public string PlayerAmmoCount;
-    //public string PlayerHealth;
-    //public string PlayerMaxHealth;
-    //public string PlayerLife;
+
+    public Text UIMiddleScreenMsg;
+    private bool isMiddleScreenMsg;
+    private float counterMSM = 0;
+    private float durationMSM = 0;
+    //public GameObject UIHealthBossBarDamaged;
+    //public Text UIHealthBossText;
+    [Header("HUD MODELSVALUE")]
+    public int PlayerAmmoCount;
+    public bool isHeating = false;
+
+    public int PlayerHealth;
+    public int PlayerMaxHealth;
+    public int PlayerLife;
+    public int PlayerMaxLifes;
     //public string PlayerShield;
     //public string PlayerScore;
-    //public string PlayerScoreMultiplier;
+   // public string PlayerScoreMultiplier;
+
+    public int BossHealth;
+    public int BossMaxHealth;
+    public int BossLife;
+    public int BossMaxLifes;
+
+
+
 
 
     private GameObject GameManager;
-    public GameObject[] Ennemies;
-    public GameObject[] EnnemiesHWidgets;
-    private GameObject oof;
-    public GameObject Ennemi;
+    GameObject[] Ennemies; // Permet de get les ennemies afin de spawn leur bar de vie
+    //public GameObject[] EnnemiesHWidgets;
+    //private GameObject oof;
+    //public GameObject Ennemi;
     
     // isdamagedanim var
     private bool isDamaged = false;
+    private bool isLastStand = false;
     private float counter = 0;
     private float timeToDoAnim = 5;
     // Start is called before the first frame update
     void Start()
     {
+        HUDUtility = this;
         GameManager = GameObject.FindWithTag("GameController");
         InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
         if(InstanceRef != null)
@@ -60,68 +83,50 @@ public class HUDManager : MonoBehaviour
         if (InstanceRef != null)
         {
             UpdateUIElements();
-            if (InstanceRefController.CurrentWeapon != null)
-            {
-                WeaponManager wpnManager = InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>();
-                if (wpnManager != null)
-                {
-                    if (wpnManager.AmmoTypeId == 0)
-                        PlayerAmmoCount = wpnManager.CurrentAmmoCount.ToString();
-                    else if (wpnManager.AmmoTypeId == 1)
-                        PlayerAmmoCount = wpnManager.pourcentageHeating.ToString();
-                    else
-                        PlayerAmmoCount = "0";
-                }
-                else
-                {
-                    PlayerAmmoCount = "0";
-                }
-            }
-
             if(isDamaged)
             {
 
             }
         }
         else
-        { 
-            InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
-            InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
+        {
+            if (GameManager.GetComponent<GameManager>().CurrentPlayer != null)
+            {
+                InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
+                InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
+            }
         }
     }
 
     void UpdateUIElements()
-    {/*
-        public string UIHealthBar;
-        public string UILifes;
-        public string UIShieldBar;
-        public string UIPlayerScore;
-        public string UIPlayerScoreMultiplier;
-        public string UIPlayerAmmoCount;
-        public string UIPlayerWeaponMelee;
-        public string UIPlayerWeaponDistance;
-        [Header("HUD INFO")]
-        public string PlayerHealth;
-        public string PlayerLife;
-        public string PlayerShield;
-        public string PlayerScore;
-        public string PlayerScoreMultiplier;
-        public string PlayerAmmoCount;
-    */
+    {
         GetAndSetHealthValue();
+
+        GetAndSetBossHealthValue();
+
         GetAndSetLifesValue();
         GetAndSetWeaponDistanceIcon();
         GetAndSetWeaponCACIcon();
+
+
     }
+    void SetMiddleMsg(float duration = 2 ,string message = "")
+    {
+
+        UIMiddleScreenMsg.text = message;
+
+
+    }
+
     void GetAndSetLifesValue()
     {
-        // On check si le nombre de maxlife sur lHUD est correspondant à ce qu'a le joueur
-        if (InstanceRefController.PlayerMaxLifes < 1)
+        // On check si le nombre de maxlife sur lHUD est correspondant ï¿½ ce qu'a le joueur
+        if (PlayerMaxLifes < 1)
             return;
 
-        if (UILifes.transform.childCount != InstanceRefController.PlayerMaxLifes)
+        if (UILifes.transform.childCount != PlayerMaxLifes)
         {
-            for (int i = 0; i < InstanceRefController.PlayerMaxLifes; i++)
+            for (int i = 0; i < PlayerMaxLifes; i++)
             {
                 if (UILifes.transform.childCount < i + 1)
                 {
@@ -134,40 +139,48 @@ public class HUDManager : MonoBehaviour
             }
             for (int i = 0; i < UILifes.transform.childCount; i++)
             {
-                if (i > InstanceRefController.PlayerMaxLifes)
+                if (i > PlayerMaxLifes)
                     Destroy(UILifes.transform.GetChild(i).gameObject);
             }
 
         }
-        // On check si les lifes sur l'hud correspondent à ceux du joueur
-        for (int i = 0; i < InstanceRefController.PlayerLifes; i++)
+        // On check si les lifes sur l'hud correspondent ï¿½ ceux du joueur
+        for (int i = 0; i < PlayerLife; i++)
         {
             if (!UILifes.transform.GetChild(i).GetChild(0).gameObject.activeSelf)
                 UILifes.transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
         }
-        for (int i = InstanceRefController.PlayerLifes ; i < InstanceRefController.PlayerMaxLifes; i++)
+        for (int i = PlayerLife; i < PlayerMaxLifes; i++)
         {
             UILifes.transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
         }
     }
     void GetAndSetHealthValue()
     {
-        if (InstanceRefController == null)
-        {
-            Debug.Log("func GetAndSetHealthValue : InstanceRefController is not defined");
-            return;
-        }
-        Vector3 localScale = UIHealthBar.GetComponent<RectTransform>().localScale; // TODO : faut crée la variable HUDIcon 
-        localScale.x = (float)InstanceRefController.health / (float)InstanceRefController.MaxHealth;
+        Vector3 localScale = UIHealthBar.GetChild(2).GetComponent<RectTransform>().localScale; // TODO : faut crï¿½e la variable HUDIcon 
+        localScale.x = (float)PlayerHealth / (float)PlayerMaxHealth;
         if (localScale.x > 1)
             localScale.x = 1;
         else if (localScale.x < 0)
             localScale.x = 0;
 
+        UIHealthBar.GetChild(3).GetComponent<Text>().text = PlayerHealth.ToString();
+        UIHealthBar.GetChild(2).GetComponent<RectTransform>().localScale = localScale;
+    }
+    void GetAndSetBossHealthValue()
+    {
+        if ( BossMaxHealth == 0)
+            return;
 
+        Vector3 localScale = UIHealthBoss.GetChild(2).GetComponent<RectTransform>().localScale; // TODO : faut crï¿½e la variable HUDIcon 
+        localScale.x = (float)BossHealth / (float)BossMaxHealth;
+        if (localScale.x > 1)
+            localScale.x = 1;
+        else if (localScale.x < 0)
+            localScale.x = 0;
 
-        UIHealthText.text = InstanceRefController.health.ToString();
-        UIHealthBar.GetComponent<RectTransform>().localScale = localScale;
+        UIHealthBoss.GetChild(3).GetComponent<Text>().text = BossHealth.ToString();
+        UIHealthBoss.GetChild(2).GetComponent<RectTransform>().localScale = localScale;
     }
     void Opacity(Image image)
     {
@@ -197,7 +210,7 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
-            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas défini");
+            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas dï¿½fini");
         }
     }
     void GetAndSetWeaponDistanceIcon()
@@ -206,18 +219,14 @@ public class HUDManager : MonoBehaviour
        InstanceRefController.CurrentWeapon != null &&
        InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>() != null)
         {
-           // if (UIPlayerWeaponDistance.GetComponent<Image>().sprite == InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>().HUDIcon)
-            //    return;
-            
-           // Debug.Log("UI UPDATE : WeaponDistanceIcon");
             ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
             Opacity(UIPlayerWeaponDistance.GetComponent<Image>());
-            UIPlayerAmmoCount.GetComponent<Text>().text = PlayerAmmoCount;
+            UIPlayerWeaponDistance.GetComponentInChildren<Text>().text = PlayerAmmoCount.ToString();
             UIPlayerWeaponDistance.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>().HUDIcon;
         }
         else
         {
-            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas défini");
+            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas dï¿½fini");
         }
     }
     void AddHealthToEnnemies()
@@ -225,25 +234,25 @@ public class HUDManager : MonoBehaviour
         Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
         for (int i = 0; i < Ennemies.Length; i++)
         {
-            if (Ennemies[i].GetComponent<Boss>() != null && Ennemies[i].GetComponent<Boss>().HealthBar == null)
+            if (Ennemies[i].GetComponent<Boss>() != null)
             {
-                Ennemies[i].GetComponent<Boss>().HealthBar = UIHealthBoss;
-                UIHealthBoss.SetActive(true);
-            }
-            else if (Ennemies[i].GetComponent<Boss>().HealthBar != null)
-            {
-                Vector3 Scale = UIHealthBoss.transform.GetChild(1).GetComponent<RectTransform>().localScale;
+                if (Ennemies[i].GetComponent<Boss>().HealthBar == null)
+                {
+                    Ennemies[i].GetComponent<Boss>().HealthBar = UIHealthBoss.gameObject;
+                    UIHealthBoss.gameObject.SetActive(true);
+                }
+                else if (Ennemies[i].GetComponent<Boss>().HealthBar != null)
+                {
+                    Vector3 Scale = UIHealthBoss.transform.GetChild(1).GetComponent<RectTransform>().localScale;
 
-                Scale.x = (float)Ennemies[i].GetComponent<Boss>().health / (float)Ennemies[i].GetComponent<Boss>().bossHealth;
-                if (Scale.x < 0) Scale.x = 0;
-                if (Scale.x > 1) Scale.x = 1;
-                UIHealthBoss.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
-            }
-            else if (Ennemies[i].GetComponent<Boss>() != null)
-            {
+                    Scale.x = (float)Ennemies[i].GetComponent<Boss>().health / (float)Ennemies[i].GetComponent<Boss>().bossHealth;
+                    if (Scale.x < 0) Scale.x = 0;
+                    if (Scale.x > 1) Scale.x = 1;
+                    UIHealthBoss.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
+                }
                 continue;
             }
-
+    
 
             if (Ennemies[i].GetComponent<EnemyManager>().HealthBar == null)
                 Ennemies[i].GetComponent<EnemyManager>().HealthBar = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform);
@@ -260,52 +269,6 @@ public class HUDManager : MonoBehaviour
                 HealthBar.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
             }
         }
-        /*
-        // utilisez la technique des child
-        float[] myfloatarray = new float[Ennemies.Length];
-        GameObject[] EnnemiesBIS = new GameObject[Ennemies.Length];
-        GameObject[] EnnemiesSorted = new GameObject[Ennemies.Length];
-        for (int i = 0; i < myfloatarray.Length; i++)
-        {
-            myfloatarray[i] = Vector2.Distance(Ennemies[i].transform.position, InstanceRef.transform.position);
-            EnnemiesBIS[i] = Ennemies[i];
-        }
-         Array.Sort(myfloatarray);
-
-        for (int i = 0; i < myfloatarray.Length; i++)
-        {
-            for (int j = 0; j < EnnemiesBIS.Length; j++)
-            {
-                float temp = Vector2.Distance(EnnemiesBIS[j].transform.position, InstanceRef.transform.position);
-                if(myfloatarray[i] == temp)
-                {
-                    EnnemiesSorted.SetValue(EnnemiesBIS[j], i);
-                }
-
-            }
-        }
-        //print(sssss);
-
-
-        for (int i = 0; i < EnnemiesSorted.Length; i++)
-        {
-            Vector2 gfgfg = Camera.main.WorldToScreenPoint(EnnemiesSorted[i].transform.position);
-
-            EnnemiesHWidgets[i].SetActive(true);
-            EnnemiesHWidgets[i].transform.position = gfgfg + new Vector2(0, 30);
-            //EnnemiesHWidgets[i].transform.GetChild(1).localScale = EnnemiesHWidgets[i].transform.GetChild(2).localScale; // pour eviter de voir la bardamaged quand le widget est attribué à un autre ennemies
-            Vector3 Scale = EnnemiesHWidgets[i].transform.GetChild(1).GetComponent<RectTransform>().localScale;
-
-            Scale.x = (float)EnnemiesSorted[i].GetComponent<EnemyManager>().health / (float)EnnemiesSorted[i].GetComponent<EnemyManager>().maxHealth;
-            if (Scale.x < 0) Scale.x = 0;
-            if (Scale.x > 1) Scale.x = 1;
-            EnnemiesHWidgets[i].transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
-        }
-        // On désac les healthbar non utilisé
-        for (int i = Ennemies.Length; i < EnnemiesHWidgets.Length; i++) 
-        {
-            EnnemiesHWidgets[i].SetActive(false);
-        }
-        */
+     
     }
 }

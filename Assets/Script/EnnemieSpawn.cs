@@ -49,7 +49,7 @@ public class EnnemieSpawn : MonoBehaviour
             else if (time >= timeToReach)
             {
 
-                print("cc");
+               // print("cc");
                 if (!gameObject.transform.GetChild(i).gameObject.activeSelf)
                     gameObject.transform.GetChild(i).gameObject.transform.position = gameObject.transform.position;
 

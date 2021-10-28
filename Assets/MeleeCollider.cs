@@ -17,6 +17,7 @@ public class MeleeCollider : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+
         if (collision.gameObject != gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().Attacker && 
             !collision.gameObject.CompareTag(gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().Attacker.tag))
         {
@@ -24,9 +25,11 @@ public class MeleeCollider : MonoBehaviour
             //{
             //    print("TOUCHED");
             //}
-            if (collision.gameObject.GetComponent<PlayerControler>() != null)
+            if (collision.gameObject.GetComponent<PlayerControler>() != null && !collision.gameObject.GetComponent<PlayerControler>().isDamaged)
             {
+                //collision.GetComponent<PlayerControler>().isDamaged = true;
                 collision.gameObject.GetComponent<PlayerControler>().health -= gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().attackDamage;
+                collision.gameObject.GetComponent<PlayerControler>().isDamaged = true;
             }
             if (collision.gameObject.GetComponent<EnemyManager>() != null)
             {
