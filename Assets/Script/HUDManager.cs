@@ -29,7 +29,8 @@ public class HUDManager : MonoBehaviour
     public Text UIMiddleScreenMsg;
     private bool isMiddleScreenMsg;
     private float counterMSM = 0;
-    private float durationMSM = 0;
+    private float durationMSM = 2;
+    private float timeToHide = 2;
     //public GameObject UIHealthBossBarDamaged;
     //public Text UIHealthBossText;
     [Header("HUD MODELSVALUE")]
@@ -96,6 +97,36 @@ public class HUDManager : MonoBehaviour
                 InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
             }
         }
+        if(isMiddleScreenMsg)
+        {
+            if(durationMSM > 0)
+            {
+                if ( counterMSM < durationMSM)
+                    counterMSM += Time.deltaTime;
+
+                else
+                {
+                    counterMSM = 0;
+                    durationMSM = 0;
+                }
+
+            }
+            else
+            {
+                Color Color = UIMiddleScreenMsg.color;
+                Color.a -= Time.deltaTime;
+                if(Color.a <= 0)
+                {
+                    Color.a = 0;
+                    isMiddleScreenMsg = false;
+                }
+                UIMiddleScreenMsg.color = Color;
+            }
+
+
+        }
+        //isActiveAndEnabled();
+
     }
 
     void UpdateUIElements()
@@ -109,12 +140,16 @@ public class HUDManager : MonoBehaviour
         GetAndSetWeaponCACIcon();
 
 
+
+
     }
-    void SetMiddleMsg(float duration = 2 ,string message = "")
+    public void SetMiddleMsg(float duration = 2 ,string message = "")
     {
 
         UIMiddleScreenMsg.text = message;
-
+        counterMSM = 0;
+        durationMSM = duration;
+        isMiddleScreenMsg = true;
 
     }
 

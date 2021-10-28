@@ -35,6 +35,7 @@ public class LevelManager : MonoBehaviour
         listWeapons = Instantiate(prefabListWeapons, new Vector3(0f, 0f, 0f), Quaternion.identity);
         
         Instantiate(prefabPlayerSpawn, spawnRoom.transform.position , Quaternion.identity);
+        
 
     }
 
@@ -44,6 +45,7 @@ public class LevelManager : MonoBehaviour
         if (checkReceve == false)
         {
             Invoke("SendInformation", 2f);
+            HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, find him and kill him.");
         }
     }
 

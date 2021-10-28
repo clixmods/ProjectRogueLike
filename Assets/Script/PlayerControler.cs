@@ -111,7 +111,9 @@ public class PlayerControler : MonoBehaviour
                 currentCooldownLife = 0;
                 isLastStand = false;
                 PlayerLifes--;
-                
+                HUDManager.HUDUtility.SetMiddleMsg(4, "Life used.");
+
+
             }
         }
         if (isDamaged)
