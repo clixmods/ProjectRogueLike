@@ -18,6 +18,8 @@ public class EnemyManager : MonoBehaviour
     [Range(1, 100)]
     public int AttackChance = 5;
     public GameObject CurrentWeapon;
+    [Range(0.25f, 2)]
+    public float Scale = 1;
     [Range(0, 5)]
     [Tooltip("Distance to keep between the attacker (self) and his target")]
     public float DistanceTarget = 1;
@@ -56,6 +58,13 @@ public class EnemyManager : MonoBehaviour
         float newSpeed = Random.Range(1 , SpeedVariationMultiplier);
         transform.GetComponent<NavMeshAgent>().speed = transform.GetComponent<NavMeshAgent>().speed * newSpeed;
 
+        // On attribue change la scale par rapport à ce qui a été mit dans le actorinfo
+        if(Scale > 0)
+        {
+            Vector3 actorScale = transform.localScale;
+            actorScale = new Vector3(Scale, Scale, Scale);
+            transform.localScale = actorScale;
+        }
 
         maxHealth = health;
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -103,12 +112,8 @@ public class EnemyManager : MonoBehaviour
         //if (!NeverChangeTarget)  // Si la cible n'est pas forcé, on lance le dectector
         aPotentialTarget = transform.GetChild(0).GetComponent<DetectionTarget>().target;
         MovementBehavior();
-
-
         MeleyEnemyMovment();
         checkHealth();
-
-
         if (isDamaged)
         {
             if(count < toCount )
@@ -198,7 +203,7 @@ public class EnemyManager : MonoBehaviour
             ChangeOrderLayerWithAngle(AttackAngle);
             float random = Random.Range(0, 100);
 
-            print(random);
+            ///print(random);
             if (CurrentWeapon == null)
             {
                 if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null && random > 100-AttackChance

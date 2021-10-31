@@ -19,7 +19,9 @@ public class GameManager : MonoBehaviour
     public GameObject CurrentCamera;
     public GameObject CurrentPlayer;
     public string CurrentScene;
-
+    public GameObject MainMenu;
+    [Tooltip("Some features are not affected by the timescale, so we need to use isPaused to block some functions")]
+    public bool isPaused = true; 
     // Cooldown before returntomainmenu
     public bool isGameover = false;
     float cooldownToBackMainMenu = 5;
@@ -129,6 +131,7 @@ public class GameManager : MonoBehaviour
     */
     public void BackToMainMenu()
     {
+        ClosePauseMenu();
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         CurrentScene = "MainMenu";
 
@@ -150,10 +153,20 @@ public class GameManager : MonoBehaviour
         {
             GameUtil = this;
         }
+
+        
+        PauseMenu();
+      
+
+
         if (isGameover)
         {
-            if (currentCooldown < cooldownToBackMainMenu)
+            if (Time.timeScale > 0.2f)
+            {
                 currentCooldown += Time.deltaTime;
+                Time.timeScale -= Time.deltaTime / cooldownToBackMainMenu;
+                print(Time.timeScale);
+            }
             else
             {
                 currentCooldown = 0;
@@ -178,6 +191,38 @@ public class GameManager : MonoBehaviour
         //    HUD = GameObject.Find("HUD");
         //}
     }
+
+    void PauseMenu()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (MainMenu.activeSelf)
+                ContinueTheGame();
+            else
+                MainMenu.SetActive(true);
+
+        }
+
+        if (MainMenu.activeSelf)
+        {
+            isPaused = true;
+            Time.timeScale = 0f;
+        }
+       
+            
+    }
+    public void ContinueTheGame()
+    {
+        ClosePauseMenu();
+    }
+
+    void ClosePauseMenu()
+    {
+        MainMenu.SetActive(false);
+        isPaused = false;
+        Time.timeScale = 1f;
+    }
+
     void TryToGetPlayerEntity()
     {
         CurrentPlayer = GameObject.FindWithTag("Player");

@@ -65,6 +65,9 @@ public class PlayerControler : MonoBehaviour
     private void Update()
     {
         UpdateUI();
+        if (GameManager.GameUtil.isPaused)
+            return; 
+
         CheckHealth();
         if (isDead)
             return;
