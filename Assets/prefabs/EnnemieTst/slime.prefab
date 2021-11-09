@@ -344,11 +344,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpeedVariationMultiplier: 2
   health: 100
+  AttackChance: 5
   CurrentWeapon: {fileID: 0}
   DistanceTarget: 1
   isDamaged: 0
   attackRange: 0
-  damageAmount: 0
+  damageAmount: 5
   speedOfTheAttack: 0
   reachSpeedAttack: 0
   flashDamage: {fileID: 2100000, guid: 55698ee3bd2a6df4e82f91aa8f9e4cb5, type: 2}
