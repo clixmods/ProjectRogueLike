@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -50,7 +51,7 @@ public class HUDManager : MonoBehaviour
     public int BossLife;
     public int BossMaxLifes;
 
-    private GameObject GameManager;
+    //private GameObject GameManager;
     GameObject[] Ennemies; // Permet de get les ennemies afin de spawn leur bar de vie
  
     // isdamagedanim var
@@ -62,8 +63,8 @@ public class HUDManager : MonoBehaviour
     void Start()
     {
         HUDUtility = this;
-        GameManager = GameObject.FindWithTag("GameController");
-        InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
+        //GameManager = GameObject.FindWithTag("GameController");
+        InstanceRef = GameManager.GameUtil.GetComponent<GameManager>().CurrentPlayer;
         if(InstanceRef != null)
             InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
 
@@ -89,9 +90,9 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
-            if (GameManager.GetComponent<GameManager>().CurrentPlayer != null)
+            if (GameManager.GameUtil.CurrentPlayer != null)
             {
-                InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
+                InstanceRef = GameManager.GameUtil.CurrentPlayer;
                 InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
             }
         }
@@ -289,21 +290,6 @@ public class HUDManager : MonoBehaviour
         {
             if (Ennemies[i].GetComponent<Boss>() != null)
             {
-               /* if (Ennemies[i].GetComponent<Boss>().HealthBar == null)
-                {
-                    Ennemies[i].GetComponent<Boss>().HealthBar = UIHealthBoss.gameObject;
-                    UIHealthBoss.gameObject.SetActive(true);
-                }
-                else if (Ennemies[i].GetComponent<Boss>().HealthBar != null)
-                {
-                    Vector3 Scale = UIHealthBoss.transform.GetChild(1).GetComponent<RectTransform>().localScale;
-
-                    Scale.x = (float)Ennemies[i].GetComponent<Boss>().health / (float)Ennemies[i].GetComponent<Boss>().bossHealth;
-                    if (Scale.x < 0) Scale.x = 0;
-                    if (Scale.x > 1) Scale.x = 1;
-                    UIHealthBoss.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
-                }
-               */
                 continue;
             }
     
@@ -313,8 +299,14 @@ public class HUDManager : MonoBehaviour
             else
             {
                 GameObject HealthBar = Ennemies[i].GetComponent<EnemyManager>().HealthBar;
-                Vector2 gfgfg = Camera.main.WorldToScreenPoint(Ennemies[i].transform.position + new Vector3(0, 0.6f, 0));
-                HealthBar.transform.position = gfgfg;
+                Vector3 gfgfg;
+                if (GameManager.GameUtil.CurrentCamera.transform.GetChild(1)! != null)
+                {
+                    Vector3 OHff = new Vector3(GameManager.GameUtil.CurrentCamera.transform.GetChild(1).position.x, GameManager.GameUtil.CurrentCamera.transform.GetChild(1).position.y,0);
+                    HealthBar.transform.position = Camera.main.WorldToScreenPoint(Ennemies[i].transform.position + OHff + new Vector3(0, 0.6f, 0) );
+                }
+                
+                 //= gfgfg;
                 Vector3 Scale = HealthBar.transform.GetChild(1).GetComponent<RectTransform>().localScale;
 
                 Scale.x = (float)Ennemies[i].GetComponent<EnemyManager>().health / (float)Ennemies[i].GetComponent<EnemyManager>().maxHealth;

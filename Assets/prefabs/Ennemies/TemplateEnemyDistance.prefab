@@ -82,7 +82,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -282,12 +282,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpeedVariationMultiplier: 2
   health: 100
-  maxHealth: 0
+  AttackChance: 5
   CurrentWeapon: {fileID: 4484914048284687114, guid: 076c886e136841344ace8e3d2ad01f96, type: 3}
+  Scale: 0
+  DistanceTarget: 5
+  isDamaged: 0
+  attackRange: 0
+  damageAmount: 0
+  speedOfTheAttack: 0
+  reachSpeedAttack: 0
   flashDamage: {fileID: 2100000, guid: 55698ee3bd2a6df4e82f91aa8f9e4cb5, type: 2}
   mtlDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
-  isDamaged: 0
-  DistanceTarget: 5
+  maxHealth: 0
   HealthBar: {fileID: 0}
   aPotentialTarget: {fileID: 0}
 --- !u!1 &7297221292992963118

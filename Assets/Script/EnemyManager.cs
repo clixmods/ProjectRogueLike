@@ -10,7 +10,7 @@ public class EnemyManager : MonoBehaviour
     NavMeshAgent navMeshAgent;
     Animator animator;
     GameObject weaponObject;
-
+    public bool FromSpawner = false;
     [Header("ACTOR INFO")]
     [Range(0, 3)]
     public float SpeedVariationMultiplier = 1;
@@ -66,6 +66,8 @@ public class EnemyManager : MonoBehaviour
             transform.localScale = actorScale;
         }
 
+        mtlDefault = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
+
         maxHealth = health;
         navMeshAgent = GetComponent<NavMeshAgent>();
         navMeshAgent.updateRotation = false;
@@ -118,34 +120,42 @@ public class EnemyManager : MonoBehaviour
         {
             if(count < toCount )
             {
-                
+                Material mtl = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
                 count += 0.1f * Time.deltaTime;
     
                 if (count <= toCount / 8f && count >= toCount / 10f)
                 {
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
+                    //mtl = flashDamage;
+                    mtl.color = Color.red;
                 }
                 else if (count <= toCount / 6f && count >= toCount / 8f)
                 {
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
+                    mtl.color = Color.white;
+                    //mtl = mtlDefault;
                 }
                 else if (count <= toCount / 4f && count >= toCount / 6f)
                 {
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
+                    mtl.color = Color.red;
+                    //mtl = flashDamage;
                 }
                 else if (count <= toCount / 2f && count >= toCount / 4f)
                 {
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
+                    mtl.color = Color.white;
+                    //mtl = mtlDefault;
                 }
 
             }
             else
             {
                 isDamaged = false;
-                gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
+                //gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
                 count = 0;
             }
         }
+    }
+    void ChangeMTLforDamage(Material mtl)
+    {
+        
     }
     private void MovementBehavior()
     {
@@ -171,11 +181,14 @@ public class EnemyManager : MonoBehaviour
         if (health <= 0)
         {
             // au cas ou on test nos ennemies sans spawner
-            if (gameObject.transform.parent != null &&
-                gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>() != null)
+            if (FromSpawner)
             {
-                TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
-                trigSalle.countEnnemie--;
+                if (gameObject.transform.parent != null &&
+                    gameObject.transform.parent.parent.parent.parent.gameObject.TryGetComponent<TriggerSalle>(out TriggerSalle Component))
+                {
+                    //TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
+                    Component.countEnnemie--;
+                }
             }
             Destroy(HealthBar);
             Destroy(gameObject);

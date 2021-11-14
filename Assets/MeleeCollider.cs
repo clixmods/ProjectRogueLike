@@ -56,7 +56,7 @@ public class MeleeCollider : MonoBehaviour
             if (collision.gameObject.GetComponent<EnemyManager>() != null)
             {
                 collision.gameObject.GetComponent<EnemyManager>().health -= gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().attackDamage;
-                collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
+                ///collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
                 collision.gameObject.GetComponent<EnemyManager>().isDamaged = true;
                 toucheds.Add(collision.gameObject);
             }

@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,10 +19,11 @@ public class GameManager : MonoBehaviour
     public GameObject HUD;
     public GameObject CurrentCamera;
     public GameObject CurrentPlayer;
+    public GameObject PrefabCamera;
     public string CurrentScene;
     public GameObject MainMenu;
     [Tooltip("Some features are not affected by the timescale, so we need to use isPaused to block some functions")]
-    public bool isPaused = true; 
+    public bool isPaused = false; 
     // Cooldown before returntomainmenu
     public bool isGameover = false;
     float cooldownToBackMainMenu = 5;
@@ -157,7 +159,18 @@ public class GameManager : MonoBehaviour
         
         PauseMenu();
       
-
+        if(CurrentCamera == null)
+        {
+            CurrentCamera = Instantiate(PrefabCamera);
+        }
+        if(CurrentCamera != null)
+        {
+            if(CurrentCamera.transform.GetChild(1).TryGetComponent<CinemachineVirtualCamera>(out CinemachineVirtualCamera Component))
+            {
+                if (CurrentPlayer != null && Component.Follow != CurrentPlayer)
+                    Component.Follow = CurrentPlayer.transform;
+            }
+        }
 
         if (isGameover)
         {
@@ -234,7 +247,7 @@ public class GameManager : MonoBehaviour
             CurrentCamera = Camera.main.gameObject;
 
         else if ( CurrentPlayer != null)
-             CurrentCamera.transform.position = new Vector3(CurrentPlayer.transform.position.x , CurrentPlayer.transform.position.y,-10);
+             CurrentCamera.transform.position = new Vector3(CurrentPlayer.transform.position.x , CurrentPlayer.transform.position.y,-80);
 
     }
 

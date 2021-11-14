@@ -6,13 +6,23 @@ public class WeaponManager : MonoBehaviour
 {
 
     [Header("Info")]
+    public string WeaponName;
     public int CurrentAmmoCount;
     [Range(0, 100)]
     public float pourcentageHeating;
-    [Header("Weapon Settings")]
-    public Sprite HUDIcon;
+
+    [Header("Projectile Settings")]
     public GameObject Projectile;
     public Sprite ProjectileTexture;
+    public bool IsProjectileEmissive = false;
+    //[ConditionalField("IsProjectileEmissive")] public float WanderDistance = 5;
+    public Material ProjectileMaterial;
+    [ColorUsageAttribute(true, true)]
+    public Color ProjectileEmissiveColor;
+
+    
+    [Header("Weapon Settings")]
+    public Sprite HUDIcon;
     public float ProjectileScale = 1;
     public float Speed = 1;
     public float FireRate = 1;
@@ -34,6 +44,45 @@ public class WeaponManager : MonoBehaviour
 
     public GameObject projectilDoss;
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+
+
+        projectilDoss = Instantiate(projectilDoss, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        projectilDoss.name = gameObject.name + "Projectil";
+        //projectilDoss = GameObject.Find("ProjectilDoss");
+        CurrentAmmoCount = MaxAmmoCount;
+    }
+
+  
+    
+    // Update is called once per frame
+    void Update() // debug
+    {
+
+        
+
+        if (Cooldown > 0)
+        {
+            Cooldown -= Time.deltaTime;
+        }
+        if(pourcentageHeating > 0)
+        {
+            if (CurrentCooldownHeating > 0)
+                CurrentCooldownHeating -= Time.deltaTime;
+            else
+                pourcentageHeating -= Time.deltaTime * DiscreaseHeatingMultiplier;
+        }
+    }
+    // Permet de clean
+    private void OnDestroy() 
+    {
+         DestroyImmediate(projectilDoss);
+    }
+
+
     public void Attack(GameObject attacker, float AttackAngle)
     {
         if (Cooldown > 0)
@@ -47,6 +96,10 @@ public class WeaponManager : MonoBehaviour
 
         gameObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
         GameObject projectile = Instantiate(Projectile, transform.position, Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)), projectilDoss.transform);
+        // Apply material 
+        projectile.transform.GetComponent<SpriteRenderer>().material = ProjectileMaterial;
+        projectile.transform.GetComponent<SpriteRenderer>().material.SetColor("_e_color", ProjectileEmissiveColor) ;
+
         projectile.transform.GetComponent<ProjectileManager>().DamageAmount = DamageAmount;
         projectile.transform.GetComponent<ProjectileManager>().Attacker = attacker;
         projectile.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)); // Permet au projectile d'avoir la bonne rotation au niveau texture
@@ -74,42 +127,11 @@ public class WeaponManager : MonoBehaviour
         }
 
 
- 
+
         Cooldown = FireRate;
 
         Destroy(projectile, ProjectileLifeTime);
 
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        projectilDoss = Instantiate(projectilDoss, new Vector3(0f, 0f, 0f), Quaternion.identity);
-        projectilDoss.name = gameObject.name + "Projectil";
-        //projectilDoss = GameObject.Find("ProjectilDoss");
-        CurrentAmmoCount = MaxAmmoCount;
-    }
-
-  
-    
-    // Update is called once per frame
-    void Update() // debug
-    {
-        if(Cooldown > 0)
-        {
-            Cooldown -= Time.deltaTime;
-        }
-        if(pourcentageHeating > 0)
-        {
-            if (CurrentCooldownHeating > 0)
-                CurrentCooldownHeating -= Time.deltaTime;
-            else
-                pourcentageHeating -= Time.deltaTime * DiscreaseHeatingMultiplier;
-        }
-    }
-    // Permet de clean
-    private void OnDestroy() 
-    {
-         DestroyImmediate(projectilDoss);
-    }
 }
