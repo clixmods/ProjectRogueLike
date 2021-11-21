@@ -35,11 +35,19 @@ public class GameManager : MonoBehaviour
     [Header("CURSORS")]
     public Texture2D[] Cursors;
     public CircleCollider2D MouseCollider;
+    Vector2 hotSpot;
+    Collider2D cursorTarget;
 
     // Start is called before the first frame update
     void Awake()
     {
-        Cursor.SetCursor(Cursors[0], Vector2.zero, CursorMode.Auto);
+        Vector2 hotSpot;
+
+        Vector2  hotSpotAuto = new Vector2(1 , 1);
+       hotSpot = hotSpotAuto;
+
+    
+        Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
         // on force la position zero pour pas niquer le CircleCollider du cursor
         transform.position = Vector2.zero;
         if(GameManager.GameUtil == null)
@@ -177,7 +185,7 @@ public class GameManager : MonoBehaviour
         }
         if(CurrentCamera != null)
         {
-            if(CurrentCamera.transform.GetChild(1).TryGetComponent<CinemachineVirtualCamera>(out CinemachineVirtualCamera Component))
+            if (CurrentCamera.transform.childCount > 2 && CurrentCamera.transform.GetChild(1).TryGetComponent<CinemachineVirtualCamera>(out CinemachineVirtualCamera Component))
             {
                 if (CurrentPlayer != null && Component.Follow != CurrentPlayer)
                     Component.Follow = CurrentPlayer.transform;
@@ -275,7 +283,7 @@ public class GameManager : MonoBehaviour
        
         if (collision != null && collision.tag == "Ennemies")
         {
-           
+            cursorTarget = collision;
             if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
             {
                
@@ -284,31 +292,45 @@ public class GameManager : MonoBehaviour
                     print(collision.name);
                     if ( target.isMagical == Dweapon.IsMagical)
                     {
-                        Cursor.SetCursor(Cursors[2], Vector2.zero, CursorMode.Auto);
+                        Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
                     }
                     else
                     {
-                        Cursor.SetCursor(Cursors[3], Vector2.zero, CursorMode.Auto);
+                        Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
+                        
                     }
                 }
                 else if(oofb)
                 {
                     if (target.isMagical == Mweapon.IsMagical)
                     {
-                        Cursor.SetCursor(Cursors[2], Vector2.zero, CursorMode.Auto);
+                        Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
                     }
                     else
                     {
-                        Cursor.SetCursor(Cursors[3], Vector2.zero, CursorMode.Auto);
+                        Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
                     }
                 }   
             }
         }
         else
         {
-            Cursor.SetCursor(Cursors[0], Vector2.zero, CursorMode.Auto);
+           // Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
         }
         //GameObject victim = collision.gameObject;
 
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+
+        if (collision != null && collision == cursorTarget)
+        {
+            cursorTarget = null;
+            Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
+        }
+
+    }
+
+
+    
 }

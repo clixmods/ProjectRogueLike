@@ -11,11 +11,13 @@ public class EnemyManager : MonoBehaviour
     Animator animator;
     GameObject weaponObject;
     public bool FromSpawner = false;
+    public TriggerSalle TriggerSalle;
     [Header("ACTOR INFO")]
     [Range(0, 3)]
     public float SpeedVariationMultiplier = 1;
     public int health = 100;
     public bool isMagical = false;
+    public bool isChild = false; // Pour voir si ca vient d'un slime on death
     [Range(1, 100)]
     public int AttackChance = 5;
     public GameObject CurrentWeapon;
@@ -196,13 +198,12 @@ public class EnemyManager : MonoBehaviour
         if (health <= 0)
         {
             // au cas ou on test nos ennemies sans spawner
-            if (FromSpawner)
+            if (FromSpawner && !isChild)
             {
-                if (gameObject.transform.parent != null &&
-                    gameObject.transform.parent.parent.parent.parent.gameObject.TryGetComponent<TriggerSalle>(out TriggerSalle Component))
+                if (TriggerSalle != null)
                 {
                     //TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
-                    Component.countEnnemie--;
+                   // TriggerSalle.countEnnemie--;
                 }
             }
             Destroy(HealthBar);

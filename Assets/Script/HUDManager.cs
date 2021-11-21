@@ -11,7 +11,7 @@ public class HUDManager : MonoBehaviour
     public static HUDManager HUDUtility; // permet de get le hud dans nimporte quelle script
     public GameObject InstanceRef;
     public PlayerControler InstanceRefController;
-
+    public bool Debug = false;
 
     [Header("Distance icon WIDGETS")]
     public GameObject DistanceMagicIcon;
@@ -34,16 +34,20 @@ public class HUDManager : MonoBehaviour
     public GameObject UIPlayerWeaponMelee;
     public GameObject UIPlayerWeaponDistance;
     public GameObject UIHealthEnnemiPrefab;
-    public GameObject UICursor;
 
 
     public Text UIMiddleScreenMsg;
     private bool isMiddleScreenMsg;
+
+    public Text UIDebugScreenMsg;
+    private bool isdebugScreenMsg;
+    private float counterdSM = 0;
+    private float durationdSM = 2;
+
     private float counterMSM = 0;
     private float durationMSM = 2;
     private float timeToHide = 2;
-    //public GameObject UIHealthBossBarDamaged;
-    //public Text UIHealthBossText;
+
     [Header("HUD MODELSVALUE")]
     public int PlayerAmmoCount;
     public bool isHeating = false;
@@ -52,9 +56,6 @@ public class HUDManager : MonoBehaviour
     public int PlayerMaxHealth;
     public int PlayerLife;
     public int PlayerMaxLifes;
-    //public string PlayerShield;
-    //public string PlayerScore;
-   // public string PlayerScoreMultiplier;
 
     public int BossHealth;
     public int BossMaxHealth;
@@ -114,13 +115,11 @@ public class HUDManager : MonoBehaviour
             {
                 if ( counterMSM < durationMSM)
                     counterMSM += Time.deltaTime;
-
                 else
                 {
                     counterMSM = 0;
                     durationMSM = 0;
                 }
-
             }
             else
             {
@@ -133,8 +132,30 @@ public class HUDManager : MonoBehaviour
                 }
                 UIMiddleScreenMsg.color = Color;
             }
-
-
+        }
+        if (isdebugScreenMsg)
+        {
+            if (durationMSM > 0)
+            {
+                if (counterdSM < durationdSM)
+                    counterdSM += Time.deltaTime;
+                else
+                {
+                    counterdSM = 0;
+                    durationdSM = 0;
+                }
+            }
+            else
+            {
+                Color Color = UIDebugScreenMsg.color;
+                Color.a -= Time.deltaTime;
+                if (Color.a <= 0)
+                {
+                    Color.a = 0;
+                    isdebugScreenMsg = false;
+                }
+                UIDebugScreenMsg.color = Color;
+            }
         }
         //isActiveAndEnabled();
 
@@ -168,6 +189,22 @@ public class HUDManager : MonoBehaviour
         isMiddleScreenMsg = true;
 
     }
+    public void SetDebugMsg(float duration = 2, string message = "")
+    {
+
+        UIDebugScreenMsg.text = message;
+
+        Color Color = UIDebugScreenMsg.color;
+        Color.a = 1;
+        UIDebugScreenMsg.color = Color;
+
+        counterdSM = 0;
+        durationdSM = duration;
+        isdebugScreenMsg = true;
+
+    }
+
+
 
     void GetAndSetLifesValue()
     {

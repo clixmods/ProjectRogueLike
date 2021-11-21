@@ -37,7 +37,21 @@ public class TriggerSalle : MonoBehaviour
     {
         //print(ennemieL.Count);
         //print(countEnnemie);
-        if(countEnnemie == 0)
+
+
+        //Watch number of ennemies
+        if(countEnnemie > 0)
+        {
+            int counter = 0;
+            for(int i = 0; i < ennemieL.Count; i++)
+            {
+                if (ennemieL[i] != null)
+                    counter++;
+            }
+            countEnnemie = counter;
+        }
+            
+        if(countEnnemie == 0)  // Clement: j'ai enlever le = car ca glitcher a -1 defois
         {
             levelManager.roomDone++;
             if(levelManager.roomDone == levelManager.numberOfRoomToDo && levelManager.chestGot != 2)
@@ -83,6 +97,7 @@ public class TriggerSalle : MonoBehaviour
                 spawnSpawnEnnemie = gameObject.transform.GetChild(0).gameObject.transform.GetChild(i).gameObject;
                 spawnEnnemie = Instantiate(prefabSpawnennemie, spawnSpawnEnnemie.transform.position, Quaternion.identity, spawnSpawnEnnemie.transform);
                 spawner.Add(spawnEnnemie);
+               
             }
 
             StartCoroutine(MyCoroutine());
@@ -133,6 +148,17 @@ public class TriggerSalle : MonoBehaviour
             {
                 print("yoyo");
                 ennemieL.Add(spawner[i].transform.GetChild(f).gameObject);
+                if (spawner[i].transform.GetChild(f).TryGetComponent<EnemyManager>(out EnemyManager component))
+                {
+                    if (!component.isChild)
+                    {
+                        // On specifie qu'il vienne dun spawner, et on lui attribue le trigger salle
+                        component.FromSpawner = true;
+                        component.TriggerSalle = this;
+                        
+
+                    }
+                }    
             }
         }
 

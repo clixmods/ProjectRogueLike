@@ -44,8 +44,16 @@ public class SlimeOnDeath : MonoBehaviour
             GameObject Baby2 = Instantiate(prefabBaby, transform.position, Quaternion.identity,transform);
             Baby.SetActive(false);
             Baby2.SetActive(false);
+            
             Baby.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
+            Baby.GetComponent<EnemyManager>().FromSpawner = false;
+            Baby.GetComponent<EnemyManager>().TriggerSalle = null;
+            Baby.GetComponent<EnemyManager>().isChild = true;
+
             Baby2.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
+            Baby2.GetComponent<EnemyManager>().FromSpawner = false;
+            Baby2.GetComponent<EnemyManager>().TriggerSalle = null;
+            Baby2.GetComponent<EnemyManager>().isChild = true;
 
         }
         //if (transform.localScale.x > ScalarMin)
