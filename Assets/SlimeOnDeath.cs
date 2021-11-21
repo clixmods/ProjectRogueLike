@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SlimeOnDeath : MonoBehaviour
 {
@@ -13,73 +14,102 @@ public class SlimeOnDeath : MonoBehaviour
     public GameObject prefabBaby;
     // Start is called before the first frame update
 
+    private void Awake()
+    {
+    
+        //Vector2 scale = transform.localScale;
+        //if (transform.localScale.x > ScalarMin)
+        //{
+        //    GameObject Baby = Instantiate(prefabBaby, transform.position, Quaternion.identity);
+        //    GameObject Baby2 = Instantiate(prefabBaby, transform.position, Quaternion.identity);
+        //    Baby.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
+        //    Baby2.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
+
+
+        //    willSplit = true;
+        //}
+        //else
+        //{
+        //    willSplit = false;
+        //}
+
+    }
     private void Start()
     {
         Vector2 scale = transform.localScale;
-        while(scale.x >= ScalarMin)
+        if (scale.x - ScalarDiscreaser >= ScalarMin)
         {
-            GameObject babySlime = Instantiate(gameObject, transform.position, Quaternion.identity, transform) ;
-            babySlime.SetActive(false);
-            scale.x -= ScalarDiscreaser;
-        }
-
-        //prefabBaby = gameObject.
-        if (gameObject.transform.localScale.x > ScalarMin)
             willSplit = true;
+            GameObject Baby = Instantiate(prefabBaby, transform.position, Quaternion.identity,transform);
+            GameObject Baby2 = Instantiate(prefabBaby, transform.position, Quaternion.identity,transform);
+            Baby.SetActive(false);
+            Baby2.SetActive(false);
+            Baby.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
+            Baby2.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
 
+        }
+        //if (transform.localScale.x > ScalarMin)
+        //{
+        //    GameObject Baby = Instantiate(prefabBaby, transform.position, Quaternion.identity);
+        //    GameObject Baby2 = Instantiate(prefabBaby, transform.position, Quaternion.identity);
+        //    willSplit = true;
+        //}
+
+        //else
+        //    willSplit = false;
 
     }
+
+    private void OnEnable()
+    {
+     //   Debug.Log(" OnEnable() "+gameObject.name);
+     //   Vector2 scale = transform.localScale;
+     //   transform.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
+     ///*   
+     //   if (scale.x >= ScalarMin)
+     //   {
+     //       scale.x -= ScalarDiscreaser;
+     //       scale.y -= ScalarDiscreaser;
+     //       transform.localScale = scale; 
+     //   }
+     //*/
+     //   if (gameObject.transform.localScale.x > ScalarMin)
+     //       willSplit = true;
+     //   else
+     //       willSplit = false;
+    }
    
-    private void OnDestroy()
+    // Quand l'ai est détruit, on check si il va split
+    // si c'est le cas, on active tout les components des enfants car ils sont off par défaut 
+    // pk ? je sais pas gros
+    private void OnDestroy() 
     {
         if(willSplit)
         {
-            //GameObject babySlime = Instantiate(prefabBaby, transform.position, transform.rotation, null);
             for (int i = 2; i < transform.childCount; i++)
             {
-                transform.GetChild(i).gameObject.SetActive(true);
-                transform.GetChild(i).transform.parent = null;
-                foreach (Behaviour behaviour in transform.GetChild(i).gameObject.GetComponentsInChildren<Behaviour>())
-                    behaviour.enabled = true;
-
-                EnemyManager col = transform.GetChild(i).transform.GetComponent<EnemyManager>();
-                if (col != null)
-                    col.enabled = false;
-
-                //MeshRenderer mr = transform.GetChild(i).transform.GetComponent<MeshRenderer>();
-                //if (mr != null)
-                //    mr.enabled = false;
-                //Component[] Yo = transform.GetChild(i).GetComponents(typeof(Component));
-                //foreach(Component Compo in Yo)
-                //{
-                //Compo.GetComponent<>.enabled = true;
-                //}
+                enableComponents(transform.GetChild(i).gameObject);
             }
-            //GameObject babySlime = Instantiate(Resources.Load("Assets\\prefabs\\Ennemies\\slime.prefab", typeof(GameObject))) as GameObject;
-           // babySlime.SetActive(true);
-
-            // babySlime.GetComponent<EnemyManager>().Scale -= ScalarDiscreaser;
-            /*Component[] p = babySlime.GetComponents(default);
-            foreach(Component o in  p)
-            {
-                
-            }
-            */
         }
     }
-    private void enableComponent( )
+
+    private void enableComponents( GameObject ai_object)
     {
-       // if (col != null)
-         //   col.enabled = false;
+        ai_object.SetActive(true);
+        BoxCollider2D box = ai_object.GetComponent<BoxCollider2D>();
+        NavMeshAgent agent = ai_object.GetComponent<NavMeshAgent>();
+        EnemyManager aimanager = ai_object.GetComponent<EnemyManager>();
+        SlimeOnDeath slimeondeath = ai_object.GetComponent<SlimeOnDeath>();
+        box.enabled = true;
+        agent.enabled = true;
+        aimanager.enabled = true;
+        slimeondeath.enabled = true;
+        ai_object.transform.parent = null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        string path = AssetDatabase.GetAssetPath(prefabBaby);
-        var prefabGameObject = PrefabUtility.GetCorrespondingObjectFromSource(prefabBaby);
-        //print(path);
-        print(prefabGameObject.name);
-        //prefabBaby = Resources.Load<GameObject>(path);
+
     }
 }

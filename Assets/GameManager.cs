@@ -32,9 +32,16 @@ public class GameManager : MonoBehaviour
     // Common Prefab
     public GameObject DefaultWeapon;
 
+    [Header("CURSORS")]
+    public Texture2D[] Cursors;
+    public CircleCollider2D MouseCollider;
+
     // Start is called before the first frame update
     void Awake()
     {
+        Cursor.SetCursor(Cursors[0], Vector2.zero, CursorMode.Auto);
+        // on force la position zero pour pas niquer le CircleCollider du cursor
+        transform.position = Vector2.zero;
         if(GameManager.GameUtil == null)
         {
             GameUtil = this;
@@ -51,9 +58,14 @@ public class GameManager : MonoBehaviour
             CurrentCamera = Camera.main.gameObject; 
         //DontDestroyOnLoad(CurrentCamera);
     }
+    void Start()
+    {
+        MouseCollider = transform.GetComponent<CircleCollider2D>();
+    }
 
     public void StartLevel()
     {
+        
         // Start First Scene
         SceneManager.LoadSceneAsync("TstLvlManager", LoadSceneMode.Single);
         
@@ -136,26 +148,26 @@ public class GameManager : MonoBehaviour
         ClosePauseMenu();
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         CurrentScene = "MainMenu";
-
         GameObject Menu = GameObject.Find("MainMenu");
         Button theButton = Menu.transform.GetChild(0).GetComponent<Button>();
-        ///theButton.onClick;
-        //next, any of these will work:
-        //  theButton.onClick += "";
-        //theButton.onClick.AddListener("");
-        //theButton.onClick.AddListener(delegate { GameManager.GameUtil.StartLevel(); });
-        //theButton.onClick.AddListener(() => { this.StartLevel(); });
         theButton.onClick.AddListener(delegate () { this.StartLevel(); });
     }
 
+    void FixColliderToCursor()
+    {
+        MouseCollider.offset = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
     // Update is called once per frame
     void Update()
     {
+        
+
         if (GameManager.GameUtil == null)
         {
             GameUtil = this;
         }
-
+              
+       
         
         PauseMenu();
       
@@ -171,6 +183,8 @@ public class GameManager : MonoBehaviour
                     Component.Follow = CurrentPlayer.transform;
             }
         }
+
+        FixColliderToCursor();
 
         if (isGameover)
         {
@@ -251,4 +265,50 @@ public class GameManager : MonoBehaviour
 
     }
 
+    // Cursor Management
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+         PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
+        bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon) ;
+        bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
+
+       
+        if (collision != null && collision.tag == "Ennemies")
+        {
+           
+            if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
+            {
+               
+                if (oofa)
+                {
+                    print(collision.name);
+                    if ( target.isMagical == Dweapon.IsMagical)
+                    {
+                        Cursor.SetCursor(Cursors[2], Vector2.zero, CursorMode.Auto);
+                    }
+                    else
+                    {
+                        Cursor.SetCursor(Cursors[3], Vector2.zero, CursorMode.Auto);
+                    }
+                }
+                else if(oofb)
+                {
+                    if (target.isMagical == Mweapon.IsMagical)
+                    {
+                        Cursor.SetCursor(Cursors[2], Vector2.zero, CursorMode.Auto);
+                    }
+                    else
+                    {
+                        Cursor.SetCursor(Cursors[3], Vector2.zero, CursorMode.Auto);
+                    }
+                }   
+            }
+        }
+        else
+        {
+            Cursor.SetCursor(Cursors[0], Vector2.zero, CursorMode.Auto);
+        }
+        //GameObject victim = collision.gameObject;
+
+    }
 }

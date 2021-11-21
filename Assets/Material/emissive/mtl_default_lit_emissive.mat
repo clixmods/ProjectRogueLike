@@ -57,11 +57,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _EnableExternalAlpha: 0
-    - _specAmount: 16.77
+    - _specAmount: 16.4
     m_Colors:
     - Color_ef0a955c93e34581a685269441834ed4: {r: 0.09743297, g: 1, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _e_color: {r: 1, g: 1, b: 1, a: 1}
+    - _e_color: {r: 0.05660379, g: 0.05660379, b: 0.05660379, a: 1}
   m_BuildTextureStacks: []

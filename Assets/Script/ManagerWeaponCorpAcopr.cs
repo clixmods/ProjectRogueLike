@@ -39,7 +39,8 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
         CollisionWeapon = gameObject.GetComponentInChildren<BoxCollider2D>();
 
         reachSpeedAttack = speedOfTheAttack;
-        initialRot = transform.parent.rotation;
+        if(transform.parent != null)
+            initialRot = transform.parent.rotation;
     }
     void OnDisable()
     {

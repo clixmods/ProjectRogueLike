@@ -15,6 +15,7 @@ public class EnemyManager : MonoBehaviour
     [Range(0, 3)]
     public float SpeedVariationMultiplier = 1;
     public int health = 100;
+    public bool isMagical = false;
     [Range(1, 100)]
     public int AttackChance = 5;
     public GameObject CurrentWeapon;
@@ -51,6 +52,11 @@ public class EnemyManager : MonoBehaviour
     public GameObject HealthBar;
     public GameObject aPotentialTarget;
 
+    private void Awake()
+    {
+
+    }
+
     private void Start()
     {
         // On change le speed de l'ennemi pour varier un peu les mouvements à l'écran,
@@ -59,12 +65,7 @@ public class EnemyManager : MonoBehaviour
         transform.GetComponent<NavMeshAgent>().speed = transform.GetComponent<NavMeshAgent>().speed * newSpeed;
 
         // On attribue change la scale par rapport à ce qui a été mit dans le actorinfo
-        if(Scale > 0)
-        {
-            Vector3 actorScale = transform.localScale;
-            actorScale = new Vector3(Scale, Scale, Scale);
-            transform.localScale = actorScale;
-        }
+       // ChangeScale();
 
         mtlDefault = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
 
@@ -77,6 +78,20 @@ public class EnemyManager : MonoBehaviour
 
 
         InitWeapon();
+    }
+
+    public void ChangeScale(float newScale = 0)
+    {
+        if(newScale != 0)
+        {
+            Scale = newScale;
+        }
+        if (Scale > 0)
+        {
+            Vector2 actorScale = transform.localScale;
+            actorScale = new Vector2(Scale, Scale);
+            transform.localScale = actorScale;
+        }
     }
     void InitWeapon()
     {

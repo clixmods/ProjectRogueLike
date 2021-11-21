@@ -755,6 +755,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5460944954957226061}
   - component: {fileID: 5460944954957226060}
+  - component: {fileID: 6144934642031643891}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameController
@@ -806,6 +807,33 @@ MonoBehaviour:
   isPaused: 0
   isGameover: 0
   DefaultWeapon: {fileID: 6180235357644935982, guid: 427f65c58144e1c4abad646e911b25cb, type: 3}
+  Cursors:
+  - {fileID: 2800000, guid: b5e60948028e24549a497ae62c4a857e, type: 3}
+  - {fileID: 2800000, guid: afc234e81abf77f43a6fd830d2bcaf87, type: 3}
+  - {fileID: 2800000, guid: a5a3b009fec204640b48ea6767292b62, type: 3}
+  - {fileID: 2800000, guid: f89559709ffe5ad42b7b5ed06206e051, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!58 &6144934642031643891
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5460944954957226063}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.19, y: -0.77}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &6302368634148088553
 GameObject:
   m_ObjectHideFlags: 0

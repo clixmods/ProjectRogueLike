@@ -11,6 +11,14 @@ public class HUDManager : MonoBehaviour
     public static HUDManager HUDUtility; // permet de get le hud dans nimporte quelle script
     public GameObject InstanceRef;
     public PlayerControler InstanceRefController;
+
+
+    [Header("Distance icon WIDGETS")]
+    public GameObject DistanceMagicIcon;
+    public GameObject DistancePhyIcon;
+    [Header("Melee icon WIDGETS")]
+    public GameObject MeleeMagicIcon;
+    public GameObject MeleePhyIcon;
     [Header("HUD WIDGETS")]
     public GameObject UIGameOverWidget;
     public Transform UIHealthBar; // contient tout les élément pour la vie du joueur
@@ -26,6 +34,8 @@ public class HUDManager : MonoBehaviour
     public GameObject UIPlayerWeaponMelee;
     public GameObject UIPlayerWeaponDistance;
     public GameObject UIHealthEnnemiPrefab;
+    public GameObject UICursor;
+
 
     public Text UIMiddleScreenMsg;
     private bool isMiddleScreenMsg;
@@ -59,6 +69,8 @@ public class HUDManager : MonoBehaviour
     private bool isLastStand = false;
     private float counter = 0;
     private float timeToDoAnim = 5;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -248,20 +260,30 @@ public class HUDManager : MonoBehaviour
     void GetAndSetWeaponCACIcon()
     {
         if (InstanceRef != null &&
-       InstanceRefController.CurrentWeapon != null &&
-       InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>() != null)
+       InstanceRefController.CurrentWeapon != null)
         {
-            //if (UIPlayerWeaponMelee.GetComponent<Image>().sprite == InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon)
-             //   return;
-
-            ReduceOpacity(UIPlayerWeaponDistance.GetComponent<Image>());
-            Opacity(UIPlayerWeaponMelee.GetComponent<Image>());
-           // Debug.Log("UI UPDATE : WeaponDistanceIcon");
-            UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon;
-        }
-        else
-        {
-            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas d�fini");
+            if (InstanceRefController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr WeaponManager))
+            {
+                //if (UIPlayerWeaponMelee.GetComponent<Image>().sprite == InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon)
+                //   return;
+                if (WeaponManager.IsMagical)
+                {
+                    MeleeMagicIcon.SetActive(true);
+                    MeleePhyIcon.SetActive(false);
+                }
+                else
+                {
+                    MeleeMagicIcon.SetActive(false);
+                    MeleePhyIcon.SetActive(true);
+                }
+                ReduceOpacity(UIPlayerWeaponDistance.GetComponent<Image>());
+                Opacity(UIPlayerWeaponMelee.GetComponent<Image>());
+                UIPlayerWeaponMelee.GetComponent<Image>().sprite = WeaponManager.HUDIcon;
+            }
+            else
+            {
+                //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas d�fini");
+            }
         }
     }
     void GetAndSetWeaponDistanceIcon()
@@ -269,12 +291,23 @@ public class HUDManager : MonoBehaviour
         if (InstanceRef != null &&
                 InstanceRefController.CurrentWeapon != null )
         {
-            if( InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>() != null)
+            if( InstanceRefController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager WeaponManager))
             {
-                ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
+                if (WeaponManager.IsMagical)
+                {
+                    DistanceMagicIcon.SetActive(true);
+                    DistancePhyIcon.SetActive(false);
+                }
+                else
+                {
+                    DistanceMagicIcon.SetActive(false);
+                    DistancePhyIcon.SetActive(true);
+                }
+
+                    ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
                 Opacity(UIPlayerWeaponDistance.GetComponent<Image>());
                 UIPlayerWeaponDistance.GetComponentInChildren<Text>().text = PlayerAmmoCount.ToString();
-                UIPlayerWeaponDistance.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>().HUDIcon;
+                UIPlayerWeaponDistance.GetComponent<Image>().sprite = WeaponManager.HUDIcon;
 
             }
         }
@@ -302,7 +335,7 @@ public class HUDManager : MonoBehaviour
                 Vector3 gfgfg;
                 if (GameManager.GameUtil.CurrentCamera.transform.GetChild(1)! != null)
                 {
-                    Vector3 OHff = new Vector3(GameManager.GameUtil.CurrentCamera.transform.GetChild(1).position.x, GameManager.GameUtil.CurrentCamera.transform.GetChild(1).position.y,0);
+                    Vector3 OHff = new Vector3(0, 0,0);
                     HealthBar.transform.position = Camera.main.WorldToScreenPoint(Ennemies[i].transform.position + OHff + new Vector3(0, 0.6f, 0) );
                 }
                 

@@ -101,6 +101,7 @@ public class WeaponManager : MonoBehaviour
         projectile.transform.GetComponent<SpriteRenderer>().material.SetColor("_e_color", ProjectileEmissiveColor) ;
 
         projectile.transform.GetComponent<ProjectileManager>().DamageAmount = DamageAmount;
+        projectile.transform.GetComponent<ProjectileManager>().isMagical = IsMagical;
         projectile.transform.GetComponent<ProjectileManager>().Attacker = attacker;
         projectile.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)); // Permet au projectile d'avoir la bonne rotation au niveau texture
         projectile.transform.GetComponent<Rigidbody2D>().AddForce(-transform.right * Speed * 1000);

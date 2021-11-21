@@ -67,12 +67,10 @@ public class PlayerControler : MonoBehaviour
         UpdateUI();
         if (GameManager.GameUtil.isPaused)
         {
-            print(GameManager.GameUtil.isPaused);
             return;
         }
             
 
-       // print("oh");
         CheckHealth();
         if (isDead)
             return;
@@ -159,7 +157,7 @@ public class PlayerControler : MonoBehaviour
     private void AimManager()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris � l'�cran
+      //  Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris � l'�cran
         float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
         {
             return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
