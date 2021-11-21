@@ -57,7 +57,8 @@ public class MeleeCollider : MonoBehaviour
                   
                 }
                 toucheds.Add(victim);
-                Debug.Log("L'ennemi " + VictimManager.gameObject.name + " est insensible au dégat de ce type d'arme");
+                HUDManager.HUDUtility.SetMiddleMsg(4, "L'ennemi " + VictimManager.gameObject.name + " est insensible au dégat de ce type d'arme");
+           
             }
             // Event boss is damaged
             if (victim.GetComponent<Boss>() != null)

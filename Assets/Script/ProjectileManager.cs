@@ -36,10 +36,15 @@ public class ProjectileManager : MonoBehaviour
             }
             if (victim.TryGetComponent<EnemyManager>(out EnemyManager VictimManager))
             {
-                if(VictimManager.isMagical == isMagical)
-                VictimManager.health -= DamageAmount;
-                victim.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = VictimManager.flashDamage;
-                VictimManager.isDamaged = true;
+                if (VictimManager.isMagical == isMagical)
+                {
+                    VictimManager.health -= DamageAmount;
+                    victim.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = VictimManager.flashDamage;
+                    VictimManager.isDamaged = true;
+                }
+                else
+                    HUDManager.HUDUtility.SetMiddleMsg(4, "L'ennemi " + VictimManager.gameObject.name + " est insensible au dégat de ce type d'arme");
+
             }
             if (victim.GetComponent<Boss>() != null)
             {

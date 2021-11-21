@@ -143,7 +143,7 @@ public class PlayerControler : MonoBehaviour
             if (PlayerLifes > 0 )
             {
                 isLastStand = true;
-                HUDManager.HUDUtility.SetMiddleMsg(4, "Life used.");
+                HUDManager.HUDUtility.SetMiddleMsg(4, "Used Life");
 
             }
             else // Player is dead
@@ -192,32 +192,32 @@ public class PlayerControler : MonoBehaviour
 
     private void Movment()
     {
-        
+        Vector2 movementVector = Vector2.zero;
         if (Input.GetKey(KeyCode.Z))
         {
-            transform.Translate(Vector2.up * playerMoveSpeed * Time.deltaTime);
+            movementVector += Vector2.up;
             animator.SetInteger("state", 4);
         }
 
         if(Input.GetKey(KeyCode.S))
         {
-            transform.Translate(Vector2.down * playerMoveSpeed * Time.deltaTime);
+            movementVector += Vector2.down;
             animator.SetInteger("state", 2);
         }
 
         if(Input.GetKey(KeyCode.Q))
         {
-            transform.Translate(Vector2.left * playerMoveSpeed * Time.deltaTime);
+            movementVector += Vector2.left;
             animator.SetInteger("state", 1);
         }
 
         if(Input.GetKey(KeyCode.D))
         {
-            transform.Translate(Vector2.right * playerMoveSpeed * Time.deltaTime);
+            movementVector += Vector2.right;
             animator.SetInteger("state", 3);
         }
+        transform.Translate(movementVector.normalized * playerMoveSpeed * Time.deltaTime);
 
-        //animator.SetInteger("state", 0);
     }
 
     private void Weapon()
