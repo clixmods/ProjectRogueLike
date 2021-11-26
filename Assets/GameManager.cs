@@ -1,8 +1,40 @@
+using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+public enum TutorialPhase : int
+{
+    Mouvement,
+    Attaque,
+    ChangementWeapon,
+    SwitchMetD,
+    TypeWeapon
+}
+
+public class WeaponDataDistance {
+    public string prefabName;
+    public int ammo;
+}
+public class WeaponDataMelee
+{
+    public string prefabName;
+}
+
+public class PlayerData
+{
+    public int health;
+    public int maxHealht;
+    public int life;
+    public int maxLife;
+}
+public class TutorialData
+{
+    public bool[] bools;
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -13,26 +45,57 @@ public class GameManager : MonoBehaviour
     public int PlayerScore;
     public int PlayerScoreMultiplier;
     public float PlayerAmmoCount;
+
+    [Header("PROPERTY UPDATED BY THE GAME")]
     public GameObject PlayerPrefab;
     public GameObject LevelManager;
     public GameObject HUD;
     public GameObject CurrentCamera;
     public GameObject CurrentPlayer;
+    public GameObject PrefabCamera;
     public string CurrentScene;
     public GameObject MainMenu;
     [Tooltip("Some features are not affected by the timescale, so we need to use isPaused to block some functions")]
-    public bool isPaused = true; 
+    public bool isPaused = false; 
     // Cooldown before returntomainmenu
     public bool isGameover = false;
     float cooldownToBackMainMenu = 5;
     float currentCooldown = 0;
 
-    // Common Prefab
+    [Tooltip("All prefabs used by other script")]
+    [Header("GLOBAL PREFAB")]
+
     public GameObject DefaultWeapon;
+    public Material DamageMtl;
+    [Header("CURSORS")]
+    public Texture2D[] Cursors;
+    public CircleCollider2D MouseCollider;
+    Vector2 hotSpot;
+    public Collider2D cursorTarget;
+    [Header("TUTORIAL")]
+    public GameObject TutorialMenu;
+    public bool[] tutorielCheck;
+    [SerializeField] Sprite[] tutorielImage;
+    [SerializeField] string[] tutorielText;
+
+    [Header("WEAPONS LIST")]
+    public string tamer;
+    public Dictionary<string, int> stats = new Dictionary<string, int>();
+    public TutorialData Data;
 
     // Start is called before the first frame update
     void Awake()
     {
+        tutorielCheck = new bool[Enum.GetValues(typeof(TutorialPhase)).Length];
+        Vector2 hotSpot;
+
+        Vector2  hotSpotAuto = new Vector2(1 , 1);
+       hotSpot = hotSpotAuto;
+
+    
+        Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
+        // on force la position zero pour pas niquer le CircleCollider du cursor
+        transform.position = Vector2.zero;
         if(GameManager.GameUtil == null)
         {
             GameUtil = this;
@@ -49,9 +112,14 @@ public class GameManager : MonoBehaviour
             CurrentCamera = Camera.main.gameObject; 
         //DontDestroyOnLoad(CurrentCamera);
     }
+    void Start()
+    {
+        MouseCollider = transform.GetComponent<CircleCollider2D>();
+    }
 
     public void StartLevel()
     {
+        
         // Start First Scene
         SceneManager.LoadSceneAsync("TstLvlManager", LoadSceneMode.Single);
         
@@ -62,9 +130,25 @@ public class GameManager : MonoBehaviour
     public void ChangeLevel(string name, bool dataPlayer = true, bool dataWeaponList = true)
     {
         Scene DesiredScene = SceneManager.GetSceneByName(name);
+
+
+        TutorialData myObject = new TutorialData();
+        myObject.bools = tutorielCheck;
+
+        CurrentPlayer = GameObject.FindWithTag("Player");
+        GameObject listD = CurrentPlayer.GetComponent<PlayerControler>().listD;
+        WeaponDataDistance[] weaponListD = new WeaponDataDistance[listD.transform.childCount];
+        for(int i = 0; i< listD.transform.childCount; i++)
+        {
+            weaponListD[i].prefabName =
+            weaponListD[i].ammo = 
+        }
+
         if (dataPlayer)
         {
             CurrentPlayer = GameObject.FindWithTag("Player");
+
+
             //SceneManager.MoveGameObjectToScene(CurrentPlayer, DesiredScene);
         }
 
@@ -134,30 +218,43 @@ public class GameManager : MonoBehaviour
         ClosePauseMenu();
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         CurrentScene = "MainMenu";
-
         GameObject Menu = GameObject.Find("MainMenu");
         Button theButton = Menu.transform.GetChild(0).GetComponent<Button>();
-        ///theButton.onClick;
-        //next, any of these will work:
-        //  theButton.onClick += "";
-        //theButton.onClick.AddListener("");
-        //theButton.onClick.AddListener(delegate { GameManager.GameUtil.StartLevel(); });
-        //theButton.onClick.AddListener(() => { this.StartLevel(); });
         theButton.onClick.AddListener(delegate () { this.StartLevel(); });
     }
 
+    void FixColliderToCursor()
+    {
+        MouseCollider.offset = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    }
     // Update is called once per frame
     void Update()
     {
+        
+
         if (GameManager.GameUtil == null)
         {
             GameUtil = this;
         }
-
+              
+       
         
         PauseMenu();
       
+        if(CurrentCamera == null)
+        {
+            CurrentCamera = Instantiate(PrefabCamera);
+        }
+        if(CurrentCamera != null)
+        {
+            if (CurrentCamera.transform.childCount > 2 && CurrentCamera.transform.GetChild(1).TryGetComponent<CinemachineVirtualCamera>(out CinemachineVirtualCamera Component))
+            {
+                if (CurrentPlayer != null && Component.Follow != CurrentPlayer)
+                    Component.Follow = CurrentPlayer.transform;
+            }
+        }
 
+        FixColliderToCursor();
 
         if (isGameover)
         {
@@ -192,6 +289,20 @@ public class GameManager : MonoBehaviour
         //}
     }
 
+    public void ActiveTutorial(int tutID)
+    {
+        if(tutorielCheck[tutID])
+        {
+            Debug.Log("The tutoriel id : " + tutID + " was already checked");
+            return;
+        }
+        TutorialMenu.SetActive(true);
+        TutorialMenu.GetComponent<TutorialProperty>().Text.text = tutorielText[tutID];
+        TutorialMenu.GetComponent<TutorialProperty>().Texture.GetComponent<Image>().sprite = tutorielImage[tutID];
+        tutorielCheck[tutID] = true;
+
+    }
+
     void PauseMenu()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -203,7 +314,7 @@ public class GameManager : MonoBehaviour
 
         }
 
-        if (MainMenu.activeSelf)
+        if (MainMenu.activeSelf || TutorialMenu.activeSelf)
         {
             isPaused = true;
             Time.timeScale = 0f;
@@ -219,6 +330,7 @@ public class GameManager : MonoBehaviour
     void ClosePauseMenu()
     {
         MainMenu.SetActive(false);
+        TutorialMenu.SetActive(false);
         isPaused = false;
         Time.timeScale = 1f;
     }
@@ -234,8 +346,69 @@ public class GameManager : MonoBehaviour
             CurrentCamera = Camera.main.gameObject;
 
         else if ( CurrentPlayer != null)
-             CurrentCamera.transform.position = new Vector3(CurrentPlayer.transform.position.x , CurrentPlayer.transform.position.y,-10);
+             CurrentCamera.transform.position = new Vector3(CurrentPlayer.transform.position.x , CurrentPlayer.transform.position.y,-80);
 
     }
 
+    // Cursor Management
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+         PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
+        bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon) ;
+        bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
+
+       
+        if (collision != null && collision.tag == "Ennemies")
+        {
+            GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Attaque);
+            cursorTarget = collision;
+            if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
+            {
+      
+                if (oofa)
+                {
+                    print(collision.name);
+                    if ( target.isMagical == Dweapon.IsMagical)
+                    {
+                        Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
+                    }
+                    else
+                    {
+                        Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
+                        GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+
+                    }
+                }
+                else if(oofb)
+                {
+                    if (target.isMagical == Mweapon.IsMagical)
+                    {
+                        Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
+                    }
+                    else
+                    {
+                        Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
+                        GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+                    }
+                }   
+            }
+        }
+        else
+        {
+          
+        }
+        
+
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision != null && collision == cursorTarget)
+        {
+            cursorTarget = null;
+            Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);       
+        }
+    }
+
+
+    
 }

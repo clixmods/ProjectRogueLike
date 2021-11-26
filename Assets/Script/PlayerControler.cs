@@ -22,8 +22,8 @@ public class PlayerControler : MonoBehaviour
     public GameObject CurrentWeapon;
     int distOrCorp;
 
-    GameObject listC;
-    GameObject listD;
+    public GameObject listC;
+    public GameObject listD;
 
     int selectCorpACorp = 0;
     int selectDist = 0;
@@ -66,7 +66,10 @@ public class PlayerControler : MonoBehaviour
     {
         UpdateUI();
         if (GameManager.GameUtil.isPaused)
-            return; 
+        {
+            return;
+        }
+            
 
         CheckHealth();
         if (isDead)
@@ -140,7 +143,7 @@ public class PlayerControler : MonoBehaviour
             if (PlayerLifes > 0 )
             {
                 isLastStand = true;
-                HUDManager.HUDUtility.SetMiddleMsg(4, "Life used.");
+                HUDManager.HUDUtility.SetMiddleMsg(4, "Used Life");
 
             }
             else // Player is dead
@@ -154,7 +157,7 @@ public class PlayerControler : MonoBehaviour
     private void AimManager()
     {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris � l'�cran
+      //  Camera.main.gameObject.transform.GetChild(0).transform.position = mousePosition; // On met le viseur sur la position de la souris � l'�cran
         float AngleBetweenTwoPoints(Vector3 a, Vector3 b)
         {
             return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
@@ -189,32 +192,32 @@ public class PlayerControler : MonoBehaviour
 
     private void Movment()
     {
-        
+        Vector2 movementVector = Vector2.zero;
         if (Input.GetKey(KeyCode.Z))
         {
-            transform.Translate(Vector2.up * playerMoveSpeed * Time.deltaTime);
+            movementVector += Vector2.up;
             animator.SetInteger("state", 4);
         }
 
         if(Input.GetKey(KeyCode.S))
         {
-            transform.Translate(Vector2.down * playerMoveSpeed * Time.deltaTime);
+            movementVector += Vector2.down;
             animator.SetInteger("state", 2);
         }
 
         if(Input.GetKey(KeyCode.Q))
         {
-            transform.Translate(Vector2.left * playerMoveSpeed * Time.deltaTime);
+            movementVector += Vector2.left;
             animator.SetInteger("state", 1);
         }
 
         if(Input.GetKey(KeyCode.D))
         {
-            transform.Translate(Vector2.right * playerMoveSpeed * Time.deltaTime);
+            movementVector += Vector2.right;
             animator.SetInteger("state", 3);
         }
+        transform.Translate(movementVector.normalized * playerMoveSpeed * Time.deltaTime);
 
-        //animator.SetInteger("state", 0);
     }
 
     private void Weapon()

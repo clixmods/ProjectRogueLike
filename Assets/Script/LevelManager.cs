@@ -35,7 +35,7 @@ public class LevelManager : MonoBehaviour
         listWeapons = Instantiate(prefabListWeapons, new Vector3(0f, 0f, 0f), Quaternion.identity);
         
         Instantiate(prefabPlayerSpawn, spawnRoom.transform.position , Quaternion.identity);
-        
+        GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Mouvement);
 
     }
 

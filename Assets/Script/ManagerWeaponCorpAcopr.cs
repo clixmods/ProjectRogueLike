@@ -6,7 +6,10 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
 {
     //public float attackRangeM;
     // public float attackDamageM;
-    
+    [Header("Info")]
+    public string WeaponName;
+
+
     Transform attackPoint;
 
     [Header ("Look Othe Weapon")]
@@ -36,7 +39,8 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
         CollisionWeapon = gameObject.GetComponentInChildren<BoxCollider2D>();
 
         reachSpeedAttack = speedOfTheAttack;
-        initialRot = transform.parent.rotation;
+        if(transform.parent != null)
+            initialRot = transform.parent.rotation;
     }
     void OnDisable()
     {
@@ -48,8 +52,10 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if(IsFiring)
+
+     
+
+        if (IsFiring)
         {
             if(gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>() != null)
                 gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = true;

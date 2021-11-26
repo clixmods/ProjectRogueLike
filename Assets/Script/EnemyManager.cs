@@ -10,11 +10,15 @@ public class EnemyManager : MonoBehaviour
     NavMeshAgent navMeshAgent;
     Animator animator;
     GameObject weaponObject;
-
+    public bool FromSpawner = false;
+    public TriggerSalle TriggerSalle;
     [Header("ACTOR INFO")]
+    public string Name = "Undefined name";
     [Range(0, 3)]
     public float SpeedVariationMultiplier = 1;
     public int health = 100;
+    public bool isMagical = false;
+    public bool isChild = false; // Pour voir si ca vient d'un slime on death
     [Range(1, 100)]
     public int AttackChance = 5;
     public GameObject CurrentWeapon;
@@ -51,6 +55,11 @@ public class EnemyManager : MonoBehaviour
     public GameObject HealthBar;
     public GameObject aPotentialTarget;
 
+    private void Awake()
+    {
+
+    }
+
     private void Start()
     {
         // On change le speed de l'ennemi pour varier un peu les mouvements à l'écran,
@@ -59,12 +68,9 @@ public class EnemyManager : MonoBehaviour
         transform.GetComponent<NavMeshAgent>().speed = transform.GetComponent<NavMeshAgent>().speed * newSpeed;
 
         // On attribue change la scale par rapport à ce qui a été mit dans le actorinfo
-        if(Scale > 0)
-        {
-            Vector3 actorScale = transform.localScale;
-            actorScale = new Vector3(Scale, Scale, Scale);
-            transform.localScale = actorScale;
-        }
+       // ChangeScale();
+
+        mtlDefault = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
 
         maxHealth = health;
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -75,6 +81,20 @@ public class EnemyManager : MonoBehaviour
 
 
         InitWeapon();
+    }
+
+    public void ChangeScale(float newScale = 0)
+    {
+        if(newScale != 0)
+        {
+            Scale = newScale;
+        }
+        if (Scale > 0)
+        {
+            Vector2 actorScale = transform.localScale;
+            actorScale = new Vector2(Scale, Scale);
+            transform.localScale = actorScale;
+        }
     }
     void InitWeapon()
     {
@@ -118,34 +138,44 @@ public class EnemyManager : MonoBehaviour
         {
             if(count < toCount )
             {
+                Material OGmtl = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
                 
                 count += 0.1f * Time.deltaTime;
     
                 if (count <= toCount / 8f && count >= toCount / 10f)
                 {
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
+                    //mtl = flashDamage;
+                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = GameManager.GameUtil.DamageMtl;
                 }
-                else if (count <= toCount / 6f && count >= toCount / 8f)
-                {
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
-                }
-                else if (count <= toCount / 4f && count >= toCount / 6f)
-                {
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = flashDamage;
-                }
+                //else if (count <= toCount / 6f && count >= toCount / 8f)
+                //{
+                //    mtl.color = Color.white;
+                //    //mtl = mtlDefault;
+                //}
+                //else if (count <= toCount / 4f && count >= toCount / f)
+                //{
+                //    mtl.color = Color.red;
+                //    //mtl = flashDamage;
+                //}
                 else if (count <= toCount / 2f && count >= toCount / 4f)
                 {
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
+                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = OGmtl;
+
+                    //mtl = mtlDefault;
                 }
 
             }
             else
             {
                 isDamaged = false;
-                gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
+                //gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
                 count = 0;
             }
         }
+    }
+    void ChangeMTLforDamage(Material mtl)
+    {
+        
     }
     private void MovementBehavior()
     {
@@ -171,11 +201,13 @@ public class EnemyManager : MonoBehaviour
         if (health <= 0)
         {
             // au cas ou on test nos ennemies sans spawner
-            if (gameObject.transform.parent != null &&
-                gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>() != null)
+            if (FromSpawner && !isChild)
             {
-                TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
-                trigSalle.countEnnemie--;
+                if (TriggerSalle != null)
+                {
+                    //TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
+                   // TriggerSalle.countEnnemie--;
+                }
             }
             Destroy(HealthBar);
             Destroy(gameObject);

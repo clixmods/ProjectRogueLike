@@ -7,45 +7,50 @@ public class ProjectileManager : MonoBehaviour
     public Sprite ProjectileTexture;
     public int DamageAmount;
     public GameObject Attacker;
+    public bool isMagical;
+
     // Start is called before the first frame update
     void Start()
     {
-       // DamageAmount = transform.parent.DamageAmount;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        print(collision.tag);
-        GameObject gObjct = collision.gameObject;
+        //print(collision.tag);
+        GameObject victim = collision.gameObject;
         if (Attacker != null && // ca se peut que l'attacker meurt et que le projectile soit toujours la
-            gObjct != Attacker &&
-            !gObjct.CompareTag(Attacker.tag))
+            victim != Attacker &&
+            !victim.CompareTag(Attacker.tag))
         {
 
             //CurrentWeapon.TryGetComponent<PlayerControler>(out PlayerControler Component)
-            if (gObjct.TryGetComponent<PlayerControler>(out PlayerControler Component) && !Component.isDamaged)
+            if (victim.TryGetComponent<PlayerControler>(out PlayerControler PlayerControler) && !PlayerControler.isDamaged)
             {
-                //collision.GetComponent<PlayerControler>().isDamaged = true;
-                Component.health -= DamageAmount;
-                Component.isDamaged = true;
+                PlayerControler.health -= DamageAmount;
+                PlayerControler.isDamaged = true;
             }
-            if (gObjct.TryGetComponent<EnemyManager>(out EnemyManager ComponentA))
+            if (victim.TryGetComponent<EnemyManager>(out EnemyManager VictimManager))
             {
-                ComponentA.health -= DamageAmount;
-                gObjct.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = ComponentA.flashDamage;
-                ComponentA.isDamaged = true;
+                if (VictimManager.isMagical == isMagical)
+                {
+                    VictimManager.health -= DamageAmount;
+                    victim.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = VictimManager.flashDamage;
+                    VictimManager.isDamaged = true;
+                }
+                else
+                    GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+                
+                //HUDManager.HUDUtility.SetMiddleMsg(4, "L'ennemi " + VictimManager.gameObject.name + " est insensible au dégat de ce type d'arme");
+
             }
-            if (gObjct.GetComponent<Boss>() != null)
+            if (victim.GetComponent<Boss>() != null)
             {
-                gObjct.GetComponent<Boss>().health -= DamageAmount;
-                // collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
-                // collision.gameObject.GetComponent<Boss>().isDamaged = true;
+                victim.GetComponent<Boss>().health -= DamageAmount;
             }
             if (collision.transform.tag == "Wall")
             {

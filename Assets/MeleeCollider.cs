@@ -8,18 +8,18 @@ public class MeleeCollider : MonoBehaviour
     [SerializeField]
     private List<GameObject> toucheds = new List<GameObject>();
 
-    
+    ManagerWeaponCorpAcopr weaponComponent;
        
         // Start is called before the first frame update
     void Start()
     {
-        
+        weaponComponent = gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().IsFiring && toucheds.Count > 0)
+        if(!weaponComponent.IsFiring && toucheds.Count > 0)
         {
             toucheds = new List<GameObject>();
         }
@@ -36,37 +36,34 @@ public class MeleeCollider : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-
-        if (collision.gameObject != gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().Attacker && 
-            !collision.gameObject.CompareTag(gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().Attacker.tag) &&
-            !isAlreadyTouched(collision.gameObject) )
+        GameObject victim = collision.gameObject;
+        if (victim != weaponComponent.Attacker && !victim.CompareTag(weaponComponent.Attacker.tag) && !isAlreadyTouched(victim) )
         {
-            //if (gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().Attacker.CompareTag("Player"))
-            //{
-            //    print("TOUCHED");
-            //}
-            if (collision.gameObject.GetComponent<PlayerControler>() != null && !collision.gameObject.GetComponent<PlayerControler>().isDamaged)
+            // Event player is damaged
+            if (victim.GetComponent<PlayerControler>() != null && !victim.GetComponent<PlayerControler>().isDamaged)
             {
-                //collision.GetComponent<PlayerControler>().isDamaged = true;
-                collision.gameObject.GetComponent<PlayerControler>().health -= gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().attackDamage;
-                collision.gameObject.GetComponent<PlayerControler>().isDamaged = true;
-                toucheds.Add(collision.gameObject);
+                victim.GetComponent<PlayerControler>().health -= weaponComponent.attackDamage;
+                victim.GetComponent<PlayerControler>().isDamaged = true;
+                toucheds.Add(victim);
 
             }
-            if (collision.gameObject.GetComponent<EnemyManager>() != null)
+            // Event a ennemy is damaged
+            if (victim.TryGetComponent<EnemyManager>(out EnemyManager VictimManager))
             {
-                collision.gameObject.GetComponent<EnemyManager>().health -= gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().attackDamage;
-                collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
-                collision.gameObject.GetComponent<EnemyManager>().isDamaged = true;
-                toucheds.Add(collision.gameObject);
+                if(VictimManager.isMagical == weaponComponent.IsMagical )
+                {
+                    VictimManager.health -= weaponComponent.attackDamage;
+                    VictimManager.isDamaged = true;
+                  
+                }
+                toucheds.Add(victim);
+                // HUDManager.HUDUtility.SetMiddleMsg(4, "L'ennemi " + VictimManager.gameObject.name + " est insensible au dégat de ce type d'arme");
+                GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
             }
-            if (collision.gameObject.GetComponent<Boss>() != null)
+            // Event boss is damaged
+            if (victim.GetComponent<Boss>() != null)
             {
-                collision.gameObject.GetComponent<Boss>().health -= gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>().attackDamage;
-                // collision.gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = collision.gameObject.GetComponent<EnemyManager>().flashDamage;
-                // collision.gameObject.GetComponent<Boss>().isDamaged = true;
-
-                //toucheds.Add(collision.gameObject);
+                victim.GetComponent<Boss>().health -= weaponComponent.attackDamage;
             }
 
 

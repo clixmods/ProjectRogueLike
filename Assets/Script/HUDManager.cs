@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +11,14 @@ public class HUDManager : MonoBehaviour
     public static HUDManager HUDUtility; // permet de get le hud dans nimporte quelle script
     public GameObject InstanceRef;
     public PlayerControler InstanceRefController;
+    public bool Debug = false;
+
+    [Header("Distance icon WIDGETS")]
+    public GameObject DistanceMagicIcon;
+    public GameObject DistancePhyIcon;
+    [Header("Melee icon WIDGETS")]
+    public GameObject MeleeMagicIcon;
+    public GameObject MeleePhyIcon;
     [Header("HUD WIDGETS")]
     public GameObject UIGameOverWidget;
     public Transform UIHealthBar; // contient tout les élément pour la vie du joueur
@@ -26,13 +35,19 @@ public class HUDManager : MonoBehaviour
     public GameObject UIPlayerWeaponDistance;
     public GameObject UIHealthEnnemiPrefab;
 
+
     public Text UIMiddleScreenMsg;
     private bool isMiddleScreenMsg;
+
+    public Text UIDebugScreenMsg;
+    private bool isdebugScreenMsg;
+    private float counterdSM = 0;
+    private float durationdSM = 2;
+
     private float counterMSM = 0;
     private float durationMSM = 2;
     private float timeToHide = 2;
-    //public GameObject UIHealthBossBarDamaged;
-    //public Text UIHealthBossText;
+
     [Header("HUD MODELSVALUE")]
     public int PlayerAmmoCount;
     public bool isHeating = false;
@@ -41,16 +56,13 @@ public class HUDManager : MonoBehaviour
     public int PlayerMaxHealth;
     public int PlayerLife;
     public int PlayerMaxLifes;
-    //public string PlayerShield;
-    //public string PlayerScore;
-   // public string PlayerScoreMultiplier;
 
     public int BossHealth;
     public int BossMaxHealth;
     public int BossLife;
     public int BossMaxLifes;
 
-    private GameObject GameManager;
+    //private GameObject GameManager;
     GameObject[] Ennemies; // Permet de get les ennemies afin de spawn leur bar de vie
  
     // isdamagedanim var
@@ -58,12 +70,14 @@ public class HUDManager : MonoBehaviour
     private bool isLastStand = false;
     private float counter = 0;
     private float timeToDoAnim = 5;
+
+
     // Start is called before the first frame update
     void Start()
     {
         HUDUtility = this;
-        GameManager = GameObject.FindWithTag("GameController");
-        InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
+        //GameManager = GameObject.FindWithTag("GameController");
+        InstanceRef = GameManager.GameUtil.GetComponent<GameManager>().CurrentPlayer;
         if(InstanceRef != null)
             InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
 
@@ -75,7 +89,6 @@ public class HUDManager : MonoBehaviour
         // Hum apparement HUDUtility n'est plus déf des qu'on update les scripts, du coup je met ça pour préshot
         if (HUDUtility != this) 
             HUDUtility = this;
-
 
         AddHealthToEnnemies();
    
@@ -89,9 +102,9 @@ public class HUDManager : MonoBehaviour
         }
         else
         {
-            if (GameManager.GetComponent<GameManager>().CurrentPlayer != null)
+            if (GameManager.GameUtil.CurrentPlayer != null)
             {
-                InstanceRef = GameManager.GetComponent<GameManager>().CurrentPlayer;
+                InstanceRef = GameManager.GameUtil.CurrentPlayer;
                 InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
             }
         }
@@ -101,13 +114,11 @@ public class HUDManager : MonoBehaviour
             {
                 if ( counterMSM < durationMSM)
                     counterMSM += Time.deltaTime;
-
                 else
                 {
                     counterMSM = 0;
                     durationMSM = 0;
                 }
-
             }
             else
             {
@@ -120,8 +131,30 @@ public class HUDManager : MonoBehaviour
                 }
                 UIMiddleScreenMsg.color = Color;
             }
-
-
+        }
+        if (isdebugScreenMsg)
+        {
+            if (durationMSM > 0)
+            {
+                if (counterdSM < durationdSM)
+                    counterdSM += Time.deltaTime;
+                else
+                {
+                    counterdSM = 0;
+                    durationdSM = 0;
+                }
+            }
+            else
+            {
+                Color Color = UIDebugScreenMsg.color;
+                Color.a -= Time.deltaTime;
+                if (Color.a <= 0)
+                {
+                    Color.a = 0;
+                    isdebugScreenMsg = false;
+                }
+                UIDebugScreenMsg.color = Color;
+            }
         }
         //isActiveAndEnabled();
 
@@ -155,6 +188,22 @@ public class HUDManager : MonoBehaviour
         isMiddleScreenMsg = true;
 
     }
+    public void SetDebugMsg(float duration = 2, string message = "")
+    {
+
+        UIDebugScreenMsg.text = message;
+
+        Color Color = UIDebugScreenMsg.color;
+        Color.a = 1;
+        UIDebugScreenMsg.color = Color;
+
+        counterdSM = 0;
+        durationdSM = duration;
+        isdebugScreenMsg = true;
+
+    }
+
+
 
     void GetAndSetLifesValue()
     {
@@ -247,20 +296,30 @@ public class HUDManager : MonoBehaviour
     void GetAndSetWeaponCACIcon()
     {
         if (InstanceRef != null &&
-       InstanceRefController.CurrentWeapon != null &&
-       InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>() != null)
+       InstanceRefController.CurrentWeapon != null)
         {
-            //if (UIPlayerWeaponMelee.GetComponent<Image>().sprite == InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon)
-             //   return;
-
-            ReduceOpacity(UIPlayerWeaponDistance.GetComponent<Image>());
-            Opacity(UIPlayerWeaponMelee.GetComponent<Image>());
-           // Debug.Log("UI UPDATE : WeaponDistanceIcon");
-            UIPlayerWeaponMelee.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon;
-        }
-        else
-        {
-            //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas d�fini");
+            if (InstanceRefController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr WeaponManager))
+            {
+                //if (UIPlayerWeaponMelee.GetComponent<Image>().sprite == InstanceRefController.CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon)
+                //   return;
+                if (WeaponManager.IsMagical)
+                {
+                    MeleeMagicIcon.SetActive(true);
+                    MeleePhyIcon.SetActive(false);
+                }
+                else
+                {
+                    MeleeMagicIcon.SetActive(false);
+                    MeleePhyIcon.SetActive(true);
+                }
+                ReduceOpacity(UIPlayerWeaponDistance.GetComponent<Image>());
+                Opacity(UIPlayerWeaponMelee.GetComponent<Image>());
+                UIPlayerWeaponMelee.GetComponent<Image>().sprite = WeaponManager.HUDIcon;
+            }
+            else
+            {
+                //Debug.Log("UI UPDATE : WeaponDistanceIcon n'est pas d�fini");
+            }
         }
     }
     void GetAndSetWeaponDistanceIcon()
@@ -268,12 +327,23 @@ public class HUDManager : MonoBehaviour
         if (InstanceRef != null &&
                 InstanceRefController.CurrentWeapon != null )
         {
-            if( InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>() != null)
+            if( InstanceRefController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager WeaponManager))
             {
-                ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
+                if (WeaponManager.IsMagical)
+                {
+                    DistanceMagicIcon.SetActive(true);
+                    DistancePhyIcon.SetActive(false);
+                }
+                else
+                {
+                    DistanceMagicIcon.SetActive(false);
+                    DistancePhyIcon.SetActive(true);
+                }
+
+                    ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
                 Opacity(UIPlayerWeaponDistance.GetComponent<Image>());
                 UIPlayerWeaponDistance.GetComponentInChildren<Text>().text = PlayerAmmoCount.ToString();
-                UIPlayerWeaponDistance.GetComponent<Image>().sprite = InstanceRefController.CurrentWeapon.GetComponent<WeaponManager>().HUDIcon;
+                UIPlayerWeaponDistance.GetComponent<Image>().sprite = WeaponManager.HUDIcon;
 
             }
         }
@@ -289,32 +359,35 @@ public class HUDManager : MonoBehaviour
         {
             if (Ennemies[i].GetComponent<Boss>() != null)
             {
-               /* if (Ennemies[i].GetComponent<Boss>().HealthBar == null)
-                {
-                    Ennemies[i].GetComponent<Boss>().HealthBar = UIHealthBoss.gameObject;
-                    UIHealthBoss.gameObject.SetActive(true);
-                }
-                else if (Ennemies[i].GetComponent<Boss>().HealthBar != null)
-                {
-                    Vector3 Scale = UIHealthBoss.transform.GetChild(1).GetComponent<RectTransform>().localScale;
-
-                    Scale.x = (float)Ennemies[i].GetComponent<Boss>().health / (float)Ennemies[i].GetComponent<Boss>().bossHealth;
-                    if (Scale.x < 0) Scale.x = 0;
-                    if (Scale.x > 1) Scale.x = 1;
-                    UIHealthBoss.transform.GetChild(2).GetComponent<RectTransform>().localScale = Scale;
-                }
-               */
                 continue;
             }
-    
+
 
             if (Ennemies[i].GetComponent<EnemyManager>().HealthBar == null)
+            {
                 Ennemies[i].GetComponent<EnemyManager>().HealthBar = Instantiate(UIHealthEnnemiPrefab, Ennemies[i].transform.position, Quaternion.identity, transform);
+                Ennemies[i].GetComponent<EnemyManager>().HealthBar.SetActive(false);
+            }
             else
             {
                 GameObject HealthBar = Ennemies[i].GetComponent<EnemyManager>().HealthBar;
-                Vector2 gfgfg = Camera.main.WorldToScreenPoint(Ennemies[i].transform.position + new Vector3(0, 0.6f, 0));
-                HealthBar.transform.position = gfgfg;
+                if(GameManager.GameUtil.cursorTarget != null && GameManager.GameUtil.cursorTarget.gameObject == Ennemies[i])
+                {
+                    HealthBar.SetActive(true);
+                }
+                else
+                {
+                    HealthBar.SetActive(false);
+                }
+
+                Vector3 gfgfg;
+                if (GameManager.GameUtil.CurrentCamera.transform.GetChild(1)! != null)
+                {
+                    Vector3 OHff = new Vector3(0, 0, 0);
+                    HealthBar.transform.position = Camera.main.WorldToScreenPoint(Ennemies[i].transform.position + OHff + new Vector3(0, 0.6f, 0));
+                }
+
+                //= gfgfg;
                 Vector3 Scale = HealthBar.transform.GetChild(1).GetComponent<RectTransform>().localScale;
 
                 Scale.x = (float)Ennemies[i].GetComponent<EnemyManager>().health / (float)Ennemies[i].GetComponent<EnemyManager>().maxHealth;

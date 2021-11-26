@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c5f0bb9f1aae2b46904ab00e57fdad7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toucheds: []
 --- !u!1 &6458837181824665519
 GameObject:
   m_ObjectHideFlags: 0
@@ -81,6 +82,7 @@ GameObject:
   - component: {fileID: 6458837181824665516}
   - component: {fileID: 7106246833955265689}
   - component: {fileID: 7444717214729407684}
+  - component: {fileID: 3458992488792391597}
   m_Layer: 6
   m_Name: Cimeterre
   m_TagString: Untagged
@@ -122,7 +124,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: dbd50a11ba97bf44285442f96d320077, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -166,6 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a696826378f92ec49a1a70ee32f3ce83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponName: Cimetery
   textureWeapon: {fileID: 21300000, guid: 11cfb14eb6472654e8859cbad48c7c04, type: 3}
   HUDIcon: {fileID: 21300000, guid: 11cfb14eb6472654e8859cbad48c7c04, type: 3}
   attackRange: 1.8
@@ -178,3 +181,20 @@ MonoBehaviour:
   CollisionWeapon: {fileID: 0}
   checkCollision: 0
   FirstCheck: 0
+  IsMagical: 0
+--- !u!58 &3458992488792391597
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6458837181824665519}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5

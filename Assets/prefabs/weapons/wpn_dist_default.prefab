@@ -51,7 +51,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -95,13 +95,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633b62beba3043644b52a692365e2665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponName: 
   CurrentAmmoCount: 0
   pourcentageHeating: 0
   HUDIcon: {fileID: 0}
   Projectile: {fileID: 8069158063738369636, guid: 6616253bfc9ff16479fe7fcf65fc560c, type: 3}
   ProjectileTexture: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  ProjectileScale: 1
   Speed: 1
+  FireRate: 1
+  Cooldown: 0
+  ProjectileLifeTime: 5
   DamageAmount: 1
   AmmoTypeId: 0
+  IsMagical: 0
   MaxAmmoCount: 50
   HeatingMultiplier: 0
+  CooldownHeating: 3
+  DiscreaseHeatingMultiplier: 1
+  Attacker: {fileID: 0}
+  projectilDoss: {fileID: 0}
