@@ -8,6 +8,7 @@ public class WeaponManager : MonoBehaviour
     [Header("Info")]
     public string WeaponName;
     public int CurrentAmmoCount;
+    public bool isUnlocked = false;
     [Range(0, 100)]
     public float pourcentageHeating;
 

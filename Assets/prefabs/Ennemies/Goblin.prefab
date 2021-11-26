@@ -209,8 +209,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a68da7cc9a17694ab45eee1a89ab752, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FromSpawner: 0
+  TriggerSalle: {fileID: 0}
+  Name: Goblin
   SpeedVariationMultiplier: 2.51
   health: 40
+  isMagical: 0
+  isChild: 0
   AttackChance: 5
   CurrentWeapon: {fileID: 8921115975798115388, guid: 503d578b0450a9c42b4849295962d14d, type: 3}
   Scale: 0
@@ -377,4 +382,4 @@ MonoBehaviour:
   - {x: -0.057014942, y: -0.18208277, z: 0}
   m_ShapePathHash: -846969037
   m_Mesh: {fileID: 0}
-  m_InstanceId: -37816
+  m_InstanceId: 31644

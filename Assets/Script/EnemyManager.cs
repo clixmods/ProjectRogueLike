@@ -13,6 +13,7 @@ public class EnemyManager : MonoBehaviour
     public bool FromSpawner = false;
     public TriggerSalle TriggerSalle;
     [Header("ACTOR INFO")]
+    public string Name = "Undefined name";
     [Range(0, 3)]
     public float SpeedVariationMultiplier = 1;
     public int health = 100;
@@ -137,27 +138,29 @@ public class EnemyManager : MonoBehaviour
         {
             if(count < toCount )
             {
-                Material mtl = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
+                Material OGmtl = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
+                
                 count += 0.1f * Time.deltaTime;
     
                 if (count <= toCount / 8f && count >= toCount / 10f)
                 {
                     //mtl = flashDamage;
-                    mtl.color = Color.red;
+                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = GameManager.GameUtil.DamageMtl;
                 }
-                else if (count <= toCount / 6f && count >= toCount / 8f)
-                {
-                    mtl.color = Color.white;
-                    //mtl = mtlDefault;
-                }
-                else if (count <= toCount / 4f && count >= toCount / 6f)
-                {
-                    mtl.color = Color.red;
-                    //mtl = flashDamage;
-                }
+                //else if (count <= toCount / 6f && count >= toCount / 8f)
+                //{
+                //    mtl.color = Color.white;
+                //    //mtl = mtlDefault;
+                //}
+                //else if (count <= toCount / 4f && count >= toCount / f)
+                //{
+                //    mtl.color = Color.red;
+                //    //mtl = flashDamage;
+                //}
                 else if (count <= toCount / 2f && count >= toCount / 4f)
                 {
-                    mtl.color = Color.white;
+                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = OGmtl;
+
                     //mtl = mtlDefault;
                 }
 

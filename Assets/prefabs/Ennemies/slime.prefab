@@ -164,7 +164,7 @@ MonoBehaviour:
   - {x: -0.3759365, y: -0.31323135, z: 0}
   m_ShapePathHash: -968274929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 30678
+  m_InstanceId: 31834
 --- !u!1 &6877499447745981291
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,9 +376,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FromSpawner: 0
+  TriggerSalle: {fileID: 0}
+  Name: Purple Slime
   SpeedVariationMultiplier: 2
   health: 100
   isMagical: 1
+  isChild: 0
   AttackChance: 5
   CurrentWeapon: {fileID: 0}
   Scale: 1

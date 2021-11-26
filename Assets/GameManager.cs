@@ -1,9 +1,40 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+
+public enum TutorialPhase : int
+{
+    Mouvement,
+    Attaque,
+    ChangementWeapon,
+    SwitchMetD,
+    TypeWeapon
+}
+
+public class WeaponDataDistance {
+    public string prefabName;
+    public int ammo;
+}
+public class WeaponDataMelee
+{
+    public string prefabName;
+}
+
+public class PlayerData
+{
+    public int health;
+    public int maxHealht;
+    public int life;
+    public int maxLife;
+}
+public class TutorialData
+{
+    public bool[] bools;
+}
 
 public class GameManager : MonoBehaviour
 {
@@ -14,6 +45,8 @@ public class GameManager : MonoBehaviour
     public int PlayerScore;
     public int PlayerScoreMultiplier;
     public float PlayerAmmoCount;
+
+    [Header("PROPERTY UPDATED BY THE GAME")]
     public GameObject PlayerPrefab;
     public GameObject LevelManager;
     public GameObject HUD;
@@ -29,18 +62,31 @@ public class GameManager : MonoBehaviour
     float cooldownToBackMainMenu = 5;
     float currentCooldown = 0;
 
-    // Common Prefab
-    public GameObject DefaultWeapon;
+    [Tooltip("All prefabs used by other script")]
+    [Header("GLOBAL PREFAB")]
 
+    public GameObject DefaultWeapon;
+    public Material DamageMtl;
     [Header("CURSORS")]
     public Texture2D[] Cursors;
     public CircleCollider2D MouseCollider;
     Vector2 hotSpot;
-    Collider2D cursorTarget;
+    public Collider2D cursorTarget;
+    [Header("TUTORIAL")]
+    public GameObject TutorialMenu;
+    public bool[] tutorielCheck;
+    [SerializeField] Sprite[] tutorielImage;
+    [SerializeField] string[] tutorielText;
+
+    [Header("WEAPONS LIST")]
+    public string tamer;
+    public Dictionary<string, int> stats = new Dictionary<string, int>();
+    public TutorialData Data;
 
     // Start is called before the first frame update
     void Awake()
     {
+        tutorielCheck = new bool[Enum.GetValues(typeof(TutorialPhase)).Length];
         Vector2 hotSpot;
 
         Vector2  hotSpotAuto = new Vector2(1 , 1);
@@ -84,9 +130,25 @@ public class GameManager : MonoBehaviour
     public void ChangeLevel(string name, bool dataPlayer = true, bool dataWeaponList = true)
     {
         Scene DesiredScene = SceneManager.GetSceneByName(name);
+
+
+        TutorialData myObject = new TutorialData();
+        myObject.bools = tutorielCheck;
+
+        CurrentPlayer = GameObject.FindWithTag("Player");
+        GameObject listD = CurrentPlayer.GetComponent<PlayerControler>().listD;
+        WeaponDataDistance[] weaponListD = new WeaponDataDistance[listD.transform.childCount];
+        for(int i = 0; i< listD.transform.childCount; i++)
+        {
+            weaponListD[i].prefabName =
+            weaponListD[i].ammo = 
+        }
+
         if (dataPlayer)
         {
             CurrentPlayer = GameObject.FindWithTag("Player");
+
+
             //SceneManager.MoveGameObjectToScene(CurrentPlayer, DesiredScene);
         }
 
@@ -227,6 +289,20 @@ public class GameManager : MonoBehaviour
         //}
     }
 
+    public void ActiveTutorial(int tutID)
+    {
+        if(tutorielCheck[tutID])
+        {
+            Debug.Log("The tutoriel id : " + tutID + " was already checked");
+            return;
+        }
+        TutorialMenu.SetActive(true);
+        TutorialMenu.GetComponent<TutorialProperty>().Text.text = tutorielText[tutID];
+        TutorialMenu.GetComponent<TutorialProperty>().Texture.GetComponent<Image>().sprite = tutorielImage[tutID];
+        tutorielCheck[tutID] = true;
+
+    }
+
     void PauseMenu()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -238,7 +314,7 @@ public class GameManager : MonoBehaviour
 
         }
 
-        if (MainMenu.activeSelf)
+        if (MainMenu.activeSelf || TutorialMenu.activeSelf)
         {
             isPaused = true;
             Time.timeScale = 0f;
@@ -254,6 +330,7 @@ public class GameManager : MonoBehaviour
     void ClosePauseMenu()
     {
         MainMenu.SetActive(false);
+        TutorialMenu.SetActive(false);
         isPaused = false;
         Time.timeScale = 1f;
     }
@@ -283,10 +360,11 @@ public class GameManager : MonoBehaviour
        
         if (collision != null && collision.tag == "Ennemies")
         {
+            GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Attaque);
             cursorTarget = collision;
             if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
             {
-               
+      
                 if (oofa)
                 {
                     print(collision.name);
@@ -297,7 +375,8 @@ public class GameManager : MonoBehaviour
                     else
                     {
                         Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
-                        
+                        GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+
                     }
                 }
                 else if(oofb)
@@ -309,26 +388,25 @@ public class GameManager : MonoBehaviour
                     else
                     {
                         Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
+                        GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
                     }
                 }   
             }
         }
         else
         {
-           // Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
+          
         }
-        //GameObject victim = collision.gameObject;
+        
 
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-
         if (collision != null && collision == cursorTarget)
         {
             cursorTarget = null;
-            Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
+            Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);       
         }
-
     }
 
 

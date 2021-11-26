@@ -22,8 +22,8 @@ public class PlayerControler : MonoBehaviour
     public GameObject CurrentWeapon;
     int distOrCorp;
 
-    GameObject listC;
-    GameObject listD;
+    public GameObject listC;
+    public GameObject listD;
 
     int selectCorpACorp = 0;
     int selectDist = 0;

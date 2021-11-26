@@ -43,7 +43,9 @@ public class ProjectileManager : MonoBehaviour
                     VictimManager.isDamaged = true;
                 }
                 else
-                    HUDManager.HUDUtility.SetMiddleMsg(4, "L'ennemi " + VictimManager.gameObject.name + " est insensible au dégat de ce type d'arme");
+                    GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+                
+                //HUDManager.HUDUtility.SetMiddleMsg(4, "L'ennemi " + VictimManager.gameObject.name + " est insensible au dégat de ce type d'arme");
 
             }
             if (victim.GetComponent<Boss>() != null)

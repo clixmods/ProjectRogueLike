@@ -120,8 +120,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   FromSpawner: 0
+  TriggerSalle: {fileID: 0}
+  Name: Orc
   SpeedVariationMultiplier: 1.41
   health: 80
+  isMagical: 0
+  isChild: 0
   AttackChance: 5
   CurrentWeapon: {fileID: 5839044044379763499, guid: f771841e84e2f0f4da3efcfb08df9a6c, type: 3}
   Scale: 0
@@ -433,7 +437,7 @@ MonoBehaviour:
   - {x: -0.43697357, y: -0.19977874, z: 0}
   m_ShapePathHash: -1379240497
   m_Mesh: {fileID: 0}
-  m_InstanceId: 46470
+  m_InstanceId: 31756
 --- !u!1 &7099737006566384742
 GameObject:
   m_ObjectHideFlags: 0
