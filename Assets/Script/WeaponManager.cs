@@ -110,6 +110,6 @@ public class WeaponManager : MonoBehaviour
     // Permet de clean
     private void OnDestroy() 
     {
-         DestroyImmediate(projectilDoss);
+        // DestroyImmediate(projectilDoss);
     }
 }
