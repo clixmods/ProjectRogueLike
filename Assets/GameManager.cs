@@ -16,8 +16,8 @@ public enum TutorialPhase : int
 }
 
 public class WeaponDataDistance {
-    public string prefabName;
-    public int ammo;
+    public string PrefabName { get; set; }
+    public int Ammo { get; set; }
 }
 public class WeaponDataMelee
 {
@@ -39,6 +39,7 @@ public class TutorialData
 public class GameManager : MonoBehaviour
 {
     public static GameManager GameUtil;
+
     public int PlayerHealth;
     public int PlayerLife;
     public int PlayerShield;
@@ -79,10 +80,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] string[] tutorielText;
 
     [Header("WEAPONS LIST")]
+    public WeaponsList WeaponsScriptTable;
     public string tamer;
-    public Dictionary<string, int> stats = new Dictionary<string, int>();
+    //public Dictionary<string, int> stats = new Dictionary<string, int>();
     public TutorialData Data;
-
+    public WeaponDataDistance[] WeaponsDataD;
     // Start is called before the first frame update
     void Awake()
     {
@@ -137,33 +139,50 @@ public class GameManager : MonoBehaviour
 
         CurrentPlayer = GameObject.FindWithTag("Player");
         GameObject listD = CurrentPlayer.GetComponent<PlayerControler>().listD;
-        WeaponDataDistance[] weaponListD = new WeaponDataDistance[listD.transform.childCount];
-        for(int i = 0; i< listD.transform.childCount; i++)
+        Debug.Log(listD.transform.childCount);
+        WeaponDataDistance[] weaponListD = new WeaponDataDistance[10];
+        Debug.Log(weaponListD.Length);
+        for (int i = 0; i< listD.transform.childCount; i++)
         {
-            weaponListD[i].prefabName =
-            weaponListD[i].ammo = 
+            
+            //  string prefabPath = AssetDatabase.GetAssetPath(prefab);
+            
+            for (int j = 0; j < WeaponsScriptTable.weaponGameobject.Length; j++)
+            {
+                if (listD.transform.GetChild(i).gameObject.name == WeaponsScriptTable.weaponGameobject[j].name)
+                {
+                    weaponListD[i].PrefabName = WeaponsScriptTable.prefabName[j];
+                    Debug.Log(weaponListD[i].PrefabName);
+                    
+                }
+                        
+            }
+
+            if (weaponListD[i] != null && listD.transform.GetChild(i) != null)
+                weaponListD[i].Ammo = listD.transform.GetChild(i).GetComponent<WeaponManager>().CurrentAmmoCount;
+
+
+            //else
+            //    weaponListD[i].Ammo = 99;
+
         }
 
-        if (dataPlayer)
-        {
-            CurrentPlayer = GameObject.FindWithTag("Player");
-
-
-            //SceneManager.MoveGameObjectToScene(CurrentPlayer, DesiredScene);
-        }
-
-        if (dataWeaponList)
-        {
-            GameObject Data = GameObject.FindWithTag("Data");
-          //  SceneManager.MoveGameObjectToScene(Data, DesiredScene);
-        }
         // Start First Scene
-         SceneManager.LoadSceneAsync(DesiredScene.name, LoadSceneMode.Single);
-        //StartCoroutine(loadScene(DesiredScene.buildIndex));
-
+        SceneManager.LoadSceneAsync(DesiredScene.name, LoadSceneMode.Single);   
         CurrentScene = name;
         CurrentPlayer = GameObject.FindWithTag("Player");
         CurrentCamera = Camera.main.gameObject;
+
+        GiveWeaponsDistanceToPlayer(weaponListD);
+    }
+    void GiveWeaponsDistanceToPlayer(WeaponDataDistance[] weaponsList)
+    {
+        GameObject listD = CurrentPlayer.GetComponent<PlayerControler>().listD;
+        for(int i = 0; i < weaponsList.Length; i++)
+        {
+            GameObject myPrefab = Resources.Load<GameObject>(weaponsList[i].PrefabName);
+            Instantiate(myPrefab, CurrentPlayer.transform.position, Quaternion.identity, listD.transform);
+        }
     }
     /*
     public GameObject UIRootObject;
@@ -357,6 +376,11 @@ public class GameManager : MonoBehaviour
         bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon) ;
         bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
 
+        if(isPaused)
+        {
+            Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
+            return;
+        }
        
         if (collision != null && collision.tag == "Ennemies")
         {

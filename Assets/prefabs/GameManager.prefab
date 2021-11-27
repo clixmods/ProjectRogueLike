@@ -1215,6 +1215,8 @@ MonoBehaviour:
   - UNDEFINED
   - UNDEFINED
   - UNDEFINED
+  WeaponsScriptTable: {fileID: 11400000, guid: 3093cd6055b24fe4d98b10bc93090db5, type: 2}
+  tamer: 
 --- !u!58 &6144934642031643891
 CircleCollider2D:
   m_ObjectHideFlags: 0
