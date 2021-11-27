@@ -106,11 +106,11 @@ public class WeaponManager : MonoBehaviour
         projectile.transform.GetComponent<ProjectileManager>().Attacker = attacker;
         projectile.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)); // Permet au projectile d'avoir la bonne rotation au niveau texture
         projectile.transform.GetComponent<Rigidbody2D>().AddForce(-transform.right * Speed * 1000);
-        // On assigne au projectile le scale assigné 
+        // On assigne au projectile le scale assignï¿½ 
         Vector3 projectScale = projectile.transform.localScale;
         projectScale = projectScale * ProjectileScale;
         projectile.transform.localScale = projectScale;
-        // On assigne au projectile la texture désigné dans l'arme
+        // On assigne au projectile la texture dï¿½signï¿½ dans l'arme
         projectile.GetComponent<SpriteRenderer>().sprite = ProjectileTexture;
         projectile.GetComponent<SpriteRenderer>().flipX = true;
         gameObject.GetComponent<SpriteRenderer>().flipX = true;
