@@ -15,10 +15,7 @@ public enum TutorialPhase : int
     TypeWeapon
 }
 
-public class WeaponDataDistance {
-    public string PrefabName { get; set; }
-    public int Ammo { get; set; }
-}
+
 public class WeaponDataMelee
 {
     public string prefabName;
@@ -82,19 +79,23 @@ public class GameManager : MonoBehaviour
     [Header("WEAPONS LIST")]
     public WeaponsList WeaponsScriptTable;
     public string tamer;
-    //public Dictionary<string, int> stats = new Dictionary<string, int>();
+
+    [Header("SAVED DATA")]
     public TutorialData Data;
-    public WeaponDataDistance[] WeaponsDataD;
+    public GameObject[] WeaponsDistDataGameObject;
+    public int[]            WeaponsDistAmmoDataGameObject;
+    public GameObject[]     WeaponsCaCDataGameObject;
+    public int DataHealth;
+    public int DataLifes;
+    public int DataMaxLifes;
+
     // Start is called before the first frame update
     void Awake()
     {
         tutorielCheck = new bool[Enum.GetValues(typeof(TutorialPhase)).Length];
         Vector2 hotSpot;
-
         Vector2  hotSpotAuto = new Vector2(1 , 1);
-       hotSpot = hotSpotAuto;
-
-    
+        hotSpot = hotSpotAuto;
         Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
         // on force la position zero pour pas niquer le CircleCollider du cursor
         transform.position = Vector2.zero;
@@ -118,13 +119,10 @@ public class GameManager : MonoBehaviour
     {
         MouseCollider = transform.GetComponent<CircleCollider2D>();
     }
-
+    // Démarre le level, faudrait ajouter le nom en parametre
     public void StartLevel()
     {
-        
-        // Start First Scene
-        SceneManager.LoadSceneAsync("TstLvlManager", LoadSceneMode.Single);
-        
+        SceneManager.LoadSceneAsync("TstLvlManager", LoadSceneMode.Single); 
         CurrentScene = "TestLevel";
         CurrentPlayer = GameObject.FindWithTag("Player");
         CurrentCamera = Camera.main.gameObject;
@@ -132,106 +130,101 @@ public class GameManager : MonoBehaviour
     public void ChangeLevel(string name, bool dataPlayer = true, bool dataWeaponList = true)
     {
         Scene DesiredScene = SceneManager.GetSceneByName(name);
-
-
         TutorialData myObject = new TutorialData();
         myObject.bools = tutorielCheck;
-
         CurrentPlayer = GameObject.FindWithTag("Player");
-        GameObject listD = CurrentPlayer.GetComponent<PlayerControler>().listD;
-        Debug.Log(listD.transform.childCount);
-        WeaponDataDistance[] weaponListD = new WeaponDataDistance[10];
-        Debug.Log(weaponListD.Length);
+        PlayerControler plrControler = CurrentPlayer.GetComponent<PlayerControler>();
+        // On get les armes distances du joueur
+        GameObject listD = plrControler.listD;
+        WeaponsDistDataGameObject = new GameObject[listD.transform.childCount];
+        WeaponsDistAmmoDataGameObject = new int[listD.transform.childCount];
+
+        // On stock la vie du joueur
+        DataHealth = plrControler.health;
+        DataLifes = plrControler.PlayerLifes;
+        DataMaxLifes = plrControler.PlayerMaxLifes;
+
+
         for (int i = 0; i< listD.transform.childCount; i++)
         {
+            WeaponManager wpnManager = listD.transform.GetChild(i).GetComponent<WeaponManager>();
             
-            //  string prefabPath = AssetDatabase.GetAssetPath(prefab);
-            
+            for(int j = 0; j < WeaponsScriptTable.weaponGameobject.Length; j++)
+            {
+                if(WeaponsScriptTable.weaponGameobject[j].TryGetComponent(out WeaponManager wpnManger))
+                {
+                    Debug.Log(wpnManger.WeaponName);
+                    Debug.Log(wpnManager.WeaponName);
+                    if (wpnManger.WeaponName == wpnManager.WeaponName)
+                    {
+                        WeaponsDistDataGameObject[i] = WeaponsScriptTable.weaponGameobject[j];
+                        WeaponsDistAmmoDataGameObject[i] = wpnManager.CurrentAmmoCount;
+
+                    }
+                }
+            }
+        }
+        GameObject listC = CurrentPlayer.GetComponent<PlayerControler>().listC;
+        WeaponsCaCDataGameObject = new GameObject[listC.transform.childCount];
+        for (int i = 0; i < listC.transform.childCount; i++)
+        {
+            ManagerWeaponCorpAcopr wpnManager = listC.transform.GetChild(i).GetComponent<ManagerWeaponCorpAcopr>();
             for (int j = 0; j < WeaponsScriptTable.weaponGameobject.Length; j++)
             {
-                if (listD.transform.GetChild(i).gameObject.name == WeaponsScriptTable.weaponGameobject[j].name)
-                {
-                    weaponListD[i].PrefabName = WeaponsScriptTable.prefabName[j];
-                    Debug.Log(weaponListD[i].PrefabName);
-                    
-                }
-                        
+                if (WeaponsScriptTable.weaponGameobject[j].TryGetComponent(out ManagerWeaponCorpAcopr wpnManger))
+                    if (wpnManger.WeaponName == wpnManager.WeaponName)
+                        WeaponsCaCDataGameObject[i] = WeaponsScriptTable.weaponGameobject[j];
             }
-
-            if (weaponListD[i] != null && listD.transform.GetChild(i) != null)
-                weaponListD[i].Ammo = listD.transform.GetChild(i).GetComponent<WeaponManager>().CurrentAmmoCount;
-
-
-            //else
-            //    weaponListD[i].Ammo = 99;
-
         }
+        
+        StartCoroutine(LoadYourAsyncScene(DesiredScene ));
 
-        // Start First Scene
-        SceneManager.LoadSceneAsync(DesiredScene.name, LoadSceneMode.Single);   
-        CurrentScene = name;
-        CurrentPlayer = GameObject.FindWithTag("Player");
-        CurrentCamera = Camera.main.gameObject;
-
-        GiveWeaponsDistanceToPlayer(weaponListD);
+      
+        
     }
-    void GiveWeaponsDistanceToPlayer(WeaponDataDistance[] weaponsList)
+        IEnumerator LoadYourAsyncScene(Scene DesiredScene)
+        {
+            // The Application loads the Scene in the background as the current Scene runs.
+            // This is particularly good for creating loading screens.
+            // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
+            // a sceneBuildIndex of 1 as shown in Build Settings.
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(DesiredScene.name, LoadSceneMode.Single);
+            // Wait until the asynchronous scene fully loads
+            while (!asyncLoad.isDone)
+                yield return null;
+ 
+            CurrentScene = name;
+            CurrentPlayer = GameObject.FindWithTag("Player");
+            CurrentCamera = Camera.main.gameObject;
+            PlayerControler  plrController = CurrentPlayer.GetComponent<PlayerControler>();
+            GameObject listD = plrController.listD;
+            GameObject listC = plrController.listC;
+            GiveWeaponsToPlayer(WeaponsDistDataGameObject, listD);
+            GiveWeaponsToPlayer(WeaponsCaCDataGameObject, listC);
+
+            // On stock la vie du joueur
+            plrController.health = DataHealth;
+            plrController.PlayerLifes = DataLifes;
+            plrController.PlayerMaxLifes = DataMaxLifes;
+    }
+
+    void GiveWeaponsToPlayer(GameObject[] weaponsList , GameObject List)
     {
-        GameObject listD = CurrentPlayer.GetComponent<PlayerControler>().listD;
         for(int i = 0; i < weaponsList.Length; i++)
         {
-            GameObject myPrefab = Resources.Load<GameObject>(weaponsList[i].PrefabName);
-            Instantiate(myPrefab, CurrentPlayer.transform.position, Quaternion.identity, listD.transform);
+            GameObject Wpn = Instantiate(weaponsList[i], CurrentPlayer.transform.position, Quaternion.identity, List.transform);
+            Wpn.transform.localPosition = Vector3.zero;
+            Wpn.transform.localRotation = new Quaternion(0, 0, 0, 0);
+            if (Wpn.TryGetComponent(out WeaponManager component))
+            {
+                component.CurrentAmmoCount = WeaponsDistAmmoDataGameObject[i];
+                Debug.Log(component.CurrentAmmoCount);
+            }
         }
-    }
-    /*
-    public GameObject UIRootObject;
-    private AsyncOperation sceneAsync;
-    private int sceneAsyncIndex;
-    //void Start()
-    // {
-    //     StartCoroutine(loadScene(2));
-    // }
-
-    IEnumerator loadScene(int index)
-    {
-        sceneAsyncIndex = index;
-        AsyncOperation scene = SceneManager.LoadSceneAsync(sceneAsyncIndex, LoadSceneMode.Single);
-        scene.allowSceneActivation = false;
-        sceneAsync = scene;
-
-        //Wait until we are done loading the scene
-        while (scene.progress < 0.9f)
-        {
-            Debug.Log("Loading scene " + " [][] Progress: " + scene.progress);
-            yield return null;
-        }
-        OnFinishedLoadingAllScene();
+               
     }
 
-    void enableScene(int index)
-    {
-        //Activate the Scene
-        sceneAsync.allowSceneActivation = true;
 
-
-        Scene sceneToLoad = SceneManager.GetSceneByBuildIndex(index);
-        if (sceneToLoad.IsValid())
-        {
-            Debug.Log("Scene is Valid");
-            SceneManager.MoveGameObjectToScene(CurrentPlayer, sceneToLoad);
-            SceneManager.SetActiveScene(sceneToLoad);
-        }
-    }
-
-    void OnFinishedLoadingAllScene()
-    {
-        Debug.Log("Done Loading Scene");
-        enableScene(sceneAsyncIndex);
-        Debug.Log("Scene Activated!");
-    }
-   
-    */
     public void BackToMainMenu()
     {
         ClosePauseMenu();

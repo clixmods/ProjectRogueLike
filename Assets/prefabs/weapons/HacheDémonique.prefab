@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a696826378f92ec49a1a70ee32f3ce83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponName: Demonic Axe
   textureWeapon: {fileID: 2582605905589520857, guid: 4224dc55e29b2ab4c9e57d9016ee1ed7, type: 3}
   HUDIcon: {fileID: 2582605905589520857, guid: 4224dc55e29b2ab4c9e57d9016ee1ed7, type: 3}
   attackRange: 1

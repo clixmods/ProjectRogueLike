@@ -97,6 +97,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponName: Wood Bow
   CurrentAmmoCount: 0
+  isUnlocked: 0
+  prefabName: Assets/prefabs/weapons/wpn_dist_arc.prefab
   pourcentageHeating: 0
   Projectile: {fileID: 8069158063738369636, guid: 6616253bfc9ff16479fe7fcf65fc560c, type: 3}
   ProjectileTexture: {fileID: 21300000, guid: 9f1013ad69081cd4a9cf30497901cfe8, type: 3}

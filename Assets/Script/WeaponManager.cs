@@ -9,6 +9,7 @@ public class WeaponManager : MonoBehaviour
     public string WeaponName;
     public int CurrentAmmoCount;
     public bool isUnlocked = false;
+    public string prefabName;
     [Range(0, 100)]
     public float pourcentageHeating;
 
@@ -54,7 +55,8 @@ public class WeaponManager : MonoBehaviour
         projectilDoss = Instantiate(projectilDoss, new Vector3(0f, 0f, 0f), Quaternion.identity);
         projectilDoss.name = gameObject.name + "Projectil";
         //projectilDoss = GameObject.Find("ProjectilDoss");
-        CurrentAmmoCount = MaxAmmoCount;
+        if(CurrentAmmoCount == 0 )
+            CurrentAmmoCount = MaxAmmoCount;
     }
 
   
