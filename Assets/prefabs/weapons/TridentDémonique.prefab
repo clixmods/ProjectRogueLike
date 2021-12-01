@@ -95,11 +95,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 633b62beba3043644b52a692365e2665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponName: Demonic Trident
   CurrentAmmoCount: 0
+  isUnlocked: 0
   pourcentageHeating: 0
-  HUDIcon: {fileID: 3239300405390434602, guid: 71ce26d9e7ec71948aa40304d24b35e3, type: 3}
   Projectile: {fileID: 8069158063738369636, guid: 6616253bfc9ff16479fe7fcf65fc560c, type: 3}
   ProjectileTexture: {fileID: 0}
+  IsProjectileEmissive: 0
+  ProjectileMaterial: {fileID: 0}
+  ProjectileEmissiveColor: {r: 0, g: 0, b: 0, a: 0}
+  HUDIcon: {fileID: 3239300405390434602, guid: 71ce26d9e7ec71948aa40304d24b35e3, type: 3}
   ProjectileScale: 1
   Speed: 1.1
   FireRate: 0.26

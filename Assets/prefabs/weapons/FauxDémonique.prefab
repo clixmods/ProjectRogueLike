@@ -52,7 +52,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: dbd50a11ba97bf44285442f96d320077, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a696826378f92ec49a1a70ee32f3ce83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WeaponName: "Faux d\xE9monique"
   textureWeapon: {fileID: 8497543077529060037, guid: f9331ab2748ecd1428d505832137da6b, type: 3}
   HUDIcon: {fileID: 8497543077529060037, guid: f9331ab2748ecd1428d505832137da6b, type: 3}
   attackRange: 1

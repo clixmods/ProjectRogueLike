@@ -11,7 +11,8 @@ public class LootManager : MonoBehaviour
         Slotlife,
         health,
         weapon,
-        key
+        key,
+        ammo
     }
    // public Texture2D texture;
     public ItemType objectType;
@@ -27,6 +28,8 @@ public class LootManager : MonoBehaviour
     private float maxFlickIntensity = 2;
     private float minFlickIntensity = 1;
     private float flickIncreaser = 2;
+
+    [SerializeField] int AddAmmo = 100;
 
     // Start is called before the first frame update
     void Start()
@@ -111,10 +114,36 @@ public class LootManager : MonoBehaviour
                         AddMeleeWeaponToPlayer(wpnMelee, a_guy);
                     }
                     break;
+                case ItemType.ammo:
+                    if (a_guy.TryGetComponent<PlayerControler>(out PlayerControler plrController))
+                    {
+                        Transform listDistance = plrController.listD.transform;
+                        for(int i = 0; i < listDistance.childCount; i++)
+                        {
+                            int ammo = listDistance.GetChild(i).GetComponent<WeaponManager>().CurrentAmmoCount;
+                            int maxAmmo = listDistance.GetChild(i).GetComponent<WeaponManager>().MaxAmmoCount;
+                            
+                            HUDManager.HUDUtility.SetMiddleMsg(4, "Gained "+AddAmmo+ " for every distance weapon" );
+                            if ( ammo + AddAmmo > maxAmmo)
+                            {
+                                listDistance.GetChild(i).GetComponent<WeaponManager>().CurrentAmmoCount = maxAmmo;                            
+                            }
+                            else
+                                listDistance.GetChild(i).GetComponent<WeaponManager>().CurrentAmmoCount += AddAmmo;
+
+                        }
+                      
+                    }
+                    break;
             }
             Destroy(gameObject);
 
         }
+    }
+    private void AddAmmoWeaponToPlayer(WeaponManager weapon, GameObject owner)
+    {
+        HUDManager.HUDUtility.SetMiddleMsg(4, "Gained " + weapon.WeaponName);
+       
     }
     private void AddDistanceWeaponToPlayer(WeaponManager weapon, GameObject owner)
     {
