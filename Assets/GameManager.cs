@@ -140,8 +140,8 @@ public class GameManager : MonoBehaviour
         WeaponDataDistance[] weaponListD = new WeaponDataDistance[listD.transform.childCount];
         for(int i = 0; i< listD.transform.childCount; i++)
         {
-            weaponListD[i].prefabName =
-            weaponListD[i].ammo = 
+          //  weaponListD[i].prefabName =
+            //weaponListD[i].ammo = 
         }
 
         if (dataPlayer)
@@ -353,49 +353,52 @@ public class GameManager : MonoBehaviour
     // Cursor Management
     private void OnTriggerStay2D(Collider2D collision)
     {
-         PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
-        bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon) ;
-        bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
-
-       
-        if (collision != null && collision.tag == "Ennemies")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Attaque);
-            cursorTarget = collision;
-            if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
-            {
-      
-                if (oofa)
-                {
-                    print(collision.name);
-                    if ( target.isMagical == Dweapon.IsMagical)
-                    {
-                        Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
-                    }
-                    else
-                    {
-                        Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
-                        GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+            PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
+            bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon);
+            bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
 
+
+            if (collision != null && collision.tag == "Ennemies")
+            {
+                GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Attaque);
+                cursorTarget = collision;
+                if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
+                {
+
+                    if (oofa)
+                    {
+                        print(collision.name);
+                        if (target.isMagical == Dweapon.IsMagical)
+                        {
+                            Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
+                        }
+                        else
+                        {
+                            Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
+                            GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+
+                        }
+                    }
+                    else if (oofb)
+                    {
+                        if (target.isMagical == Mweapon.IsMagical)
+                        {
+                            Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
+                        }
+                        else
+                        {
+                            Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
+                            GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+                        }
                     }
                 }
-                else if(oofb)
-                {
-                    if (target.isMagical == Mweapon.IsMagical)
-                    {
-                        Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
-                    }
-                    else
-                    {
-                        Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
-                        GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
-                    }
-                }   
             }
-        }
-        else
-        {
-          
+            else
+            {
+
+            }
         }
         
 

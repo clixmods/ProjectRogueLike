@@ -45,3 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   salle: []
   maxSalle: 10
+  couloir: []
+  list: []
+  wall: []
+  couloirStock: []
+  listSalle: {fileID: 2512668706177820660, guid: 10f65e58b8261ff4e8bfecbbe3f64966, type: 3}
+  listCouloir: {fileID: 6122098927487117021, guid: 74954790c3e3091438bb1da6971b1ff7, type: 3}
+  porte: []
+  "porteR\xE9\xE9le": []
+  portePrefab: {fileID: 5196749549126010361, guid: f2d143d43edbcfd4eb3feb54f17f4b2e, type: 3}
+  timerfinish: 0

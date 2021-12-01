@@ -9,7 +9,7 @@ public class SpawnPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(prefabPlayer, gameObject.transform.position, Quaternion.identity);
+        Instantiate(prefabPlayer, gameObject.transform.position, Quaternion.identity, gameObject.transform);
     }
 
     // Update is called once per frame

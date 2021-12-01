@@ -23,10 +23,12 @@ public class NumCouloir : MonoBehaviour
     public GameObject wall3;
     public GameObject wall4;
 
+    public bool reinstance;
+
     // Start is called before the first frame update
     void Start()
     {
-        salles = GameObject.Find("TotalSalle").GetComponent<TotalScript>();
+        salles = GameObject.Find("TotalSalle(Clone)").GetComponent<TotalScript>();
         if (!spawn)
         {
             listingCouloir = Instantiate(listingCouloir, gameObject.transform.position, Quaternion.identity, gameObject.transform);
@@ -40,6 +42,13 @@ public class NumCouloir : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (reinstance)
+        {
+            listingCouloir = Instantiate(listingCouloir, gameObject.transform.position, Quaternion.identity, gameObject.transform);
+            salles.list.Add(listingCouloir);
+            listCouloir = listingCouloir.gameObject.GetComponent<ListCouloir>();
+            reinstance = false;
+        }
         Invoke("spawnCouloir", 0.5f);
         if (spawn && instance && coul == null)
         {
@@ -50,7 +59,7 @@ public class NumCouloir : MonoBehaviour
     void spawnCouloir()
     {
 
-        if (!spawn)
+        if (!spawn && !salles.timerfinish && !reinstance)
         {
             if (coterCouloir == 1)
             {

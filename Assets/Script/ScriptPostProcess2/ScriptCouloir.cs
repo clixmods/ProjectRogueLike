@@ -12,7 +12,7 @@ public class ScriptCouloir : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        salles = GameObject.Find("TotalSalle").GetComponent<TotalScript>();
+        salles = GameObject.Find("TotalSalle(Clone)").GetComponent<TotalScript>();
     }
 
     // Update is called once per frame
@@ -44,6 +44,8 @@ public class ScriptCouloir : MonoBehaviour
 
     void AjoutList()
     {
+       
+        
         salles.couloir.Add(gameObject.transform.parent.gameObject);
 
     }

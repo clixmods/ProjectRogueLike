@@ -11,7 +11,7 @@ public class ScriptSalle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        salles = GameObject.Find("TotalSalle").GetComponent<TotalScript>();
+        salles = GameObject.Find("TotalSalle(Clone)").GetComponent<TotalScript>();
     }
 
     // Update is called once per frame
@@ -70,6 +70,10 @@ public class ScriptSalle : MonoBehaviour
 
     void AjoutList()
     {
+        for (int i = 0; i < gameObject.transform.parent.GetChild(1).childCount; i++)
+        {
+            salles.porte.Add(gameObject.transform.parent.GetChild(1).GetChild(i).gameObject);
+        }
         salles.salle.Add(gameObject.transform.parent.gameObject);
 
     }

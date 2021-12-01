@@ -25,14 +25,14 @@ public class NumSalle : MonoBehaviour
     void Start()
     {
 
-        salles = GameObject.Find("TotalSalle").GetComponent<TotalScript>();
+        salles = GameObject.Find("TotalSalle(Clone)").GetComponent<TotalScript>();
         if (!spawn)
         {
             listingSalle = Instantiate(listingSalle, gameObject.transform.position, Quaternion.identity, gameObject.transform);
             salles.list.Add(listingSalle);
         }
         listsal = listingSalle.gameObject.GetComponent<ListSalle>();
-        salles.porte.Add(gameObject);
+        
         
         maxSalle = salles.maxSalle;
     }
@@ -108,7 +108,7 @@ public class NumSalle : MonoBehaviour
                     }
                     else if (listsal.salleBot.Count == 0 && !salles.timerfinish)
                     {
-                        salles.porte.Remove(gameObject);
+                       
                         print("gesgesgesges");
                         salles.couloir.Remove(gameObject.transform.parent.gameObject);
                         Destroy(gameObject.transform.parent.gameObject);
@@ -155,7 +155,7 @@ public class NumSalle : MonoBehaviour
                     }
                     else if (listsal.salleDroite.Count == 0 && !salles.timerfinish)
                     {
-                        salles.porte.Remove(gameObject);
+                       
                         print("gesgesgesges");
                         salles.couloir.Remove(gameObject.transform.parent.gameObject);
                         Destroy(gameObject.transform.parent.gameObject);
@@ -201,7 +201,7 @@ public class NumSalle : MonoBehaviour
                     }
                     else if (listsal.salletop.Count == 0 && !salles.timerfinish)
                     {
-                        salles.porte.Remove(gameObject);
+                       
                         print("gesgesgesges");
                         salles.couloir.Remove(gameObject.transform.parent.gameObject);
                         Destroy(gameObject.transform.parent.gameObject);
@@ -247,7 +247,7 @@ public class NumSalle : MonoBehaviour
                     }
                     else if (listsal.salleGauche.Count == 0 && !salles.timerfinish)
                     {
-                        salles.porte.Remove(gameObject);
+                        
                         print("gesgesgesges");
                         salles.couloir.Remove(gameObject.transform.parent.gameObject);
                         Destroy(gameObject.transform.parent.gameObject);
@@ -256,7 +256,7 @@ public class NumSalle : MonoBehaviour
             }
             else if (salles.salle.Count >= maxSalle)
             {
-                salles.porte.Remove(gameObject);
+               
                 salles.couloir.Remove(gameObject.transform.parent.gameObject);
                 Destroy(gameObject.transform.parent.gameObject);
             }
@@ -268,7 +268,7 @@ public class NumSalle : MonoBehaviour
 
         if (salles.salle.Count >= maxSalle && !spawn)
         {
-            salles.porte.Remove(gameObject);
+           
             salles.couloir.Remove(gameObject.transform.parent.gameObject);
             Destroy(gameObject.transform.parent.gameObject);
         }

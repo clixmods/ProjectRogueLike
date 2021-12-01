@@ -17,6 +17,7 @@ public class TotalScript : MonoBehaviour
     public List<GameObject> couloirStock;
 
     public GameObject listSalle;
+    public GameObject listCouloir;
 
     public List<GameObject> porte;
     public List<GameObject> porteRééle;
@@ -33,10 +34,13 @@ public class TotalScript : MonoBehaviour
     float time;
     public bool timerfinish;
 
+    public bool finishall;
+
     bool t;
     // Start is called before the first frame update
     void Start()
     {
+        porteCheck = true;
         time = 0;
         //timeToReach = 2f;
         timeToReach = maxSalle * 0.5f + 0.5f;
@@ -62,17 +66,19 @@ public class TotalScript : MonoBehaviour
         }
         if (check)
         {
-            if (!porteCheck)
-            {
-               CreationDePorte();
-            }
             
-            Invoke("invokelemenage", 10f);
+            
+            Invoke("invokelemenage", 20f);
+            
         }
         if (check1 && check2 && !check3)
         {
             CreationDesCollider();
-            
+            if (!porteCheck)
+            {
+                CreationDePorte();
+            }
+
         }
     }
 
@@ -106,15 +112,19 @@ public class TotalScript : MonoBehaviour
     {
         for(int i = 0; i<salle.Count; i++)
         {
-            Destroy(salle[i].transform.GetChild(2).gameObject);
-            for(int f = 0; f<salle[i].transform.GetChild(1).childCount; f++)
+            if (salle[i] != null)
             {
-                //Destroy(salle[i].transform.GetChild(1).GetChild(f).GetChild(0).gameObject);
-                Destroy(salle[i].transform.GetChild(1).GetChild(f).GetComponent<NumCouloir>());
+                Destroy(salle[i].transform.GetChild(2).gameObject);
+                for (int f = 0; f < salle[i].transform.GetChild(1).childCount; f++)
+                {
+                    //Destroy(salle[i].transform.GetChild(1).GetChild(f).GetChild(0).gameObject);
+                    Destroy(salle[i].transform.GetChild(1).GetChild(f).GetComponent<NumCouloir>());
+                }
             }
             
         }
         check1 = true;
+        porteCheck = false;
     }
 
     void Menage2()
@@ -157,6 +167,7 @@ public class TotalScript : MonoBehaviour
             }
         }
         check3 = true;
+        finishall = true;
         }
 
     void CreationDePorte()
@@ -171,7 +182,10 @@ public class TotalScript : MonoBehaviour
         porte = new List<GameObject>();
         for (int i = 0; i < porteRééle.Count; i++)
         {
-            Instantiate(portePrefab, porteRééle[i].transform.position, Quaternion.identity, gameObject.transform);
+            if (porteRééle[i].transform.childCount == 0 || porteRééle[i].transform.GetChild(0).gameObject.layer != LayerMask.NameToLayer("Wall"))
+            {
+                Instantiate(portePrefab, porteRééle[i].transform.position, Quaternion.identity, porteRééle[i].transform.parent.parent.GetChild(0).GetChild(0).GetChild(3).GetChild(1));
+            }
         }
         porteCheck = true;
 
@@ -195,7 +209,16 @@ public class TotalScript : MonoBehaviour
     {
         if(salle.Count < maxSalle)
         {
-            couloir[0].transform.GetChild(0).GetComponent<NumSalle>().listingSalle = listSalle;
+            for(int i = 0; i < salle[0].transform.GetChild(1).childCount; i++)
+            {
+                salle[0].transform.GetChild(1).GetChild(i).GetComponent<NumCouloir>().listingCouloir = listCouloir;
+                for (int f = 0; f < salle[0].transform.GetChild(1).GetChild(i).childCount; f++)
+                {
+                    Destroy(salle[0].transform.GetChild(1).GetChild(i).GetChild(f).gameObject);
+                }
+                salle[0].transform.GetChild(1).GetChild(i).GetComponent<NumCouloir>().reinstance = true;
+            }
+           /* couloir[0].transform.GetChild(0).GetComponent<NumSalle>().listingSalle = listSalle;
             couloir[0].transform.GetChild(1).GetComponent<NumSalle>().listingSalle = listSalle;
             print("yo");
             for (int i = 0; i< couloir[0].transform.GetChild(0).childCount; i++)
@@ -206,31 +229,37 @@ public class TotalScript : MonoBehaviour
             {
                
                 Destroy(couloir[0].transform.GetChild(1).GetChild(i).gameObject);
-            }
+            }*/
             list = new List<GameObject>();
-            couloir[0].transform.GetChild(0).GetComponent<NumSalle>().reinstance = true;
-            couloir[0].transform.GetChild(1).GetComponent<NumSalle>().reinstance = true;
+            /*couloir[0].transform.GetChild(0).GetComponent<NumSalle>().reinstance = true;
+            couloir[0].transform.GetChild(1).GetComponent<NumSalle>().reinstance = true;*/
 
 
 
-            for (int i = 0; i<salle.Count; i ++)
+            for (int i = 0; i<couloir.Count; i ++)
             {
 
-                salle.RemoveAt(i);
-            }
-            salle = new List<GameObject>();
-            for(int i = 1; i<couloir.Count; i++)
-            {
                 couloir.RemoveAt(i);
             }
-           couloirStock.Add(couloir[0]);
             couloir = new List<GameObject>();
-            couloir.Add(couloirStock[0]);
+            for(int i = 1; i<salle.Count; i++)
+            {
+                salle.RemoveAt(i);
+            }
+           couloirStock.Add(salle[0]);
+            salle = new List<GameObject>();
+            salle.Add(couloirStock[0]);
             couloirStock = new List<GameObject>();
             wall = new List<GameObject>();
-            
-           
-          
+            couloirStock.Add(porte[0]);
+            couloirStock.Add(porte[1]);
+            porte = new List<GameObject>();
+            porte.Add(couloirStock[0]);
+            porte.Add(couloirStock[1]);
+            couloirStock = new List<GameObject>();
+
+
+
         }
     }
 }
