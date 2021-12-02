@@ -63,7 +63,8 @@ public class LevelManager : MonoBehaviour
                 GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Mouvement);
                 SendInformation();
                 checkReceve = true;
-                HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, find him and kill him.");
+                if(HUDManager.HUDUtility != null)
+                    HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, find him and kill him.");
             }
             
         }
@@ -83,7 +84,15 @@ public class LevelManager : MonoBehaviour
 
     public void CreationDuPortailVersLeBoss ()
     {
-        porteBossins =  Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
-        porteBossins.GetComponent<GoToBoss>().point = boss.transform.GetChild(1).gameObject;
+        if (playerSpawn != null && boss != null)
+        {
+            porteBossins = Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
+            porteBossins.GetComponent<GoToBoss>().point = boss.transform.GetChild(1).gameObject;
+        }
+        else
+        {
+            Debug.Log("La function CreationDuPortailVersLeBoss a besoin de porteBoss mais certaines param sont pas déf");
+        }
+
     }
 }

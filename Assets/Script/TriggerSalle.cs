@@ -18,7 +18,7 @@ public class TriggerSalle : MonoBehaviour
 
     int verifPassage;
 
-    int q;
+   // int q; unused 
 
     LevelManager levelManager;
 
@@ -28,8 +28,8 @@ public class TriggerSalle : MonoBehaviour
     void Start()
     {
         verifPassage = 0;
-        q = 0;
-       levelManager = GameObject.Find("LevelManager").gameObject.transform.GetComponent<LevelManager>();
+        //q = 0; unused
+        levelManager = GameObject.Find("LevelManager").gameObject.transform.GetComponent<LevelManager>();
        // animatorPorte = prefabPorte.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Animator>();
     }
 

@@ -24,13 +24,14 @@ public class LootManager : MonoBehaviour
     public GameObject reward;
     Collider2D lootCollider;
     public Light2D Light;
-    public SpriteRenderer renderer;
+    public SpriteRenderer sprtRend;
     private float maxFlickIntensity = 2;
     private float minFlickIntensity = 1;
     private float flickIncreaser = 2;
 
     [SerializeField] int AddAmmo = 100;
 
+    [Header("Health type")] public int AddHealth = 10; 
     // Start is called before the first frame update
     void Start()
     {
@@ -43,7 +44,7 @@ public class LootManager : MonoBehaviour
                 else
                     Light.color = Color.cyan;
 
-                renderer.sprite = wpnMan.HUDIcon;
+                sprtRend.sprite = wpnMan.HUDIcon;
             }
             else if (reward.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr wpnMelee))
             {
@@ -52,7 +53,7 @@ public class LootManager : MonoBehaviour
                 else
                     Light.color = Color.cyan;
 
-                renderer.sprite = wpnMelee.HUDIcon;
+                sprtRend.sprite = wpnMelee.HUDIcon;
             }
 
        }
