@@ -27,8 +27,9 @@ public class TriggerSalle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        verifPassage = 0;
         q = 0;
-       // levelManager = GameObject.Find("LevelManager").gameObject.transform.GetComponent<LevelManager>();
+       levelManager = GameObject.Find("LevelManager").gameObject.transform.GetComponent<LevelManager>();
        // animatorPorte = prefabPorte.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Animator>();
     }
 
@@ -37,7 +38,7 @@ public class TriggerSalle : MonoBehaviour
     {
         //print(ennemieL.Count);
         //print(countEnnemie);
-
+        print(gameObject.transform.parent.GetChild(4).GetChild(0).GetChild(0).GetChild(0));
 
         //Watch number of ennemies
         if(countEnnemie > 0)
@@ -65,9 +66,10 @@ public class TriggerSalle : MonoBehaviour
 
             for (int i = 0; i < gameObject.transform.GetChild(1).gameObject.transform.childCount; i++)
             {
-                gameObject.transform.GetChild(1).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("CloseDoor", false);
-                gameObject.transform.GetChild(1).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("OpenDoor", true);
-                Destroy(gameObject.transform.GetChild(1).GetChild(i).gameObject.AddComponent<BoxCollider2D>());
+                gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("CloseDoor", false);
+                gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("OpenDoor", true);
+                gameObject.transform.parent.GetChild(4).GetChild(i).GetComponent<BoxCollider2D>().enabled = false;
+                print(gameObject.transform.parent.GetChild(4).GetChild(i).GetComponent<BoxCollider2D>());
 
             }
             Destroy(gameObject);
@@ -115,9 +117,10 @@ public class TriggerSalle : MonoBehaviour
     {
         for (int i = 0; i < gameObject.transform.GetChild(1).gameObject.transform.childCount; i++)
         {
-            gameObject.transform.GetChild(1).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("CloseDoor", true);
-            gameObject.transform.GetChild(1).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("OpenDoor", false);
-            gameObject.transform.GetChild(1).GetChild(i).gameObject.AddComponent<BoxCollider2D>();
+            gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("CloseDoor", true);
+            gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("OpenDoor", false);
+            gameObject.transform.parent.GetChild(4).GetChild(i).gameObject.AddComponent<BoxCollider2D>();
+            print(gameObject.transform.parent.GetChild(4).GetChild(i).GetComponent<BoxCollider2D>());
 
         }
     }
@@ -181,7 +184,7 @@ public class TriggerSalle : MonoBehaviour
         }
 
         countEnnemie = ennemieL.Count;
-        verifPassage = 0;
+        //verifPassage = 0;
     }
 
 }

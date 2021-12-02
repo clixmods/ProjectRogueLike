@@ -184,7 +184,7 @@ public class TotalScript : MonoBehaviour
         {
             if (porteRééle[i].transform.childCount == 0 || porteRééle[i].transform.GetChild(0).gameObject.layer != LayerMask.NameToLayer("Wall"))
             {
-                Instantiate(portePrefab, porteRééle[i].transform.position, Quaternion.identity, porteRééle[i].transform.parent.parent.GetChild(0).GetChild(0).GetChild(3).GetChild(1));
+                Instantiate(portePrefab, porteRééle[i].transform.position, Quaternion.identity, porteRééle[i].transform.parent.parent.GetChild(0).GetChild(0).GetChild(4));
             }
         }
         porteCheck = true;
