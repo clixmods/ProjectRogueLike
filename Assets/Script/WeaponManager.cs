@@ -90,9 +90,11 @@ public class WeaponManager : MonoBehaviour
         }
     }
     // Permet de clean
-    private void OnDestroy() 
+    private void OnDestroy()
     {
-         DestroyImmediate(projectilDoss);
+        // Avant cetait DestroyImmediate, je sais pas pourquoi mais ca faisait des logs dans la console
+        // du coup jai remi Destroy simple, a voir si ca fout la merde
+        Destroy(projectilDoss);
     }
 
 

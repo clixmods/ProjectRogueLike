@@ -359,7 +359,7 @@ public class GameManager : MonoBehaviour
 
         FixColliderToCursor(); // A besoin de la camera, faut s'assurer quelle soit bien defined
 
-        if (CurrentScene == null || CurrentScene == "MainMenu")
+        if (CurrentScene == null || CurrentScene == "MainMenu" || CurrentScene == "")
             return;
 
         if (CurrentPlayer != null)
@@ -446,6 +446,12 @@ public class GameManager : MonoBehaviour
 
     void PauseMenu()
     {
+        // on check si on est pas dans le main menu
+ 
+        if (CurrentScene == null || CurrentScene == "MainMenu" || CurrentScene == "")
+            return;
+
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (MainMenu.activeSelf)
