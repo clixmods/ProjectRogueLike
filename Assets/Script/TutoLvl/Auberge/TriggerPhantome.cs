@@ -9,6 +9,8 @@ public class TriggerPhantome : MonoBehaviour
     public GameObject porte;
     GameObject p;
     GameObject ennemie;
+    public LevelManagerTuto levelManager;
+    bool destroy;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,19 +20,26 @@ public class TriggerPhantome : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(instance && ennemie == null)
+       
+        if(instance && ennemie == null && ! destroy)
         {
             Destroy(gameObject.transform.GetChild(0).GetChild(1));
             Destroy(gameObject.transform.GetChild(0).GetChild(0));
-
+            levelManager.etape1 = true;
+            destroy = true;
+            Destroy(gameObject);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(Input.GetKey(KeyCode.P))
+        if (levelManager.parlerAuPnj && !levelManager.finishTuto)
         {
-            InstancePhantome();
+            HUDManager.HUDUtility.CreateHintString(gameObject, "Click On [P] to see the dead man", 0.5f);
+            if (Input.GetKey(KeyCode.P))
+            {
+                InstancePhantome();
+            }
         }
     }
 
