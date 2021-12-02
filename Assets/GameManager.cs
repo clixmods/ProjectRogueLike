@@ -311,7 +311,7 @@ public class GameManager : MonoBehaviour
             
         }
             
-        if (indexer > WeaponsImage.Length - 1) // Faut repartir sur les armes du début de la liste
+        if (indexer > WeaponsImage.Length - 1) // Faut repartir sur les armes du dï¿½but de la liste
         {
             if(WeaponsImage.Length > 5)
             {
@@ -483,14 +483,22 @@ public class GameManager : MonoBehaviour
     // Cursor Management
     private void OnTriggerStay2D(Collider2D collision)
     {
+        //PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
+        //bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon) ;
+        //bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
 
-
+        if(isPaused)
+        {
+            Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
+            return;
+        }
+       
         if (CurrentPlayer != null)
         {
             PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
             bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon);
             bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
-
+            
 
             if (isPaused)
             {

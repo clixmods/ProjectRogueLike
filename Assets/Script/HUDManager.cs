@@ -46,7 +46,7 @@ public class HUDManager : MonoBehaviour
 
     private float counterMSM = 0;
     private float durationMSM = 2;
-    private float timeToHide = 2;
+   // private float timeToHide = 2;
 
     [Header("HUD MODELSVALUE")]
     public int PlayerAmmoCount;
@@ -67,9 +67,9 @@ public class HUDManager : MonoBehaviour
  
     // isdamagedanim var
     private bool isDamaged = false;
-    private bool isLastStand = false;
-    private float counter = 0;
-    private float timeToDoAnim = 5;
+    //private bool isLastStand = false;
+    //private float counter = 0;
+    //private float timeToDoAnim = 5;
 
 
     // Start is called before the first frame update
