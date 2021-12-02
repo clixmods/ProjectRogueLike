@@ -122,8 +122,8 @@ public class GameManager : MonoBehaviour
     // D�marre le level, faudrait ajouter le nom en parametre
     public void StartLevel()
     {
-        SceneManager.LoadSceneAsync("TstLvlManager", LoadSceneMode.Single); 
-        CurrentScene = "TestLevel";
+        SceneManager.LoadSceneAsync("Tuto", LoadSceneMode.Single); 
+        CurrentScene = "Tuto";
         CurrentPlayer = GameObject.FindWithTag("Player");
         CurrentCamera = Camera.main.gameObject;
     }
