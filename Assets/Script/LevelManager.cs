@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
     public GameObject SalleBoss;
     GameObject boss;
     GameObject porteBossins;
+    private bool bossAvailable = false;
 
 
 
@@ -84,14 +85,19 @@ public class LevelManager : MonoBehaviour
 
     public void CreationDuPortailVersLeBoss ()
     {
-        if (playerSpawn != null && boss != null)
+        if(!bossAvailable)
         {
-            porteBossins = Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
-            porteBossins.GetComponent<GoToBoss>().point = boss.transform.GetChild(1).gameObject;
-        }
-        else
-        {
-            Debug.Log("La function CreationDuPortailVersLeBoss a besoin de porteBoss mais certaines param sont pas déf");
+            if (playerSpawn != null && boss != null)
+            {
+                porteBossins = Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
+                porteBossins.GetComponent<GoToBoss>().point = boss.transform.GetChild(1).gameObject;
+                bossAvailable = true;
+            }
+            else
+            {
+                Debug.Log("La function CreationDuPortailVersLeBoss a besoin de porteBoss mais certaines param sont pas déf");
+            }
+
         }
 
     }

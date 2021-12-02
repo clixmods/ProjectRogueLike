@@ -105,13 +105,14 @@ MonoBehaviour:
   IsProjectileEmissive: 0
   ProjectileMaterial: {fileID: 2100000, guid: 7688b60ac9a40a44b88d82c6ca483685, type: 2}
   ProjectileEmissiveColor: {r: 1, g: 1, b: 1, a: 0}
+  DestroyOnHit: 1
   HUDIcon: {fileID: 21300000, guid: d8674668eaf8f6543b599edd9ce63fde, type: 3}
   ProjectileScale: 1
   Speed: 1.1
   FireRate: 0.26
   Cooldown: 0
   ProjectileLifeTime: 5
-  DamageAmount: 5
+  DamageAmount: 50
   AmmoTypeId: 0
   IsMagical: 1
   type: 1

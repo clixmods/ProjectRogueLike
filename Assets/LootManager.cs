@@ -32,11 +32,14 @@ public class LootManager : MonoBehaviour
 
     [SerializeField] int AddAmmo = 100;
 
-    [Header("Health type")] public int AddHealth = 10; 
+    [Header("Health type")] public int AddHealth = 10;
+
+    private bool hintstringIsCreated;
+
     // Start is called before the first frame update
     void Start()
     {
-        HUDManager.HUDUtility.CreateHintString(gameObject, "Use [E] to interact OOF.");
+        sprtRend = transform.GetComponent<SpriteRenderer>();
        if (objectType == ItemType.weapon)
        {
             if (reward.TryGetComponent<WeaponManager>(out WeaponManager wpnMan))
@@ -65,6 +68,12 @@ public class LootManager : MonoBehaviour
     void Update()
     {
         doRotation();
+
+        if (HUDManager.HUDUtility != null && !hintstringIsCreated)
+        {
+            HUDManager.HUDUtility.CreateHintString(gameObject, "Use [E] to interact OOF.");
+            hintstringIsCreated = true;
+        }
     }
     void doRotation()
     {

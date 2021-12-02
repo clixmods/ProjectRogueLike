@@ -84,6 +84,7 @@ public class HUDManager : MonoBehaviour
             InstanceRefController = InstanceRef.GetComponent<PlayerControler>();
 
     }
+
     
     // Update is called once per frame
     void Update()
@@ -92,20 +93,7 @@ public class HUDManager : MonoBehaviour
         if (HUDUtility != this) 
             HUDUtility = this;
 
-        for (int i = 0; i < UIHintstringList.transform.childCount; i++)
-        {
-            Transform hintstring = UIHintstringList.transform.GetChild(i);
-            hintstring.transform.position = Camera.main.WorldToScreenPoint(hintstring.GetComponent<HintStringProperty>().relatedObject.transform.position );
-            bool show = Vector3.Distance(GameManager.GameUtil.CurrentPlayer.transform.position, hintstring.GetComponent<HintStringProperty>().relatedObject.transform.position) < hintstring.GetComponent<HintStringProperty>().MinDistance;
-            if (show)
-            {
-                hintstring.gameObject.SetActive(true);
-            }
-            else
-            {
-                hintstring.gameObject.SetActive(false);
-            }
-        }
+        UpdateHintstring();
 
         AddHealthToEnnemies();
    
@@ -189,6 +177,29 @@ public class HUDManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    ///  Update les hintstring avec leur position etc 
+    /// </summary>
+    void UpdateHintstring()
+    {
+        if (GameManager.GameUtil.CurrentPlayer != null && Camera.main != null)
+        {
+            for (int i = 0; i < UIHintstringList.transform.childCount; i++)
+            {
+                Transform hintstring = UIHintstringList.transform.GetChild(i);
+                hintstring.transform.position = Camera.main.WorldToScreenPoint(hintstring.GetComponent<HintStringProperty>().relatedObject.transform.position);
+                bool show = Vector3.Distance(GameManager.GameUtil.CurrentPlayer.transform.position, hintstring.GetComponent<HintStringProperty>().relatedObject.transform.position) < hintstring.GetComponent<HintStringProperty>().MinDistance;
+                if (show)
+                {
+                    hintstring.gameObject.SetActive(true);
+                }
+                else
+                {
+                    hintstring.gameObject.SetActive(false);
+                }
+            }
+        }
+    }
     void UpdateUIElements()
     {
         GetAndSetHealthValue();

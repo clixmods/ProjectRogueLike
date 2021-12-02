@@ -195,9 +195,12 @@ public class GameManager : MonoBehaviour
                 yield return null;
  
             CurrentScene = name;
-            CurrentPlayer = GameObject.FindWithTag("Player");
-            CurrentCamera = Camera.main.gameObject;
-            PlayerControler  plrController = CurrentPlayer.GetComponent<PlayerControler>();
+          
+                CurrentPlayer = GameObject.FindWithTag("Player");
+
+
+                CurrentCamera = Camera.main.gameObject;
+            PlayerControler plrController = CurrentPlayer.GetComponent<PlayerControler>();
             GameObject listD = plrController.listD;
             GameObject listC = plrController.listC;
             GiveWeaponsToPlayer(WeaponsDistDataGameObject, listD);
@@ -412,14 +415,21 @@ public class GameManager : MonoBehaviour
         
         if (isGameover)
         {
-            if (Time.timeScale > 0.2f)
+            if (currentCooldown < 5)
             {
                 currentCooldown += Time.deltaTime;
-                Time.timeScale -= Time.deltaTime / cooldownToBackMainMenu;
+                Time.timeScale -= Time.deltaTime;
                 print(Time.timeScale);
             }
             else
             {
+               
+                WeaponsDistDataGameObject = null;
+                WeaponsDistAmmoDataGameObject = null;
+                WeaponsCaCDataGameObject = null;
+                DataHealth = -1;
+                DataLifes = -1;
+                DataMaxLifes = -1;
                 currentCooldown = 0;
                 isGameover = false;
                 BackToMainMenu();
