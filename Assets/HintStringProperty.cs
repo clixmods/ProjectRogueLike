@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class HintStringProperty : MonoBehaviour
 {
-    public GameObject relatedObject; 
+    public GameObject relatedObject;
+
+    public float MinDistance = 100;
     // Start is called before the first frame update
     void Start()
     {

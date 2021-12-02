@@ -96,6 +96,15 @@ public class HUDManager : MonoBehaviour
         {
             Transform hintstring = UIHintstringList.transform.GetChild(i);
             hintstring.transform.position = Camera.main.WorldToScreenPoint(hintstring.GetComponent<HintStringProperty>().relatedObject.transform.position );
+            bool show = Vector3.Distance(GameManager.GameUtil.CurrentPlayer.transform.position, hintstring.GetComponent<HintStringProperty>().relatedObject.transform.position) < hintstring.GetComponent<HintStringProperty>().MinDistance;
+            if (show)
+            {
+                hintstring.gameObject.SetActive(true);
+            }
+            else
+            {
+                hintstring.gameObject.SetActive(false);
+            }
         }
 
         AddHealthToEnnemies();
@@ -168,12 +177,13 @@ public class HUDManager : MonoBehaviour
 
     }
 
-    public void CreateHintString(GameObject aGameObject, string message = "Use [E] to interact." )
+    public void CreateHintString(GameObject aGameObject, string message = "Use [E] to interact." , float minDistance = 2.5f )
     {
 
         GameObject hintString = Instantiate(UIHintstringPrefab, aGameObject.transform.position, Quaternion.identity, UIHintstringList.transform);
         Text hintstringtext = hintString.transform.GetChild(0).GetComponent<Text>();
         hintString.GetComponent<HintStringProperty>().relatedObject = aGameObject;
+        hintString.GetComponent<HintStringProperty>().MinDistance = minDistance;
         hintstringtext.text = message;
       
 
