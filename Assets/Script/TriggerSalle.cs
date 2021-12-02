@@ -28,9 +28,8 @@ public class TriggerSalle : MonoBehaviour
     void Start()
     {
         q = 0;
-        levelManager = GameObject.Find("LevelManager").gameObject.transform.GetComponent<LevelManager>();
-        animatorPorte = prefabPorte.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Animator>();
-       // GameManager.GameUtil.isLoading = true;
+       // levelManager = GameObject.Find("LevelManager").gameObject.transform.GetComponent<LevelManager>();
+       // animatorPorte = prefabPorte.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -55,16 +54,22 @@ public class TriggerSalle : MonoBehaviour
         if(countEnnemie == 0)  // Clement: j'ai enlever le = car ca glitcher a -1 defois
         {
             levelManager.roomDone++;
-            if(levelManager.roomDone == levelManager.numberOfRoomToDo && levelManager.chestGot != 2)
+            levelManager.roomDoneBoss++;
+            if (levelManager.roomDone == levelManager.numberOfRoomToDo && levelManager.chestGot != 2)
             {
                 GameObject chest = Instantiate(levelManager.chest, gameObject.transform.GetChild(2).gameObject.transform.position, Quaternion.identity);
                 chest.transform.GetComponent<Chest>().list = levelManager.listWeapons.transform.GetComponent<WeaponList>();
                 levelManager.chestGot++;
                 levelManager.roomDone = 0;
             }
-            
-            animatorPorte.SetBool("OpenDoor", true);
-            animatorPorte.SetBool("CloseDoor", false);
+
+            for (int i = 0; i < gameObject.transform.GetChild(1).gameObject.transform.childCount; i++)
+            {
+                gameObject.transform.GetChild(1).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("CloseDoor", false);
+                gameObject.transform.GetChild(1).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("OpenDoor", true);
+                Destroy(gameObject.transform.GetChild(1).GetChild(i).gameObject.AddComponent<BoxCollider2D>());
+
+            }
             Destroy(gameObject);
         }
     }
@@ -88,9 +93,10 @@ public class TriggerSalle : MonoBehaviour
     {
         if (verifPassage == 1)
         {
-            
-                ChoixInitiatePorte();
-            
+            FermetureDesPorte();
+
+
+
 
                 for (int i = 0; i < gameObject.transform.GetChild(0).gameObject.transform.childCount; i++)
             {
@@ -105,9 +111,20 @@ public class TriggerSalle : MonoBehaviour
         }
     }
 
+    void FermetureDesPorte ()
+    {
+        for (int i = 0; i < gameObject.transform.GetChild(1).gameObject.transform.childCount; i++)
+        {
+            gameObject.transform.GetChild(1).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("CloseDoor", true);
+            gameObject.transform.GetChild(1).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("OpenDoor", false);
+            gameObject.transform.GetChild(1).GetChild(i).gameObject.AddComponent<BoxCollider2D>();
+
+        }
+    }
 
 
-    void ChoixInitiatePorte()
+
+  /*  void ChoixInitiatePorte()
     {
         ScriptPorte scriptPorte = gameObject.transform.GetChild(1).gameObject.transform.GetChild(q).gameObject.GetComponent<ScriptPorte>();
         if (scriptPorte.rightOrLeft == 1)
@@ -131,7 +148,7 @@ public class TriggerSalle : MonoBehaviour
             ChoixInitiatePorte();
         }
 
-    }
+    }*/
 
     IEnumerator MyCoroutine()
     {

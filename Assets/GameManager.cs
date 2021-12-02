@@ -119,7 +119,7 @@ public class GameManager : MonoBehaviour
     {
         MouseCollider = transform.GetComponent<CircleCollider2D>();
     }
-    // Démarre le level, faudrait ajouter le nom en parametre
+    // Dï¿½marre le level, faudrait ajouter le nom en parametre
     public void StartLevel()
     {
         SceneManager.LoadSceneAsync("TstLvlManager", LoadSceneMode.Single); 
@@ -495,42 +495,50 @@ public class GameManager : MonoBehaviour
        
         if (collision != null && collision.tag == "Ennemies")
         {
-            GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Attaque);
-            cursorTarget = collision;
-            if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
-            {
-      
-                if (oofa)
-                {
-                    print(collision.name);
-                    if ( target.isMagical == Dweapon.IsMagical)
-                    {
-                        Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
-                    }
-                    else
-                    {
-                        Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
-                        GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+            PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
+            bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon);
+            bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
 
+
+            if (collision != null && collision.tag == "Ennemies")
+            {
+                GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Attaque);
+                cursorTarget = collision;
+                if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
+                {
+
+                    if (oofa)
+                    {
+                        print(collision.name);
+                        if (target.isMagical == Dweapon.IsMagical)
+                        {
+                            Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
+                        }
+                        else
+                        {
+                            Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
+                            GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+
+                        }
+                    }
+                    else if (oofb)
+                    {
+                        if (target.isMagical == Mweapon.IsMagical)
+                        {
+                            Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
+                        }
+                        else
+                        {
+                            Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
+                            GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
+                        }
                     }
                 }
-                else if(oofb)
-                {
-                    if (target.isMagical == Mweapon.IsMagical)
-                    {
-                        Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
-                    }
-                    else
-                    {
-                        Cursor.SetCursor(Cursors[3], hotSpot, CursorMode.Auto);
-                        GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
-                    }
-                }   
             }
-        }
-        else
-        {
-          
+            else
+            {
+
+            }
         }
         
 
