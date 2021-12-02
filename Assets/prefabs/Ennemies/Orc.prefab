@@ -125,6 +125,7 @@ MonoBehaviour:
   SpeedVariationMultiplier: 1.41
   health: 80
   isMagical: 0
+  ReceiveDamageOn: 2
   isChild: 0
   AttackChance: 5
   CurrentWeapon: {fileID: 5839044044379763499, guid: f771841e84e2f0f4da3efcfb08df9a6c, type: 3}

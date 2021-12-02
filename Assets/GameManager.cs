@@ -37,13 +37,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager GameUtil;
 
-    public int PlayerHealth;
-    public int PlayerLife;
-    public int PlayerShield;
-    public int PlayerScore;
-    public int PlayerScoreMultiplier;
-    public float PlayerAmmoCount;
-
     [Header("PROPERTY UPDATED BY THE GAME")]
     public GameObject PlayerPrefab;
     public GameObject LevelManager;
@@ -60,6 +53,12 @@ public class GameManager : MonoBehaviour
     float cooldownToBackMainMenu = 5;
     float currentCooldown = 0;
 
+    public bool isWeaponWheel = false;
+    public GameObject WeaponWheelWidget;
+    WheelWpnManager wheelMng;
+
+    public bool isLoading = false;
+    public GameObject LoadingWidget;
     [Tooltip("All prefabs used by other script")]
     [Header("GLOBAL PREFAB")]
 
@@ -81,13 +80,14 @@ public class GameManager : MonoBehaviour
     public string tamer;
 
     [Header("SAVED DATA")]
-    public TutorialData Data;
-    public GameObject[] WeaponsDistDataGameObject;
-    public int[]            WeaponsDistAmmoDataGameObject;
-    public GameObject[]     WeaponsCaCDataGameObject;
-    public int DataHealth;
-    public int DataLifes;
-    public int DataMaxLifes;
+     GameObject[]       WeaponsDistDataGameObject;
+     int[]              WeaponsDistAmmoDataGameObject;
+     GameObject[]       WeaponsCaCDataGameObject;
+     int                DataHealth;
+     int                DataLifes;
+     int                DataMaxLifes;
+
+  
 
     // Start is called before the first frame update
     void Awake()
@@ -129,6 +129,7 @@ public class GameManager : MonoBehaviour
     }
     public void ChangeLevel(string name, bool dataPlayer = true, bool dataWeaponList = true)
     {
+        isLoading = true;
         Scene DesiredScene = SceneManager.GetSceneByName(name);
         TutorialData myObject = new TutorialData();
         myObject.bools = tutorielCheck;
@@ -206,7 +207,8 @@ public class GameManager : MonoBehaviour
             plrController.health = DataHealth;
             plrController.PlayerLifes = DataLifes;
             plrController.PlayerMaxLifes = DataMaxLifes;
-    }
+            isLoading = false;
+        }
 
     void GiveWeaponsToPlayer(GameObject[] weaponsList , GameObject List)
     {
@@ -239,17 +241,136 @@ public class GameManager : MonoBehaviour
     {
         MouseCollider.offset = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
+
+    void GetAndAttributegoodImage()
+    {
+        PlayerControler plrController = CurrentPlayer.GetComponent<PlayerControler>();
+        Transform Pohpoh;
+        GameObject ListD = plrController.listD;
+        GameObject ListC = plrController.listC;
+
+        Sprite[] WeaponsImage = new Sprite[ListD.transform.childCount];
+        for(int i = 0; i < WeaponsImage.Length; i++)
+        {
+            Pohpoh = ListD.transform.GetChild(i);
+            WeaponsImage[i] = Pohpoh.GetComponent<WeaponManager>().HUDIcon;
+        }
+        Sprite[] WeaponsMeleeImage = new Sprite[ListC.transform.childCount];
+        for (int i = 0; i < WeaponsMeleeImage.Length; i++)
+        {
+            Pohpoh = ListC.transform.GetChild(i);
+            WeaponsMeleeImage[i] = Pohpoh.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon;
+        }
+        SetIconOnWheelWpn(plrController.selectCorpACorp, WeaponsMeleeImage, wheelMng.WpnIconMelee, ListC.transform.childCount);
+        SetIconOnWheelWpn(plrController.selectDist, WeaponsImage, wheelMng.WpnIconDistance, ListD.transform.childCount);
+        void SetIconOnWheelWpn(int CurrentIdWpn , Sprite[] WeaponsImage, Image[] WidgetWheel , int WeaponsListSize)
+        {
+            if (WeaponsListSize > 2)
+            {
+                WidgetWheel[4].gameObject.SetActive(true);
+                WidgetWheel[0].gameObject.SetActive(true);
+                WidgetWheel[4].sprite = GetWeaponIndexInTheList(CurrentIdWpn - 2, WeaponsImage);
+                WidgetWheel[0].sprite = GetWeaponIndexInTheList(CurrentIdWpn + 2, WeaponsImage);
+            }
+            else
+            {
+                WidgetWheel[4].gameObject.SetActive(false);
+                WidgetWheel[0].gameObject.SetActive(false);
+            }
+            if (WeaponsListSize > 1)
+            {
+                WidgetWheel[3].gameObject.SetActive(true);
+                WidgetWheel[1].gameObject.SetActive(true);
+                WidgetWheel[3].sprite = GetWeaponIndexInTheList(CurrentIdWpn - 1, WeaponsImage);
+                WidgetWheel[1].sprite = GetWeaponIndexInTheList(CurrentIdWpn + 1, WeaponsImage);
+            }
+            else
+            {
+                WidgetWheel[3].gameObject.SetActive(false);
+                WidgetWheel[1].gameObject.SetActive(false);
+            }
+            WidgetWheel[2].sprite = GetWeaponIndexInTheList(CurrentIdWpn, WeaponsImage);
+        }
+
+       
+    }
+
+    Sprite GetWeaponIndexInTheList(int indexer, Sprite[] WeaponsImage)
+    {
+        if(indexer < 0) // Faut repartir sur les armes de fin de la liste
+        {
+            if(WeaponsImage.Length > 5)
+            {
+                print("dqsdqsdqsd");
+                indexer = WeaponsImage.Length - indexer;
+            }
+            else
+            {
+                indexer = WeaponsImage.Length - indexer;
+            }
+            
+        }
+            
+        if (indexer > WeaponsImage.Length - 1) // Faut repartir sur les armes du début de la liste
+        {
+            if(WeaponsImage.Length > 5)
+            {
+                print("adadadad");
+                indexer = indexer - WeaponsImage.Length;
+            }
+            else
+            {
+                indexer = indexer - WeaponsImage.Length;
+            }
+            
+        }    
+
+
+
+        return WeaponsImage[indexer];
+    }
+    bool RightHalf()
+    {
+        return Input.mousePosition.x > Screen.width / 2.0f;
+    }
     // Update is called once per frame
     void Update()
     {
-        
-
+     
         if (GameManager.GameUtil == null)
         {
             GameUtil = this;
         }
               
-       
+        if(isWeaponWheel)
+        {
+            WeaponWheelWidget.SetActive(true);
+            wheelMng = WeaponWheelWidget.GetComponent<WheelWpnManager>();
+            GetAndAttributegoodImage();
+            if (RightHalf())
+                CurrentPlayer.GetComponent<PlayerControler>().EnableDistanceType();
+            else
+                CurrentPlayer.GetComponent<PlayerControler>().EnableMeleeType();
+           
+        }
+        else
+        {
+            WeaponWheelWidget.SetActive(false);
+        }
+            
+
+        if(isLoading)
+        {
+            if (!LoadingWidget.activeSelf)
+                LoadingWidget.SetActive(true);
+            
+            LoadingWidget.GetComponent<LoadingProperty>().LogoSpinner.transform.Rotate(Vector2.up, Time.deltaTime * 300);
+        }
+        else
+        {
+            if(LoadingWidget.activeSelf)
+                LoadingWidget.SetActive(false);
+        }
         
         PauseMenu();
       
@@ -295,10 +416,7 @@ public class GameManager : MonoBehaviour
         {
             TryToGetPlayerEntity();
         }
-        //if (HUD == null)
-        //{
-        //    HUD = GameObject.Find("HUD");
-        //}
+        
     }
 
     public void ActiveTutorial(int tutID)

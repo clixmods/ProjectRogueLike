@@ -110,6 +110,7 @@ MonoBehaviour:
   checkCollision: 0
   FirstCheck: 0
   IsMagical: 0
+  type: 1
 --- !u!1 &7457615853516044434
 GameObject:
   m_ObjectHideFlags: 0

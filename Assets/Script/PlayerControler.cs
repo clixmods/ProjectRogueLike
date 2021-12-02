@@ -25,8 +25,8 @@ public class PlayerControler : MonoBehaviour
     public GameObject listC;
     public GameObject listD;
 
-    int selectCorpACorp = 0;
-    int selectDist = 0;
+    public int selectCorpACorp = 0;
+    public int selectDist = 0;
 
     float AttackAngle;
     //Cooldown between damage
@@ -38,7 +38,10 @@ public class PlayerControler : MonoBehaviour
     public float maxCooldownLife = 5;
     public bool isLastStand = false;
 
- 
+    float timePressed = 0;
+    [Range(0, 2)]
+    public float delayToPress = 0.75f;
+    public bool isWeaponWheel;
 
     private void Start()
     {
@@ -101,10 +104,8 @@ public class PlayerControler : MonoBehaviour
                     HUDManager.HUDUtility.PlayerAmmoCount = (int)Component.pourcentageHeating;
                     HUDManager.HUDUtility.isHeating = true;
                     break;
-            }
-            
+            }  
         }
-
     }
     private void CheckHealth()
     {
@@ -167,7 +168,6 @@ public class PlayerControler : MonoBehaviour
         {
             AimManagerForWeapon();
         }
-       
     }
     void AimManagerForWeapon()
     {
@@ -219,26 +219,70 @@ public class PlayerControler : MonoBehaviour
         transform.Translate(movementVector.normalized * playerMoveSpeed * Time.deltaTime);
 
     }
-
+    public void EnableMeleeType()
+    {
+        if(CurrentWeapon != null)
+            CurrentWeapon.SetActive(false);
+        
+        armeCorpACorp.SetActive(true);
+        CurrentWeapon = armeCorpACorp;
+        distOrCorp = 1;
+        armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
+    }
+    public void EnableDistanceType()
+    {
+        armeCorpACorp.SetActive(false);
+        armeDistance.SetActive(true);
+        CurrentWeapon = armeDistance;
+        distOrCorp = 2;
+    }
     private void Weapon()
     { 
       if(Input.GetKey(KeyCode.A))
-        {
-            if (CurrentWeapon != null)
-            {
-                CurrentWeapon.SetActive(false);
-            }
-            armeCorpACorp.SetActive(true);
-            
+      {
+            EnableMeleeType();
+      }
+          if(Input.GetKey(KeyCode.A) && !GameManager.GameUtil.isWeaponWheel)
+          {
+                print("cringe/20");
+                
+                if(timePressed <= delayToPress)
+                {
+                    timePressed += Time.deltaTime;
+                }
+                else
+                {
+                    GameManager.GameUtil.isWeaponWheel = true;
+                    timePressed = 0;
+                    Debug.Log("Touche pressed");
+                }
 
-            CurrentWeapon = armeCorpACorp;
-           // CurrentWeapon.GetComponent<SpriteRenderer>().flipX = true;
-            distOrCorp = 1;
+          }
+     
+          else if (Input.GetKey(KeyCode.E) && !GameManager.GameUtil.isWeaponWheel)
+          {
+          
+                if (timePressed <= delayToPress)
+                {
+                    timePressed += Time.deltaTime;
+                }
+                else
+                {
+                    GameManager.GameUtil.isWeaponWheel = true;
+                    timePressed = 0;
+                    Debug.Log("Touche pressed");
+                }
 
-            armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
+          }
+         else
+         {
+            //GameManager.GameUtil.isWeaponWheel = false;
+            timePressed = 0;
+         }
 
-        }
-      if (distOrCorp == 1)
+          
+
+        if (distOrCorp == 1)
         {
             if (Input.GetAxis("Mouse ScrollWheel") != 0 && !CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().IsFiring) // On change d'arme avec la molette
             {
@@ -258,10 +302,7 @@ public class PlayerControler : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.E))
         {
-            armeCorpACorp.SetActive(false);
-            armeDistance.SetActive(true);
-            CurrentWeapon = armeDistance;
-            distOrCorp = 2;
+            EnableDistanceType();
         }
 
         if (distOrCorp == 2)

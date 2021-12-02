@@ -114,6 +114,7 @@ MonoBehaviour:
   DamageAmount: 5
   AmmoTypeId: 0
   IsMagical: 1
+  type: 1
   MaxAmmoCount: 300
   HeatingMultiplier: 0
   CooldownHeating: 3

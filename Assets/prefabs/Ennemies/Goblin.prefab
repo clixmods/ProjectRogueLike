@@ -215,6 +215,7 @@ MonoBehaviour:
   SpeedVariationMultiplier: 2.51
   health: 40
   isMagical: 0
+  ReceiveDamageOn: 0
   isChild: 0
   AttackChance: 5
   CurrentWeapon: {fileID: 8921115975798115388, guid: 503d578b0450a9c42b4849295962d14d, type: 3}
@@ -227,6 +228,12 @@ MonoBehaviour:
   reachSpeedAttack: 0
   flashDamage: {fileID: 2100000, guid: 55698ee3bd2a6df4e82f91aa8f9e4cb5, type: 2}
   mtlDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  isCanLoot: 1
+  lootObjs:
+  - {fileID: 669284657308345155, guid: cdc770113fe07e54f86f2a764c908095, type: 3}
+  - {fileID: 669284657308345155, guid: cdc770113fe07e54f86f2a764c908095, type: 3}
+  - {fileID: 4189493541005770331, guid: ff2c8404333c69848857f55b7061456d, type: 3}
+  - {fileID: 669284657308345155, guid: cdc770113fe07e54f86f2a764c908095, type: 3}
   maxHealth: 0
   HealthBar: {fileID: 0}
   aPotentialTarget: {fileID: 0}

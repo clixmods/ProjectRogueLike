@@ -47,12 +47,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponName: Magic of Fire
   CurrentAmmoCount: 0
+  isUnlocked: 0
+  prefabName: 
   pourcentageHeating: 0
   Projectile: {fileID: 8069158063738369636, guid: 6616253bfc9ff16479fe7fcf65fc560c, type: 3}
   ProjectileTexture: {fileID: 21300000, guid: e6abf6c4b2c7b394ba37dab111f069d4, type: 3}
   IsProjectileEmissive: 0
   ProjectileMaterial: {fileID: 0}
   ProjectileEmissiveColor: {r: 0, g: 0, b: 0, a: 0}
+  DestroyOnHit: 1
   HUDIcon: {fileID: -3647506040380314784, guid: 62395d391f8a66f41a9182a0fc2457f0, type: 3}
   ProjectileScale: 2
   Speed: 1.93
@@ -62,6 +65,7 @@ MonoBehaviour:
   DamageAmount: 10
   AmmoTypeId: 0
   IsMagical: 1
+  type: 1
   MaxAmmoCount: 300
   HeatingMultiplier: 1
   CooldownHeating: 3

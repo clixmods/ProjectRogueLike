@@ -181,3 +181,4 @@ MonoBehaviour:
   checkCollision: 0
   FirstCheck: 0
   IsMagical: 0
+  type: 2

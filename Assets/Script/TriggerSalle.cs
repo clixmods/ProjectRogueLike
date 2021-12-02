@@ -30,6 +30,7 @@ public class TriggerSalle : MonoBehaviour
         q = 0;
         levelManager = GameObject.Find("LevelManager").gameObject.transform.GetComponent<LevelManager>();
         animatorPorte = prefabPorte.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Animator>();
+       // GameManager.GameUtil.isLoading = true;
     }
 
     // Update is called once per frame
@@ -164,6 +165,8 @@ public class TriggerSalle : MonoBehaviour
 
         countEnnemie = ennemieL.Count;
         verifPassage = 0;
+
+        //GameManager.GameUtil.isLoading = false;
     }
 
 }

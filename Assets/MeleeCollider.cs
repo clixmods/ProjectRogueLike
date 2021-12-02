@@ -7,10 +7,8 @@ public class MeleeCollider : MonoBehaviour
    // GameObject[] toucheds;
     [SerializeField]
     private List<GameObject> toucheds = new List<GameObject>();
-
     ManagerWeaponCorpAcopr weaponComponent;
-       
-        // Start is called before the first frame update
+    // Start is called before the first frame update
     void Start()
     {
         weaponComponent = gameObject.GetComponentInParent<ManagerWeaponCorpAcopr>();
@@ -45,19 +43,17 @@ public class MeleeCollider : MonoBehaviour
                 victim.GetComponent<PlayerControler>().health -= weaponComponent.attackDamage;
                 victim.GetComponent<PlayerControler>().isDamaged = true;
                 toucheds.Add(victim);
-
             }
             // Event a ennemy is damaged
             if (victim.TryGetComponent<EnemyManager>(out EnemyManager VictimManager))
             {
-                if(VictimManager.isMagical == weaponComponent.IsMagical )
+                Debug.Log("POGGGERRRS " + (int)VictimManager.ReceiveDamageOn + " /  " + (int)weaponComponent.type);
+                if ((int)VictimManager.ReceiveDamageOn == (int)weaponComponent.type || VictimManager.ReceiveDamageOn == ReceiveDamageOnType.Both)
                 {
                     VictimManager.health -= weaponComponent.attackDamage;
-                    VictimManager.isDamaged = true;
-                  
+                    VictimManager.isDamaged = true;                  
                 }
                 toucheds.Add(victim);
-                // HUDManager.HUDUtility.SetMiddleMsg(4, "L'ennemi " + VictimManager.gameObject.name + " est insensible au dégat de ce type d'arme");
                 GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
             }
             // Event boss is damaged
