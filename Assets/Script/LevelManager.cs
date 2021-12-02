@@ -45,8 +45,8 @@ public class LevelManager : MonoBehaviour
     {
         if (listRoom.transform.GetComponent<TotalScript>().finishall)
         {
-           if (!checkReceve)
-                {
+           if (!checkReceve) 
+           {
                 listWeapons = Instantiate(prefabListWeapons, new Vector3(0f, 0f, 0f), Quaternion.identity);
                 Instantiate(HudPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
                 

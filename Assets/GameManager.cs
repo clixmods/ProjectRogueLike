@@ -483,9 +483,9 @@ public class GameManager : MonoBehaviour
     // Cursor Management
     private void OnTriggerStay2D(Collider2D collision)
     {
-         PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
-        bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon) ;
-        bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
+        //PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
+        //bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon) ;
+        //bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
 
         if(isPaused)
         {
@@ -493,12 +493,12 @@ public class GameManager : MonoBehaviour
             return;
         }
        
-        if (collision != null && collision.tag == "Ennemies")
+        if (CurrentPlayer != null)
         {
             PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
             bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon);
             bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
-
+            
 
             if (collision != null && collision.tag == "Ennemies")
             {
