@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TstLvlManager.unity
     guid: 5869961dc15c3f34fbca7d8ee8f0c1da
+  - enabled: 1
+    path: Assets/Scenes/Tuto.unity
+    guid: 2c6b83922dd126a4e89721f83323b85c
   m_configObjects: {}
