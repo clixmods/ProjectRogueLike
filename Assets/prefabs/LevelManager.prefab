@@ -55,4 +55,5 @@ MonoBehaviour:
   roomDoneBoss: 0
   chestGot: 0
   chest: {fileID: 4284683357533359556, guid: 9c81a67f7b6a49c48a4261eb40ba7d74, type: 3}
-  porteBoss: {fileID: 0}
+  porteBoss: {fileID: 5190814705181122359, guid: d070fe0d1b62cea4ebd0a6970f508e26, type: 3}
+  SalleBoss: {fileID: 3207602745352081144, guid: ce500b84c67106046a477e97adc05a91, type: 3}

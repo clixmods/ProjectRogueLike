@@ -21,6 +21,9 @@ public class LevelManager : MonoBehaviour
     public GameObject chest;
     bool checkReceve;
     public GameObject porteBoss; //AMettre
+    public GameObject SalleBoss;
+    GameObject boss;
+    GameObject porteBossins;
 
 
 
@@ -35,6 +38,8 @@ public class LevelManager : MonoBehaviour
         listRoom = Instantiate(prefabListRoom, new Vector3(0f, 0f, 0f), Quaternion.identity);
        
         spawnRoom = Instantiate(prefabSpawnRoom, new Vector3(0f, 0f, 0f), Quaternion.identity);
+
+        boss = Instantiate(SalleBoss, new Vector3(1000, 1000, 0), Quaternion.identity);
        
         
 
@@ -53,9 +58,9 @@ public class LevelManager : MonoBehaviour
                 
                 playerSpawn = Instantiate(prefabPlayerSpawn, spawnRoom.transform.position, Quaternion.identity);
                 GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Mouvement);
+                SendInformation();
                 checkReceve = true;
             }
-            Invoke("SendInformation", 2f);
             
         }
         if(numberOfRooms == roomDoneBoss)
@@ -74,6 +79,7 @@ public class LevelManager : MonoBehaviour
 
     public void CreationDuPortailVersLeBoss ()
     {
-        //Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
+        porteBossins =  Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
+        porteBossins.GetComponent<GoToBoss>().point = boss.transform.GetChild(1).gameObject;
     }
 }
