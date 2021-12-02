@@ -28,14 +28,14 @@ public class TriggerBoss : MonoBehaviour
             for(int i = 0; i<gameObject.transform.childCount; i ++)
             {
                 int port = gameObject.transform.GetChild(i).gameObject.GetComponent<ScriptPorte>().rightOrLeft;
-                if(port == 1)
+               /* if(port == 1)
                 {
                     Instantiate(porte, gameObject.transform.GetChild(i).transform.position, Quaternion.identity);
                 }
                 else
                 {
                     Instantiate(porte1, gameObject.transform.GetChild(i).transform.position, Quaternion.identity);
-                }
+                }*/
             }
             check = true;
         }

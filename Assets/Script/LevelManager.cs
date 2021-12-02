@@ -21,6 +21,9 @@ public class LevelManager : MonoBehaviour
     public GameObject chest;
     bool checkReceve;
     public GameObject porteBoss; //AMettre
+    public GameObject SalleBoss;
+    GameObject boss;
+    GameObject porteBossins;
 
 
 
@@ -38,6 +41,10 @@ public class LevelManager : MonoBehaviour
         GameManager.GameUtil.isLoading = true;
 
 
+        boss = Instantiate(SalleBoss, new Vector3(1000, 1000, 0), Quaternion.identity);
+       
+        
+
     }
 
     // Update is called once per frame
@@ -54,10 +61,10 @@ public class LevelManager : MonoBehaviour
                 
                 playerSpawn = Instantiate(prefabPlayerSpawn, spawnRoom.transform.position, Quaternion.identity);
                 GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Mouvement);
+                SendInformation();
                 checkReceve = true;
                 HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, find him and kill him.");
             }
-            Invoke("SendInformation", 2f);
             
         }
         if(numberOfRooms == roomDoneBoss)
@@ -76,6 +83,7 @@ public class LevelManager : MonoBehaviour
 
     public void CreationDuPortailVersLeBoss ()
     {
-        //Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
+        porteBossins =  Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
+        porteBossins.GetComponent<GoToBoss>().point = boss.transform.GetChild(1).gameObject;
     }
 }
