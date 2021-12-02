@@ -23,6 +23,7 @@ public class TiggerChangmentDeScene : MonoBehaviour
             if(Input.GetKey(KeyCode.P))
             {
                 //Chargement De Scène
+                GameManager.GameUtil.ChangeLevel("TestProceduralMap");
             }
         }
     }
