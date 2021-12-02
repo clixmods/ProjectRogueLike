@@ -35,6 +35,8 @@ public class HUDManager : MonoBehaviour
     public GameObject UIPlayerWeaponDistance;
     public GameObject UIHealthEnnemiPrefab;
 
+    public GameObject UIHintstringPrefab;
+    public GameObject UIHintstringList;
 
     public Text UIMiddleScreenMsg;
     private bool isMiddleScreenMsg;
@@ -89,6 +91,12 @@ public class HUDManager : MonoBehaviour
         // Hum apparement HUDUtility n'est plus déf des qu'on update les scripts, du coup je met ça pour préshot
         if (HUDUtility != this) 
             HUDUtility = this;
+
+        for (int i = 0; i < UIHintstringList.transform.childCount; i++)
+        {
+            Transform hintstring = UIHintstringList.transform.GetChild(i);
+            hintstring.transform.position = Camera.main.WorldToScreenPoint(hintstring.GetComponent<HintStringProperty>().relatedObject.transform.position );
+        }
 
         AddHealthToEnnemies();
    
@@ -157,6 +165,17 @@ public class HUDManager : MonoBehaviour
             }
         }
         //isActiveAndEnabled();
+
+    }
+
+    public void CreateHintString(GameObject aGameObject, string message = "Use [E] to interact." )
+    {
+
+        GameObject hintString = Instantiate(UIHintstringPrefab, aGameObject.transform.position, Quaternion.identity, UIHintstringList.transform);
+        Text hintstringtext = hintString.transform.GetChild(0).GetComponent<Text>();
+        hintString.GetComponent<HintStringProperty>().relatedObject = aGameObject;
+        hintstringtext.text = message;
+      
 
     }
 

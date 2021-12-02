@@ -63,6 +63,7 @@ public class PlayerControler : MonoBehaviour
         armeDistance = listD.transform.GetChild(selectDist).gameObject;
         armeCorpACorp.SetActive(false);
         armeDistance.SetActive(false);
+
     }
 
     private void Update()

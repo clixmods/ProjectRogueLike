@@ -36,7 +36,8 @@ public class LootManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       if(objectType == ItemType.weapon)
+        HUDManager.HUDUtility.CreateHintString(gameObject, "Use [E] to interact OOF.");
+       if (objectType == ItemType.weapon)
        {
             if (reward.TryGetComponent<WeaponManager>(out WeaponManager wpnMan))
             {
