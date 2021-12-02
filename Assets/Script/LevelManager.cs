@@ -35,8 +35,8 @@ public class LevelManager : MonoBehaviour
         listRoom = Instantiate(prefabListRoom, new Vector3(0f, 0f, 0f), Quaternion.identity);
        
         spawnRoom = Instantiate(prefabSpawnRoom, new Vector3(0f, 0f, 0f), Quaternion.identity);
-       
-        
+        GameManager.GameUtil.isLoading = true;
+
 
     }
 
@@ -46,6 +46,7 @@ public class LevelManager : MonoBehaviour
         if (listRoom.transform.GetComponent<TotalScript>().finishall)
         {
             //Loading Screen Off
+            GameManager.GameUtil.isLoading = false;
            if (!checkReceve)
                 {
                 listWeapons = Instantiate(prefabListWeapons, new Vector3(0f, 0f, 0f), Quaternion.identity);
@@ -54,6 +55,7 @@ public class LevelManager : MonoBehaviour
                 playerSpawn = Instantiate(prefabPlayerSpawn, spawnRoom.transform.position, Quaternion.identity);
                 GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Mouvement);
                 checkReceve = true;
+                HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, find him and kill him.");
             }
             Invoke("SendInformation", 2f);
             
@@ -69,7 +71,7 @@ public class LevelManager : MonoBehaviour
         checkReceve = true;
         numberOfRooms = listRoom.transform.GetComponent<TotalScript>().salle.Count -1;
         numberOfRoomToDo = Random.Range(((numberOfRooms/2)/2)+ 1, numberOfRooms/ 2);
-        HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, find him and kill him.");
+       
     }
 
     public void CreationDuPortailVersLeBoss ()

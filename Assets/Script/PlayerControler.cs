@@ -274,7 +274,11 @@ public class PlayerControler : MonoBehaviour
                 }
 
           }
-         else
+          else if((Input.GetKeyUp(KeyCode.E) || Input.GetKeyUp(KeyCode.A) ) && GameManager.GameUtil.isWeaponWheel)
+          {
+            GameManager.GameUtil.isWeaponWheel = false;
+        }
+          else
          {
             //GameManager.GameUtil.isWeaponWheel = false;
             timePressed = 0;

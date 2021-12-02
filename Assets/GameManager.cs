@@ -239,7 +239,8 @@ public class GameManager : MonoBehaviour
 
     void FixColliderToCursor()
     {
-        MouseCollider.offset = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if(Camera.main != null)
+            MouseCollider.offset = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
     void GetAndAttributegoodImage()
@@ -336,49 +337,18 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-     
         if (GameManager.GameUtil == null)
-        {
             GameUtil = this;
-        }
-              
-        if(isWeaponWheel)
-        {
-            WeaponWheelWidget.SetActive(true);
-            wheelMng = WeaponWheelWidget.GetComponent<WheelWpnManager>();
-            GetAndAttributegoodImage();
-            if (RightHalf())
-                CurrentPlayer.GetComponent<PlayerControler>().EnableDistanceType();
-            else
-                CurrentPlayer.GetComponent<PlayerControler>().EnableMeleeType();
-           
-        }
-        else
-        {
-            WeaponWheelWidget.SetActive(false);
-        }
-            
+       
 
-        if(isLoading)
-        {
-            if (!LoadingWidget.activeSelf)
-                LoadingWidget.SetActive(true);
-            
-            LoadingWidget.GetComponent<LoadingProperty>().LogoSpinner.transform.Rotate(Vector2.up, Time.deltaTime * 300);
-        }
-        else
-        {
-            if(LoadingWidget.activeSelf)
-                LoadingWidget.SetActive(false);
-        }
-        
-        PauseMenu();
       
-        if(CurrentCamera == null)
+
+
+        if (CurrentCamera == null)
         {
             CurrentCamera = Instantiate(PrefabCamera);
         }
-        if(CurrentCamera != null)
+        if (CurrentCamera != null)
         {
             if (CurrentCamera.transform.childCount > 2 && CurrentCamera.transform.GetChild(1).TryGetComponent<CinemachineVirtualCamera>(out CinemachineVirtualCamera Component))
             {
@@ -387,8 +357,59 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        FixColliderToCursor();
+        FixColliderToCursor(); // A besoin de la camera, faut s'assurer quelle soit bien defined
 
+        if (CurrentScene == null || CurrentScene == "MainMenu")
+            return;
+
+        if (CurrentPlayer != null)
+        {
+            FixCameraToPlayer();
+        }
+        else
+        {
+            TryToGetPlayerEntity();
+        }
+
+
+
+        if (isLoading)
+        {
+            if (!LoadingWidget.activeSelf)
+                LoadingWidget.SetActive(true);
+
+            LoadingWidget.GetComponent<LoadingProperty>().LogoSpinner.transform.Rotate(Vector2.up, Time.deltaTime * 300);
+            return;
+        }
+        else
+        {
+            if (LoadingWidget.activeSelf)
+                LoadingWidget.SetActive(false);
+        }
+
+        if (isWeaponWheel && !isLoading && !isGameover)
+        {
+
+            WeaponWheelWidget.SetActive(true);
+            wheelMng = WeaponWheelWidget.GetComponent<WheelWpnManager>();
+            GetAndAttributegoodImage();
+            if (RightHalf())
+                CurrentPlayer.GetComponent<PlayerControler>().EnableDistanceType();
+            else
+                CurrentPlayer.GetComponent<PlayerControler>().EnableMeleeType();
+
+            Time.timeScale = 0.1f;
+
+
+        }
+        else
+        {
+            Time.timeScale = 1f;
+            WeaponWheelWidget.SetActive(false);
+        }
+        
+        PauseMenu();
+        
         if (isGameover)
         {
             if (Time.timeScale > 0.2f)
@@ -405,17 +426,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (CurrentScene == null || CurrentScene == "MainMenu")
-            return;
-
-        if (CurrentPlayer != null)
-        {
-            FixCameraToPlayer();
-        }
-        else
-        {
-            TryToGetPlayerEntity();
-        }
+      
         
     }
 

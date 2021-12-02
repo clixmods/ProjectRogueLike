@@ -38,7 +38,7 @@ public class TriggerSalle : MonoBehaviour
     {
         //print(ennemieL.Count);
         //print(countEnnemie);
-        print(gameObject.transform.parent.GetChild(4).GetChild(0).GetChild(0).GetChild(0));
+       // print(gameObject.transform.parent.GetChild(4).GetChild(0).GetChild(0).GetChild(0));
 
         //Watch number of ennemies
         if(countEnnemie > 0)
