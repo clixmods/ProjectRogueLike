@@ -8,27 +8,16 @@ public class ProjectileManager : MonoBehaviour
     public int DamageAmount;
     public GameObject Attacker;
     public bool isMagical;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
+    public WeaponType typeWpn;
+    public bool DestroyOnHit;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //print(collision.tag);
         GameObject victim = collision.gameObject;
         if (Attacker != null && // ca se peut que l'attacker meurt et que le projectile soit toujours la
             victim != Attacker &&
             !victim.CompareTag(Attacker.tag))
         {
-
-            //CurrentWeapon.TryGetComponent<PlayerControler>(out PlayerControler Component)
             if (victim.TryGetComponent<PlayerControler>(out PlayerControler PlayerControler) && !PlayerControler.isDamaged)
             {
                 PlayerControler.health -= DamageAmount;
@@ -36,7 +25,7 @@ public class ProjectileManager : MonoBehaviour
             }
             if (victim.TryGetComponent<EnemyManager>(out EnemyManager VictimManager))
             {
-                if (VictimManager.isMagical == isMagical)
+                if ((int)VictimManager.ReceiveDamageOn == (int)typeWpn || VictimManager.ReceiveDamageOn == ReceiveDamageOnType.Both)
                 {
                     VictimManager.health -= DamageAmount;
                     victim.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = VictimManager.flashDamage;
@@ -44,9 +33,9 @@ public class ProjectileManager : MonoBehaviour
                 }
                 else
                     GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
-                
-                //HUDManager.HUDUtility.SetMiddleMsg(4, "L'ennemi " + VictimManager.gameObject.name + " est insensible au dégat de ce type d'arme");
 
+                if(DestroyOnHit)
+                    Destroy(gameObject);
             }
             if (victim.GetComponent<Boss>() != null)
             {

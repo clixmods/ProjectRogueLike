@@ -381,6 +381,7 @@ MonoBehaviour:
   SpeedVariationMultiplier: 2
   health: 100
   isMagical: 1
+  ReceiveDamageOn: 1
   isChild: 0
   AttackChance: 5
   CurrentWeapon: {fileID: 0}

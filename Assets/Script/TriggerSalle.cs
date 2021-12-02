@@ -185,6 +185,9 @@ public class TriggerSalle : MonoBehaviour
 
         countEnnemie = ennemieL.Count;
         //verifPassage = 0;
+     
+
+        //GameManager.GameUtil.isLoading = false;
     }
 
 }

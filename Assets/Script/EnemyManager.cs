@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+public enum ReceiveDamageOnType
+{
+    Both,
+    Magical,
+    Physical
+  
+}
 public class EnemyManager : MonoBehaviour
 { 
     private Transform enemy;
@@ -18,6 +26,7 @@ public class EnemyManager : MonoBehaviour
     public float SpeedVariationMultiplier = 1;
     public int health = 100;
     public bool isMagical = false;
+    public ReceiveDamageOnType ReceiveDamageOn;
     public bool isChild = false; // Pour voir si ca vient d'un slime on death
     [Range(1, 100)]
     public int AttackChance = 5;
@@ -40,10 +49,14 @@ public class EnemyManager : MonoBehaviour
     public float reachSpeedAttack;
 
     [Header("DAMAGE EVENT")]
-    // Damage Event
     public Material flashDamage;
     public Material mtlDefault;
 
+    [Header("LOOT")]
+    public bool isCanLoot = false;
+    public GameObject[] lootObjs;
+    [Range(1, 100)]
+    public int DropRate = 25;
     
     private float count = 0;
     private float toCount = 0.25f;
@@ -55,9 +68,29 @@ public class EnemyManager : MonoBehaviour
     public GameObject HealthBar;
     public GameObject aPotentialTarget;
 
+    SpriteRenderer SpriteRend;
+    Material OGmtl;
+
+    private void OnDestroy()
+    {
+        if(isCanLoot && lootObjs.Length > 0)
+        {
+            int chance = Random.Range(0, 100);
+            if ((100 - DropRate) > chance)
+                return;
+
+            int loot_id = Random.Range(0, lootObjs.Length);
+            if(loot_id < lootObjs.Length)
+            {
+                Instantiate(lootObjs[loot_id],transform.position,Quaternion.identity,null);
+            }
+        }
+    }
+
     private void Awake()
     {
-
+        SpriteRend = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        OGmtl = SpriteRend.material;
     }
 
     private void Start()
@@ -103,26 +136,19 @@ public class EnemyManager : MonoBehaviour
             weaponObject = Instantiate(CurrentWeapon, transform.position, new Quaternion(0,0,0,0), transform.GetChild(1).GetChild(0));
             weaponObject.transform.localPosition = new Vector2(0, 0);
             weaponObject.transform.localRotation = new Quaternion(0,0,0, 0);
-
             // On l'attribue le propriétaire de l'arme en attacker dans l'arme pour que les attaques puissent être identifier.
             if(weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null)
                 weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
             else if(weaponObject.GetComponent<WeaponManager>() != null)
                 weaponObject.GetComponent<WeaponManager>().Attacker = gameObject;
-
-
         }
         else
         {
-           // Debug.Log("Arme crée");
             weaponObject = Instantiate(GameManager.GameUtil.DefaultWeapon, transform.position, new Quaternion(0, 0, 0, 0), transform.GetChild(1).GetChild(0));
             weaponObject.transform.localPosition = new Vector2(0, 0);
             weaponObject.transform.localRotation = new Quaternion(0, 0, 0, 0);
             weaponObject.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
             weaponObject.GetComponent<ManagerWeaponCorpAcopr>().attackDamage = damageAmount;
-            // On l'attribue le propriétaire de l'arme en attacker dans l'arme pour que les attaques puissent être identifier.
-            //if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null)
-
         }
     }
 
@@ -138,77 +164,62 @@ public class EnemyManager : MonoBehaviour
         {
             if(count < toCount )
             {
-                Material OGmtl = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material;
                 
-                count += 0.1f * Time.deltaTime;
-    
-                if (count <= toCount / 8f && count >= toCount / 10f)
+                count +=  Time.deltaTime;
+                if (count <= toCount)
                 {
-                    //mtl = flashDamage;
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = GameManager.GameUtil.DamageMtl;
+                    SpriteRend.material = GameManager.GameUtil.DamageMtl;
                 }
-                //else if (count <= toCount / 6f && count >= toCount / 8f)
-                //{
-                //    mtl.color = Color.white;
-                //    //mtl = mtlDefault;
-                //}
-                //else if (count <= toCount / 4f && count >= toCount / f)
-                //{
-                //    mtl.color = Color.red;
-                //    //mtl = flashDamage;
-                //}
-                else if (count <= toCount / 2f && count >= toCount / 4f)
+                else
                 {
-                    gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = OGmtl;
-
-                    //mtl = mtlDefault;
+                    SpriteRend.material = OGmtl;
                 }
-
             }
             else
             {
                 isDamaged = false;
-                //gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>().material = mtlDefault;
                 count = 0;
+                SpriteRend.material = OGmtl;
             }
         }
     }
-    void ChangeMTLforDamage(Material mtl)
-    {
-        
-    }
+
+    //Vector3 CalculeNewDestination()
+    //{
+    //   // Vector3 Vect = aPotentialTarget.transform.position - transform.position;
+    //   // Vect = Vect * new Vector3(0.9f, 0.9f,0);
+    //   /// Vect = aPotentialTarget.transform.position - Vect;
+
+    //    return Vect;
+    //}
+
     private void MovementBehavior()
     {
         if (aPotentialTarget == null)
-            return;    
+            return;
 
-        // Fonce attaquez au corps à corps sur sa cible
-        if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null)
-        {
-           navMeshAgent.SetDestination(aPotentialTarget.transform.position);
-        }
-        // Reste à distance pour attaquer sa cible de loin
-        if (weaponObject.GetComponent<WeaponManager>() != null)
-        {
-           // print(Vector3.Distance(transform.position, aPotentialTarget.transform.position));
-            if(Vector3.Distance(transform.position, aPotentialTarget.transform.position) > DistanceTarget)
-                navMeshAgent.SetDestination(aPotentialTarget.transform.position);
+
+        //Vector2 Destination = CalculeNewDestination();  
+        if (Vector3.Distance(transform.position, aPotentialTarget.transform.position) > DistanceTarget)
+            navMeshAgent.SetDestination(aPotentialTarget.transform.position);
+
+        //// Fonce attaquez au corps à corps sur sa cible
+        //if (weaponObject.GetComponent<ManagerWeaponCorpAcopr>() != null)
+        //{
+        //   navMeshAgent.SetDestination(aPotentialTarget.transform.position);
+        //}
+        //// Reste à distance pour attaquer sa cible de loin
+        //if (weaponObject.GetComponent<WeaponManager>() != null)
+        //{
+        //   // print(Vector3.Distance(transform.position, aPotentialTarget.transform.position));
+           
             
-        }
+        //}
     }
     private void checkHealth()
     {
         if (health <= 0)
         {
-            // au cas ou on test nos ennemies sans spawner
-            if (FromSpawner && !isChild)
-            {
-                if (TriggerSalle != null)
-                {
-                    //TriggerSalle trigSalle = gameObject.transform.parent.parent.parent.parent.gameObject.GetComponent<TriggerSalle>();
-                   // TriggerSalle.countEnnemie--;
-                }
-            }
             Destroy(HealthBar);
             Destroy(gameObject);
         }

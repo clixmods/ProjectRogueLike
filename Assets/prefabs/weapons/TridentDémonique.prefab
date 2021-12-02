@@ -98,12 +98,14 @@ MonoBehaviour:
   WeaponName: Demonic Trident
   CurrentAmmoCount: 0
   isUnlocked: 0
+  prefabName: 
   pourcentageHeating: 0
   Projectile: {fileID: 8069158063738369636, guid: 6616253bfc9ff16479fe7fcf65fc560c, type: 3}
   ProjectileTexture: {fileID: 0}
   IsProjectileEmissive: 0
   ProjectileMaterial: {fileID: 0}
   ProjectileEmissiveColor: {r: 0, g: 0, b: 0, a: 0}
+  DestroyOnHit: 1
   HUDIcon: {fileID: 3239300405390434602, guid: 71ce26d9e7ec71948aa40304d24b35e3, type: 3}
   ProjectileScale: 1
   Speed: 1.1
@@ -113,6 +115,7 @@ MonoBehaviour:
   DamageAmount: 5
   AmmoTypeId: 0
   IsMagical: 0
+  type: 1
   MaxAmmoCount: 300
   HeatingMultiplier: 0
   CooldownHeating: 3

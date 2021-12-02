@@ -46,12 +46,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WeaponName: Magical Bow
   CurrentAmmoCount: 0
+  isUnlocked: 0
+  prefabName: 
   pourcentageHeating: 0
   Projectile: {fileID: 8069158063738369636, guid: 6616253bfc9ff16479fe7fcf65fc560c, type: 3}
   ProjectileTexture: {fileID: 21300000, guid: 1264b674c9fef834f8780e21a9eb9e9a, type: 3}
   IsProjectileEmissive: 1
   ProjectileMaterial: {fileID: 2100000, guid: dbd50a11ba97bf44285442f96d320077, type: 2}
   ProjectileEmissiveColor: {r: 1, g: 0, b: 0, a: 0}
+  DestroyOnHit: 1
   HUDIcon: {fileID: 21300000, guid: 7750e41f9b96cbc4482e1d66a7c4809d, type: 3}
   ProjectileScale: 1
   Speed: 1
@@ -61,6 +64,7 @@ MonoBehaviour:
   DamageAmount: 25
   AmmoTypeId: 0
   IsMagical: 1
+  type: 1
   MaxAmmoCount: 150
   HeatingMultiplier: 1
   CooldownHeating: 3

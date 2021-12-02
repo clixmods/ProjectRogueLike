@@ -2,9 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum WeaponType
+{
+    Both,
+    Magical,
+    Physical
+}
+
+
 public class WeaponManager : MonoBehaviour
 {
-
+   
     [Header("Info")]
     public string WeaponName;
     public int CurrentAmmoCount;
@@ -21,6 +30,7 @@ public class WeaponManager : MonoBehaviour
     public Material ProjectileMaterial;
     [ColorUsageAttribute(true, true)]
     public Color ProjectileEmissiveColor;
+    public bool DestroyOnHit = true;
 
     
     [Header("Weapon Settings")]
@@ -34,7 +44,7 @@ public class WeaponManager : MonoBehaviour
     public int AmmoTypeId = 0;
 
     public bool IsMagical = false;
-   
+    public WeaponType type;
     [Header("Ammo Type [ID : 0]")]
     public int MaxAmmoCount;
     [Header("Heat Type [ID : 1]")]
@@ -99,13 +109,18 @@ public class WeaponManager : MonoBehaviour
 
         gameObject.transform.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle));
         GameObject projectile = Instantiate(Projectile, transform.position, Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)), projectilDoss.transform);
+        ProjectileManager projManager = projectile.transform.GetComponent<ProjectileManager>();
+        SpriteRenderer projSrpiteRend = projectile.transform.GetComponent<SpriteRenderer>();
         // Apply material 
-        projectile.transform.GetComponent<SpriteRenderer>().material = ProjectileMaterial;
-        projectile.transform.GetComponent<SpriteRenderer>().material.SetColor("_e_color", ProjectileEmissiveColor) ;
+        projSrpiteRend.material = ProjectileMaterial;
+        projSrpiteRend.material.SetColor("_e_color", ProjectileEmissiveColor) ;
 
-        projectile.transform.GetComponent<ProjectileManager>().DamageAmount = DamageAmount;
-        projectile.transform.GetComponent<ProjectileManager>().isMagical = IsMagical;
-        projectile.transform.GetComponent<ProjectileManager>().Attacker = attacker;
+        projManager.DamageAmount = DamageAmount;
+        projManager.typeWpn = type;
+        projManager.Attacker = attacker;
+        projManager.DestroyOnHit = DestroyOnHit;
+
+
         projectile.transform.localRotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle)); // Permet au projectile d'avoir la bonne rotation au niveau texture
         projectile.transform.GetComponent<Rigidbody2D>().AddForce(-transform.right * Speed * 1000);
         // On assigne au projectile le scale assign� 
@@ -113,8 +128,8 @@ public class WeaponManager : MonoBehaviour
         projectScale = projectScale * ProjectileScale;
         projectile.transform.localScale = projectScale;
         // On assigne au projectile la texture d�sign� dans l'arme
-        projectile.GetComponent<SpriteRenderer>().sprite = ProjectileTexture;
-        projectile.GetComponent<SpriteRenderer>().flipX = true;
+        projSrpiteRend.sprite = ProjectileTexture;
+        projSrpiteRend.flipX = true;
         gameObject.GetComponent<SpriteRenderer>().flipX = true;
 
         // On check l'ammoType
