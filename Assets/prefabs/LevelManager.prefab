@@ -44,13 +44,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HudPrefab: {fileID: 9142069932091056526, guid: d9de83d991bf6314eb49191fe7ae6440, type: 3}
-  prefabSpawnRoom: {fileID: 5412081582798147209, guid: c038c4c900f63ee4c845ce040b5f1fa4, type: 3}
-  prefabListRoom: {fileID: 4788327967617231378, guid: f24f2b1920678b74db0237e5c925364d, type: 3}
+  prefabSpawnRoom: {fileID: 5815674194039611182, guid: 8b6f34805bc03bc4b967638f30611b2c, type: 3}
+  prefabListRoom: {fileID: 2387867452218071362, guid: 370633c44b8a445489a4d7cd469cd6d1, type: 3}
   prefabPlayerSpawn: {fileID: 3553511941365456883, guid: 76d6a9a5870208541a1cc0d6289f516f, type: 3}
   prefabListWeapons: {fileID: 8455014803089209444, guid: d6efbeedf2db20441be1d12885b2cedb, type: 3}
   listWeapons: {fileID: 0}
   numberOfRooms: 0
   numberOfRoomToDo: 0
   roomDone: 0
+  roomDoneBoss: 0
   chestGot: 0
   chest: {fileID: 4284683357533359556, guid: 9c81a67f7b6a49c48a4261eb40ba7d74, type: 3}
+  porteBoss: {fileID: 0}

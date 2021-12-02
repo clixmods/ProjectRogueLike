@@ -311,7 +311,7 @@ public class GameManager : MonoBehaviour
             
         }
             
-        if (indexer > WeaponsImage.Length - 1) // Faut repartir sur les armes du début de la liste
+        if (indexer > WeaponsImage.Length - 1) // Faut repartir sur les armes du dï¿½but de la liste
         {
             if(WeaponsImage.Length > 5)
             {
@@ -500,6 +500,15 @@ public class GameManager : MonoBehaviour
             bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
             
 
+            if (isPaused)
+            {
+                Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
+                return;
+            }
+
+
+
+
             if (collision != null && collision.tag == "Ennemies")
             {
                 GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Attaque);
@@ -540,6 +549,7 @@ public class GameManager : MonoBehaviour
 
             }
         }
+        
         
 
     }
