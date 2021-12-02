@@ -12,12 +12,13 @@ public class LootManager : MonoBehaviour
         health,
         weapon,
         key,
-        ammo
+        ammo,
+        healthSource
     }
    // public Texture2D texture;
     public ItemType objectType;
 
-    float RotationSpeed = 250;
+    [SerializeField] float RotationSpeed = 250;
     // Flick Light
     bool Flick = true;
 
@@ -86,9 +87,9 @@ public class LootManager : MonoBehaviour
         
         transform.Rotate(Vector2.up, Time.deltaTime * RotationSpeed);
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
-
+        bool willDestroy = true;
         GameObject a_guy = collision.gameObject;
         if(a_guy.tag == "Player")
         {
@@ -136,8 +137,13 @@ public class LootManager : MonoBehaviour
                       
                     }
                     break;
+                case ItemType.healthSource:
+                    AddHealthToPlayer(a_guy);
+                    willDestroy = false;
+                    break;
             }
-            Destroy(gameObject);
+            if(willDestroy)
+                Destroy(gameObject);
 
         }
     }
@@ -189,6 +195,7 @@ public class LootManager : MonoBehaviour
             if(plrCont.health + 20 > plrCont.MaxHealth)
             {
                 plrCont.health = plrCont.MaxHealth;
+
             }
             else
                 plrCont.health += 20;
