@@ -26,7 +26,7 @@ public class EntréSortie : MonoBehaviour
         {
             passage = 1;
         }
-        if (Input.GetKey(KeyCode.P) && pass)
+        if (Input.GetKeyDown(KeyCode.P) && pass)
         {
             player.gameObject.transform.position = PointDeSpawn.transform.position;
             pass = false;

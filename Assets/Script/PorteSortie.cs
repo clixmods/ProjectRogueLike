@@ -22,7 +22,7 @@ public class PorteSortie : MonoBehaviour
         if(collision.transform.tag == "Player")
         {
           
-            GameManager.GameUtil.ChangeLevel(1);
+            GameManager.GameUtil.ChangeLevel(5);
             //SceneManager.LoadScene("TstLvlManager");
         }
     }

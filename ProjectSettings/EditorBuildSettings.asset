@@ -18,24 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Tuto.unity
     guid: 2c6b83922dd126a4e89721f83323b85c
   - enabled: 1
-    path: Assets/Scenes/TestDidi.unity
-    guid: 22dffcfca41ef87499cf4a449ea8e28f
-  - enabled: 1
-    path: Assets/Scenes/TestLevel.unity
-    guid: 8d82a8868db61c440b55c60ab1e6a08a
-  - enabled: 1
-    path: Assets/Scenes/SceneTestPerso.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Scenes/TestBoss.unity
-    guid: c031d04a756e1ab4293614c5b103d18a
-  - enabled: 1
     path: Assets/Scenes/Hellobitch.unity
     guid: 57f060ac9ff1a724997e22dd6c04350c
   - enabled: 1
-    path: Assets/Scenes/General.unity
-    guid: c38de0dab0b915e46b4367e29a7d9b2a
-  - enabled: 1
-    path: Assets/Scenes/Creation d'arme.unity
-    guid: cab67eeee231ba84fa777656a436ff8c
+    path: Assets/Scenes/SceneFin.unity
+    guid: 53b4dad5f6f4b4d4ca7c455c80cc30a3
   m_configObjects: {}

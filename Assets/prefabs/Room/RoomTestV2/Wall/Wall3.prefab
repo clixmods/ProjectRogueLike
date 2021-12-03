@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -7488836893186697752, guid: 9b4c30506a8e7b3459a43529cd9ea572, type: 3}
+  m_Sprite: {fileID: 3103984572859791777, guid: 48663ab42d4be074da29656a6c670742, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 8615988347254220260}
   m_Layer: 13
   m_Name: Wall3
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

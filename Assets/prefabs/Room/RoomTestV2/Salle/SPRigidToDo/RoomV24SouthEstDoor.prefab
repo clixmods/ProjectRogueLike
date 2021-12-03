@@ -448,9 +448,9 @@ GameObject:
   - component: {fileID: 5979460011668665776}
   - component: {fileID: 5668834405600933674}
   - component: {fileID: 1075917782819178053}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

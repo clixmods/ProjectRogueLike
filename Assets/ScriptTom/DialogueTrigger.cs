@@ -12,6 +12,11 @@ public class DialogueTrigger : MonoBehaviour
     bool check;
 
     public LevelManagerTuto levelManager;
+
+    public bool tuto;
+
+    public GameObject portail1;
+    public GameObject portail2;
     
 
     private void Awake()
@@ -22,7 +27,7 @@ public class DialogueTrigger : MonoBehaviour
     }
     void Update()
     {
-        if(inRange && Input.GetKeyDown(KeyCode.E) && !check)
+        if(inRange && Input.GetKeyDown(KeyCode.P) && !check)
         {
             TriggerDialogue();
             check = true;
@@ -31,17 +36,28 @@ public class DialogueTrigger : MonoBehaviour
         {
             DialogueManager.instance.DisplayNextSentence();
         }
-        if(DialogueManager.instance.fin && !levelManager.parlerAuPnj)
+        if (!tuto)
         {
-            levelManager.parlerAuPnj = true;
-            DialogueManager.instance.fin = false;
-            Destroy(gameObject);
-        }
-        if(DialogueManager.instance.fin && levelManager.parlerAuPnj && levelManager.etape1)
-        {
-            levelManager.etape3 = true;
-            Destroy(gameObject);
+            if (DialogueManager.instance.fin && !levelManager.parlerAuPnj)
+            {
+                levelManager.parlerAuPnj = true;
+                DialogueManager.instance.fin = false;
+                Destroy(gameObject);
+            }
+            if (DialogueManager.instance.fin && levelManager.parlerAuPnj && levelManager.etape1)
+            {
+                levelManager.etape3 = true;
+                Destroy(gameObject);
 
+            }
+        }
+        if(tuto)
+        {
+            if (DialogueManager.instance.fin)
+            {
+                portail1.SetActive(true);
+                portail2.SetActive(true);
+            }
         }
     }
 
