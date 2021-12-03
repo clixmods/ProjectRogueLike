@@ -24,4 +24,6 @@ public class Pantin : MonoBehaviour
             Animator.SetTrigger("hit");
         }
     }
+
+    
 }
