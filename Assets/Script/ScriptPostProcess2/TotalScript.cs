@@ -20,7 +20,7 @@ public class TotalScript : MonoBehaviour
     public GameObject listCouloir;
 
     public List<GameObject> porte;
-    public List<GameObject> porteRééle;
+    public List<GameObject> porteRï¿½ï¿½le;
 
     public GameObject portePrefab;
 
@@ -62,13 +62,13 @@ public class TotalScript : MonoBehaviour
         print(check + "yo"); 
         if (!check)
         {
-            Invoke("MaxSalle", 0.1f);
+            Invoke("MaxSalle", timeToReach);
         }
         if (check)
         {
             
             
-            Invoke("invokelemenage", 2f);
+            Invoke("invokelemenage", 1f);
             
         }
         if (check1 && check2 && !check3)
@@ -176,15 +176,15 @@ public class TotalScript : MonoBehaviour
         {
             if(porte[i]!= null)
             {
-                porteRééle.Add(porte[i]);
+                porteRï¿½ï¿½le.Add(porte[i]);
             }
         }
         porte = new List<GameObject>();
-        for (int i = 0; i < porteRééle.Count; i++)
+        for (int i = 0; i < porteRï¿½ï¿½le.Count; i++)
         {
-            if (porteRééle[i].transform.childCount == 0 || porteRééle[i].transform.GetChild(0).gameObject.layer != LayerMask.NameToLayer("Wall"))
+            if (porteRï¿½ï¿½le[i].transform.childCount == 0 || porteRï¿½ï¿½le[i].transform.GetChild(0).gameObject.layer != LayerMask.NameToLayer("Wall"))
             {
-                Instantiate(portePrefab, porteRééle[i].transform.position, Quaternion.identity, porteRééle[i].transform.parent.parent.GetChild(0).GetChild(0).GetChild(4));
+                Instantiate(portePrefab, porteRï¿½ï¿½le[i].transform.position, Quaternion.identity, porteRï¿½ï¿½le[i].transform.parent.parent.GetChild(0).GetChild(0).GetChild(4));
             }
         }
         porteCheck = true;

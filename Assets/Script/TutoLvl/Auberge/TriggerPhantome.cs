@@ -64,9 +64,9 @@ public class TriggerPhantome : MonoBehaviour
         if(!instance)
         {
             p = Instantiate(porte, gameObject.transform.GetChild(0).GetChild(1).transform.position, Quaternion.identity, gameObject.transform.GetChild(0).GetChild(1).transform);
-            p.GetComponent<Collider2D>().enabled = true;
+            p.AddComponent<Collider2D>();
             p = Instantiate(porte, gameObject.transform.GetChild(0).GetChild(0).transform.position, Quaternion.identity, gameObject.transform.GetChild(0).GetChild(0).transform);
-            p.GetComponent<Collider2D>().enabled = true;
+            p.AddComponent<Collider2D>();
             ennemie = Instantiate(phantome, gameObject.transform.position, Quaternion.identity);
             instance = true;
         }
