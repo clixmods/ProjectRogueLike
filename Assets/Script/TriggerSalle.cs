@@ -125,7 +125,9 @@ public class TriggerSalle : MonoBehaviour
             print("fesfoesfiesoiefosiefjofeoiefsoefisoijefsojiefojifesoifeoiefjs"+ 151616156116556);
             gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("CloseDoor", true);
             gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("OpenDoor", false);
-            gameObject.transform.parent.GetChild(4).GetChild(i).gameObject.AddComponent<BoxCollider2D>();
+           BoxCollider2D col = gameObject.transform.parent.GetChild(4).GetChild(i).gameObject.AddComponent<BoxCollider2D>();
+            col.size = new Vector2(1,2);
+            col.offset = new Vector2(0, 0.5f);
             print(gameObject.transform.parent.GetChild(4).GetChild(i).GetComponent<BoxCollider2D>() + "fesfefesfesfes");
             print("fefeffe");
 

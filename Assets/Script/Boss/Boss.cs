@@ -194,8 +194,8 @@ public class Boss : MonoBehaviour
                 
                 for (int f = 0; f < gameObject.transform.GetChild(0).transform.childCount; f++)
                 {
-                    
-                    GameObject bally = Instantiate(prefabBoule, gameObject.transform.GetChild(0).gameObject.transform.GetChild(f).gameObject.transform.position, gameObject.transform.GetChild(0).gameObject.transform.GetChild(f).gameObject.transform.rotation, gameObject.transform.GetChild(0).gameObject.transform.GetChild(f).gameObject.transform);
+
+                    GameObject bally = Instantiate(prefabBoule, gameObject.transform.GetChild(0).gameObject.transform.GetChild(f).gameObject.transform.position, gameObject.transform.GetChild(0).gameObject.transform.GetChild(f).gameObject.transform.rotation);//, gameObject.transform.GetChild(0).gameObject.transform.GetChild(f).gameObject.transform);
                     balla.Add(bally);
                 }
                 for (int f = 0; f < balla.Count; f++)

@@ -20,7 +20,7 @@ public class TotalScript : MonoBehaviour
     public GameObject listCouloir;
 
     public List<GameObject> porte;
-    public List<GameObject> porteR��le;
+    public List<GameObject> porteR;
 
     public GameObject portePrefab;
 
@@ -176,15 +176,15 @@ public class TotalScript : MonoBehaviour
         {
             if(porte[i]!= null)
             {
-                porteR��le.Add(porte[i]);
+                porteR.Add(porte[i]);
             }
         }
         porte = new List<GameObject>();
-        for (int i = 0; i < porteR��le.Count; i++)
+        for (int i = 0; i < porteR.Count; i++)
         {
-            if (porteR��le[i].transform.childCount == 0 || porteR��le[i].transform.GetChild(0).gameObject.layer != LayerMask.NameToLayer("Wall"))
+            if (porteR[i].transform.childCount == 0 || porteR[i].transform.GetChild(0).gameObject.layer != LayerMask.NameToLayer("Wall"))
             {
-                Instantiate(portePrefab, porteR��le[i].transform.position, Quaternion.identity, porteR��le[i].transform.parent.parent.GetChild(0).GetChild(0).GetChild(4));
+                Instantiate(portePrefab, porteR[i].transform.position, Quaternion.identity, porteR[i].transform.parent.parent.GetChild(0).GetChild(0).GetChild(4));
             }
         }
         porteCheck = true;

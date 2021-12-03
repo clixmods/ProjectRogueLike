@@ -31,7 +31,7 @@ public class TriggerPhantome : MonoBehaviour
             destroy = true;
             
         }
-        if (Input.GetKey(KeyCode.P) && pass)
+        if (Input.GetKeyDown(KeyCode.P) && pass)
         {
             InstancePhantome();
         }
