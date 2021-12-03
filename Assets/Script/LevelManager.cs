@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
                 Instantiate(HudPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
                 
                 playerSpawn = Instantiate(prefabPlayerSpawn, spawnRoom.transform.position, Quaternion.identity);
-                GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Mouvement);
+                //GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Mouvement);
                 SendInformation();
                 checkReceve = true;
                 if(HUDManager.HUDUtility != null)
@@ -92,7 +92,7 @@ public class LevelManager : MonoBehaviour
                 
                 porteBossins = Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
                 porteBossins.GetComponent<GoToBoss>().point = boss.transform.GetChild(1).gameObject;
-                HUDManager.HUDUtility.CreateHintString(porteBoss,"Use [P] to fight the boss");
+                HUDManager.HUDUtility.CreateHintString(porteBossins, "Use [P] to fight the boss");
                 bossAvailable = true;
             }
             else

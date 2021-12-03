@@ -87,8 +87,8 @@ public class GameManager : MonoBehaviour
      int                DataLifes;
      int                DataMaxLifes;
 
-  
 
+     public bool tutoIsFinished;
     // Start is called before the first frame update
     void Awake()
     {
