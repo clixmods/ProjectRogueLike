@@ -8,7 +8,7 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
     // public float attackDamageM;
     [Header("Info")]
     public string WeaponName;
-
+    public string WeaponDesc;
 
     Transform attackPoint;
 

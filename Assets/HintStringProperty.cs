@@ -17,9 +17,11 @@ public class HintStringProperty : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (relatedObject == null)
+        print(relatedObject == null);
+        var isMissing = ReferenceEquals(relatedObject, null);
+        if (relatedObject == null && isMissing) 
         {
-            Debug.Log("Hintstring destroy because the related gameOject is killed");
+            Debug.Log("Hintstring destroy because the related gameObject is killed");
             Destroy(gameObject);
         }
     }

@@ -34,7 +34,7 @@ RectTransform:
   - {fileID: 6740612899020168034}
   - {fileID: 3590256035668600130}
   m_Father: {fileID: 421240584319336526}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -829,7 +829,7 @@ GameObject:
   - component: {fileID: 7944582102895199360}
   - component: {fileID: 1361251395759857685}
   m_Layer: 5
-  m_Name: TextTutorial
+  m_Name: TextMelee
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -847,12 +847,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 421240584319336526}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -4.6, y: -293.6}
-  m_SizeDelta: {x: 789.1, y: 192}
+  m_AnchoredPosition: {x: -432, y: -14}
+  m_SizeDelta: {x: 331.2, y: 411.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7944582102895199360
 CanvasRenderer:
@@ -889,13 +889,14 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 124
-    m_Alignment: 1
+    m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: azertyuiopazertyuiopazertyuiopazertyuiopazertyuiopazertyuiopazertyuiopazertyuiopazertyuiopazertyuiopazertyuiopazertyuiopazertyuiop
+  m_Text: 'Weapon name: Default \n Description : A default weapon with default caracteristic
+    \n Type: PHysical \n Damage : 10 pv'
 --- !u!1 &2232777413390264413
 GameObject:
   m_ObjectHideFlags: 0
@@ -1179,6 +1180,86 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &2611940422742954560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1257796171087055378}
+  - component: {fileID: 5067332937873982253}
+  - component: {fileID: 4425745392070772569}
+  m_Layer: 5
+  m_Name: TextDistance
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1257796171087055378
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2611940422742954560}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 421240584319336526}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 414, y: -14}
+  m_SizeDelta: {x: 331.2, y: 411.4}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5067332937873982253
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2611940422742954560}
+  m_CullTransparentMesh: 1
+--- !u!114 &4425745392070772569
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2611940422742954560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 652f7165b7c30ab46af6c4aad90a639b, type: 2}
+    m_FontSize: 30
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 124
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Weapon name: Default \n Description : A default weapon with default caracteristic
+    \n Type: PHysical \n Max ammo : 300 \n Damage : 10 pv'
 --- !u!1 &2630257260113825144
 GameObject:
   m_ObjectHideFlags: 0
@@ -2549,7 +2630,7 @@ RectTransform:
   - {fileID: 881458826320300933}
   - {fileID: 4708843863945403413}
   m_Father: {fileID: 421240584319336526}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3556,9 +3637,10 @@ RectTransform:
   m_Children:
   - {fileID: 832426611182375812}
   - {fileID: 6524565759567244119}
-  - {fileID: 1685154669618972146}
   - {fileID: 3567331291420150913}
   - {fileID: 7363449743256991241}
+  - {fileID: 1685154669618972146}
+  - {fileID: 1257796171087055378}
   m_Father: {fileID: 5460944954957226061}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3652,6 +3734,8 @@ MonoBehaviour:
   - {fileID: 8622325398076348979}
   - {fileID: 7342183798606659277}
   - {fileID: 7542473235101252050}
+  WpnTextMelee: {fileID: 1361251395759857685}
+  WpnTextDistance: {fileID: 4425745392070772569}
 --- !u!1 &7644174485175314564
 GameObject:
   m_ObjectHideFlags: 0
