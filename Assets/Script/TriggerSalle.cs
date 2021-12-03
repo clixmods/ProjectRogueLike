@@ -36,12 +36,13 @@ public class TriggerSalle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        print(verifPassage + "fesffseessfesefffseefs");
         //print(ennemieL.Count);
         //print(countEnnemie);
-       // print(gameObject.transform.parent.GetChild(4).GetChild(0).GetChild(0).GetChild(0));
+        //print(gameObject.transform.parent.GetChild(4).GetChild(0).GetChild(0).GetChild(0));
 
         //Watch number of ennemies
-        if(countEnnemie > 0)
+        if (countEnnemie > 0)
         {
             int counter = 0;
             for(int i = 0; i < ennemieL.Count; i++)
@@ -64,11 +65,11 @@ public class TriggerSalle : MonoBehaviour
                 levelManager.roomDone = 0;
             }
 
-            for (int i = 0; i < gameObject.transform.GetChild(1).gameObject.transform.childCount; i++)
+            for (int i = 0; i < gameObject.transform.parent.GetChild(4).childCount; i++)
             {
                 gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("CloseDoor", false);
                 gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("OpenDoor", true);
-                gameObject.transform.parent.GetChild(4).GetChild(i).GetComponent<BoxCollider2D>().enabled = false;
+                Destroy(gameObject.transform.parent.GetChild(4).GetChild(i).GetComponent<BoxCollider2D>());
                 print(gameObject.transform.parent.GetChild(4).GetChild(i).GetComponent<BoxCollider2D>());
 
             }
@@ -81,6 +82,7 @@ public class TriggerSalle : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             verifPassage++;
+          
             
             InstanceSpawn();
 
@@ -93,14 +95,16 @@ public class TriggerSalle : MonoBehaviour
 
     void InstanceSpawn ()
     {
+      
         if (verifPassage == 1)
         {
             FermetureDesPorte();
+            print("fesfoesfiesoiefosiefjofeoiefsoefisoijefsojiefojifesoifeoiefjs");
 
 
 
 
-                for (int i = 0; i < gameObject.transform.GetChild(0).gameObject.transform.childCount; i++)
+            for (int i = 0; i < gameObject.transform.GetChild(0).gameObject.transform.childCount; i++)
             {
                 //spawner.Add(gameObject.transform.GetChild(i).gameObject);
                 spawnSpawnEnnemie = gameObject.transform.GetChild(0).gameObject.transform.GetChild(i).gameObject;
@@ -115,12 +119,15 @@ public class TriggerSalle : MonoBehaviour
 
     void FermetureDesPorte ()
     {
-        for (int i = 0; i < gameObject.transform.GetChild(1).gameObject.transform.childCount; i++)
+        print("fesfoesfiesoiefosiefjofeoiefsoefisoijefsojiefojifesoifeoiefjs" + 2222222222);
+        for (int i = 0; i < gameObject.transform.parent.GetChild(4).childCount; i++)
         {
+            print("fesfoesfiesoiefosiefjofeoiefsoefisoijefsojiefojifesoifeoiefjs"+ 151616156116556);
             gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("CloseDoor", true);
             gameObject.transform.parent.GetChild(4).GetChild(i).GetChild(0).GetChild(0).GetComponent<Animator>().SetBool("OpenDoor", false);
             gameObject.transform.parent.GetChild(4).GetChild(i).gameObject.AddComponent<BoxCollider2D>();
-            print(gameObject.transform.parent.GetChild(4).GetChild(i).GetComponent<BoxCollider2D>());
+            print(gameObject.transform.parent.GetChild(4).GetChild(i).GetComponent<BoxCollider2D>() + "fesfefesfesfes");
+            print("fefeffe");
 
         }
     }

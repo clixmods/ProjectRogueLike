@@ -62,13 +62,13 @@ public class TotalScript : MonoBehaviour
         print(check + "yo"); 
         if (!check)
         {
-            Invoke("MaxSalle", 0.1f);
+            Invoke("MaxSalle", timeToReach);
         }
         if (check)
         {
             
             
-            Invoke("invokelemenage", 20f);
+            Invoke("invokelemenage", 1f);
             
         }
         if (check1 && check2 && !check3)
