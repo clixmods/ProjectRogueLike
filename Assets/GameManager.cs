@@ -127,10 +127,12 @@ public class GameManager : MonoBehaviour
         CurrentPlayer = GameObject.FindWithTag("Player");
         CurrentCamera = Camera.main.gameObject;
     }
-    public void ChangeLevel(string name, bool dataPlayer = true, bool dataWeaponList = true)
+    public void ChangeLevel(int index, bool dataPlayer = true, bool dataWeaponList = true)
     {
         isLoading = true;
-        Scene DesiredScene = SceneManager.GetSceneByName(name);
+        print("scene count "+SceneManager.sceneCountInBuildSettings);
+    
+
         TutorialData myObject = new TutorialData();
         myObject.bools = tutorielCheck;
         CurrentPlayer = GameObject.FindWithTag("Player");
@@ -177,19 +179,21 @@ public class GameManager : MonoBehaviour
                         WeaponsCaCDataGameObject[i] = WeaponsScriptTable.weaponGameobject[j];
             }
         }
-        
-        StartCoroutine(LoadYourAsyncScene(DesiredScene ));
+
+        //print(DesiredScene.name);
+        StartCoroutine(LoadYourAsyncScene(index));
 
       
         
     }
-        IEnumerator LoadYourAsyncScene(Scene DesiredScene)
+        IEnumerator LoadYourAsyncScene(int DesiredScene)
         {
+           // print(DesiredScene.name);
             // The Application loads the Scene in the background as the current Scene runs.
             // This is particularly good for creating loading screens.
             // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
             // a sceneBuildIndex of 1 as shown in Build Settings.
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(DesiredScene.name, LoadSceneMode.Single);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(DesiredScene, LoadSceneMode.Single);
             // Wait until the asynchronous scene fully loads
             while (!asyncLoad.isDone)
                 yield return null;
@@ -254,20 +258,32 @@ public class GameManager : MonoBehaviour
         GameObject ListC = plrController.listC;
 
         Sprite[] WeaponsImage = new Sprite[ListD.transform.childCount];
-        for(int i = 0; i < WeaponsImage.Length; i++)
+        string[] WeaponsDesc = new string[ListD.transform.childCount];
+        for (int i = 0; i < WeaponsImage.Length; i++)
         {
-            Pohpoh = ListD.transform.GetChild(i);
-            WeaponsImage[i] = Pohpoh.GetComponent<WeaponManager>().HUDIcon;
+            WeaponManager Pohpoha = ListD.transform.GetChild(i).GetComponent<WeaponManager>();
+            WeaponsImage[i] = Pohpoha.HUDIcon;
+            WeaponsDesc[i] = "Weapon Name : " + Pohpoha.WeaponName + " \n";
+            WeaponsDesc[i] += "Description : " + Pohpoha.WeaponDesc + " \n";
+            WeaponsDesc[i] += "Type : " + Pohpoha.type + " \n";
+            WeaponsDesc[i] += "Damage : " + Pohpoha.DamageAmount + " \n";
+            WeaponsDesc[i] += "Max ammo: " + Pohpoha.MaxAmmoCount + " \n";
         }
         Sprite[] WeaponsMeleeImage = new Sprite[ListC.transform.childCount];
+        string[] WeaponsMeleeDesc = new string[ListC.transform.childCount];
         for (int i = 0; i < WeaponsMeleeImage.Length; i++)
         {
-            Pohpoh = ListC.transform.GetChild(i);
-            WeaponsMeleeImage[i] = Pohpoh.GetComponent<ManagerWeaponCorpAcopr>().HUDIcon;
+            ManagerWeaponCorpAcopr Pohpohb = ListC.transform.GetChild(i).GetComponent<ManagerWeaponCorpAcopr>();
+            WeaponsMeleeImage[i] = Pohpohb.HUDIcon;
+            WeaponsMeleeDesc[i] = "Weapon Name : " + Pohpohb.WeaponName + " \n";
+            WeaponsMeleeDesc[i] += "Description : " + Pohpohb.WeaponDesc + " \n";
+            WeaponsMeleeDesc[i] += "Type : " + Pohpohb.type + " \n";
+            WeaponsMeleeDesc[i] += "Damage : " + Pohpohb.attackDamage + " \n";
         }
-        SetIconOnWheelWpn(plrController.selectCorpACorp, WeaponsMeleeImage, wheelMng.WpnIconMelee, ListC.transform.childCount);
-        SetIconOnWheelWpn(plrController.selectDist, WeaponsImage, wheelMng.WpnIconDistance, ListD.transform.childCount);
-        void SetIconOnWheelWpn(int CurrentIdWpn , Sprite[] WeaponsImage, Image[] WidgetWheel , int WeaponsListSize)
+        SetIconOnWheelWpn(plrController.selectCorpACorp, WeaponsMeleeImage, wheelMng.WpnIconMelee, ListC.transform.childCount, wheelMng.WpnTextMelee , WeaponsMeleeDesc);
+        SetIconOnWheelWpn(plrController.selectDist, WeaponsImage, wheelMng.WpnIconDistance, ListD.transform.childCount, wheelMng.WpnTextDistance , WeaponsDesc);
+        
+        void SetIconOnWheelWpn(int CurrentIdWpn , Sprite[] WeaponsImage, Image[] WidgetWheel , int WeaponsListSize , Text weaponDesc , string[] desc)
         {
             if (WeaponsListSize > 2)
             {
@@ -294,6 +310,7 @@ public class GameManager : MonoBehaviour
                 WidgetWheel[1].gameObject.SetActive(false);
             }
             WidgetWheel[2].sprite = GetWeaponIndexInTheList(CurrentIdWpn, WeaponsImage);
+            weaponDesc.text = desc[CurrentIdWpn];
         }
 
        

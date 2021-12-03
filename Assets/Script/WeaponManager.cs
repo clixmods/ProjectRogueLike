@@ -16,6 +16,7 @@ public class WeaponManager : MonoBehaviour
    
     [Header("Info")]
     public string WeaponName;
+    public string WeaponDesc;
     public int CurrentAmmoCount;
     public bool isUnlocked = false;
     public string prefabName;

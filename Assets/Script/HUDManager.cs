@@ -182,11 +182,14 @@ public class HUDManager : MonoBehaviour
     /// </summary>
     void UpdateHintstring()
     {
-        if (GameManager.GameUtil.CurrentPlayer != null && Camera.main != null)
+        if (GameManager.GameUtil != null && GameManager.GameUtil.CurrentPlayer != null && Camera.main != null)
         {
             for (int i = 0; i < UIHintstringList.transform.childCount; i++)
             {
                 Transform hintstring = UIHintstringList.transform.GetChild(i);
+                if (hintstring.GetComponent<HintStringProperty>().relatedObject == null)
+                    continue; 
+
                 hintstring.transform.position = Camera.main.WorldToScreenPoint(hintstring.GetComponent<HintStringProperty>().relatedObject.transform.position);
                 bool show = Vector3.Distance(GameManager.GameUtil.CurrentPlayer.transform.position, hintstring.GetComponent<HintStringProperty>().relatedObject.transform.position) < hintstring.GetComponent<HintStringProperty>().MinDistance;
                 if (show)
@@ -284,7 +287,7 @@ public class HUDManager : MonoBehaviour
     }
     void GetAndSetHealthValue()
     {
-        Vector3 localScale = UIHealthBar.GetChild(2).GetComponent<RectTransform>().localScale; // TODO : faut cr�e la variable HUDIcon 
+        Vector3 localScale = UIHealthBar.GetChild(2).GetComponent<RectTransform>().localScale; // TODO : faut creer la variable HUDIcon 
         if (PlayerHealth > 0)
             localScale.x = (float)PlayerHealth / (float)PlayerMaxHealth;
         else

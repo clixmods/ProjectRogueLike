@@ -15,9 +15,11 @@ public class TiggerChangmentDeScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.P) && pass)
+        if (Input.GetKeyDown(KeyCode.P) && pass)
         {
-            GameManager.GameUtil.ChangeLevel("TestProceduralMap");
+
+            GameManager.GameUtil.ChangeLevel(1);
+            pass = false;
         }
     }
 

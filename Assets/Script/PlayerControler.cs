@@ -86,6 +86,9 @@ public class PlayerControler : MonoBehaviour
     }
     private void UpdateUI()
     {
+        if (HUDManager.HUDUtility == null)
+            return;
+
         HUDManager.HUDUtility.PlayerHealth = health;
         HUDManager.HUDUtility.PlayerMaxHealth = MaxHealth;
         HUDManager.HUDUtility.PlayerLife = PlayerLifes;
@@ -165,13 +168,14 @@ public class PlayerControler : MonoBehaviour
             return Mathf.Atan2(a.y - b.y, a.x - b.x) * Mathf.Rad2Deg;
         }
         AttackAngle = AngleBetweenTwoPoints(transform.position, mousePosition);
-        if(CurrentWeapon != null)
+        if(CurrentWeapon != null && !GameManager.GameUtil.isWeaponWheel)
         {
             AimManagerForWeapon();
         }
     }
     void AimManagerForWeapon()
     {
+           
         if (CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>() != null )
         {
             if (!CurrentWeapon.GetComponent<ManagerWeaponCorpAcopr>().IsFiring )
@@ -245,7 +249,7 @@ public class PlayerControler : MonoBehaviour
       }
           if(Input.GetKey(KeyCode.A) && !GameManager.GameUtil.isWeaponWheel)
           {
-                print("cringe/20");
+                //print("cringe/20");
                 
                 if(timePressed <= delayToPress)
                 {
