@@ -9,7 +9,10 @@ public class EntréSortie : MonoBehaviour
     public string message2;
     public int passage;
     public LevelManagerTuto levelManger;
-   
+    bool pass;
+    GameObject player;
+    bool crea1;
+    bool crea2;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,6 +26,11 @@ public class EntréSortie : MonoBehaviour
         {
             passage = 1;
         }
+        if (Input.GetKey(KeyCode.P) && pass)
+        {
+            player.gameObject.transform.position = PointDeSpawn.transform.position;
+            pass = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,17 +40,31 @@ public class EntréSortie : MonoBehaviour
             if (passage == 1)
 
             {
-                HUDManager.HUDUtility.CreateHintString(gameObject, message, 0.5f);
-                if (Input.GetKey(KeyCode.P))
+                if (!crea1)
                 {
-                    collision.gameObject.transform.position = PointDeSpawn.transform.position;
+                    HUDManager.HUDUtility.CreateHintString(gameObject, message, 1f);
+                    crea1 = true;
                 }
+                player = collision.gameObject;
+                pass = true;
             }
             if(passage == 0)
             {
-                HUDManager.HUDUtility.CreateHintString(gameObject, message2, 0.5f);
+                if (!crea2)
+                {
+                    HUDManager.HUDUtility.CreateHintString(gameObject, message2, 1f);
+                }
             }
         }
 
     }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
+        {
+            pass = false;
+        }
+        }
+
 }

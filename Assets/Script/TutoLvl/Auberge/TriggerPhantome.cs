@@ -11,6 +11,8 @@ public class TriggerPhantome : MonoBehaviour
     GameObject ennemie;
     public LevelManagerTuto levelManager;
     bool destroy;
+    bool pass;
+    bool crea;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,23 +25,37 @@ public class TriggerPhantome : MonoBehaviour
        
         if(instance && ennemie == null && ! destroy)
         {
-            Destroy(gameObject.transform.GetChild(0).GetChild(1));
-            Destroy(gameObject.transform.GetChild(0).GetChild(0));
+            Destroy(gameObject.transform.GetChild(0).GetChild(1).gameObject);
+            Destroy(gameObject.transform.GetChild(0).GetChild(0).gameObject);
             levelManager.etape1 = true;
             destroy = true;
-            Destroy(gameObject);
+            
+        }
+        if (Input.GetKey(KeyCode.P) && pass)
+        {
+            InstancePhantome();
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (levelManager.parlerAuPnj && !levelManager.finishTuto)
+        if (levelManager.parlerAuPnj && !levelManager.finishTuto && !pass)
         {
-            HUDManager.HUDUtility.CreateHintString(gameObject, "Click On [P] to see the dead man", 0.5f);
-            if (Input.GetKey(KeyCode.P))
+            if (!crea)
             {
-                InstancePhantome();
+                HUDManager.HUDUtility.CreateHintString(gameObject, "Click On [P] to see the dead man", 1f);
+                crea = true;
             }
+            pass = true;
+           
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (levelManager.parlerAuPnj && !levelManager.finishTuto && !instance)
+        {
+            pass = false;
         }
     }
 
@@ -47,9 +63,9 @@ public class TriggerPhantome : MonoBehaviour
     {
         if(!instance)
         {
-            p = Instantiate(porte, gameObject.transform.GetChild(0).GetChild(1).transform.position, Quaternion.identity);
+            p = Instantiate(porte, gameObject.transform.GetChild(0).GetChild(1).transform.position, Quaternion.identity, gameObject.transform.GetChild(0).GetChild(1).transform);
             p.GetComponent<Collider2D>().enabled = true;
-            p = Instantiate(porte, gameObject.transform.GetChild(0).GetChild(0).transform.position, Quaternion.identity);
+            p = Instantiate(porte, gameObject.transform.GetChild(0).GetChild(0).transform.position, Quaternion.identity, gameObject.transform.GetChild(0).GetChild(0).transform);
             p.GetComponent<Collider2D>().enabled = true;
             ennemie = Instantiate(phantome, gameObject.transform.position, Quaternion.identity);
             instance = true;

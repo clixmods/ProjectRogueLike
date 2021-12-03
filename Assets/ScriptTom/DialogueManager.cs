@@ -10,6 +10,8 @@ public class DialogueManager : MonoBehaviour
 
     public Animator animator;
 
+    public bool fin;
+
     //variable ressemblant à une liste ou une array
     private Queue<string> sentences;
 
@@ -86,6 +88,7 @@ public class DialogueManager : MonoBehaviour
     {
         animator.SetBool("OpenDialogue", false);
         Debug.Log("fin du dialogue");
+        fin = true;
     }
     
 

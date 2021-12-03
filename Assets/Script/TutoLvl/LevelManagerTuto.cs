@@ -8,12 +8,18 @@ public class LevelManagerTuto : MonoBehaviour
     public GameObject pointOfSpawn;
     GameObject player;
     public GameObject HudPrefab;
+    public GameObject InstancePnj;
+     public GameObject PNJ2;
+    GameObject pn;
 
     public bool parlerAuPnj;
     public bool etape1;
     public bool etape2;
     public bool etape3;
     public bool finishTuto;
+
+
+    bool check;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,5 +35,13 @@ public class LevelManagerTuto : MonoBehaviour
         {
             finishTuto = true;
         }
+        if (parlerAuPnj && etape1 && etape2 && !check)
+        {
+            pn = Instantiate(PNJ2, InstancePnj.transform.position, Quaternion.identity);
+            pn.GetComponent<DialogueTrigger>().levelManager = gameObject.GetComponent<LevelManagerTuto>();
+           // PNJ2.SetActive(true);
+            check = true;
+        }
+
     }
 }
