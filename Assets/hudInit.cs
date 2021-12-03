@@ -6,19 +6,32 @@ using UnityEngine.UI;
 
 public class hudInit : MonoBehaviour
 {
+    public Button StartButton;
+    public Button QuitButton;
+    public Button CreditsButton;
+    public GameObject CreditsWidget; 
+    // Credits Buttons
+    public Button CreditsBackButton;
+
     void Awake()
     {
         ///GameObject Menu = GameObject.Find("MainMenu");
-        Button theButton = transform.GetChild(0).GetComponent<Button>();
-        theButton.onClick.AddListener(delegate () { GameManager.GameUtil.StartLevel(); });
+        //Button theButton = transform.GetChild(0).GetComponent<Button>();
+        StartButton.onClick.AddListener(delegate () { GameManager.GameUtil.StartLevel(); });
+        QuitButton.onClick.AddListener(delegate () { Application.Quit(); });
+        CreditsButton.onClick.AddListener(delegate () { Application.Quit(); });
     }
-
+    
     // Start is called before the first frame update
     void Start()
     {
-        
+        CreditsWidget.SetActive(true);
     }
 
+    void StartCreditsWidget()
+    {
+
+    }
     public void StartLevel()
     {
         // Start First Scene
