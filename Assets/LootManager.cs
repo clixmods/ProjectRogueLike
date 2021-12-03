@@ -71,7 +71,7 @@ public class LootManager : MonoBehaviour
 
         if (HUDManager.HUDUtility != null && !hintstringIsCreated)
         {
-            HUDManager.HUDUtility.CreateHintString(gameObject, "Use [E] to interact OOF.");
+            //HUDManager.HUDUtility.CreateHintString(gameObject, "Use [E] to interact OOF.");
             hintstringIsCreated = true;
         }
     }
