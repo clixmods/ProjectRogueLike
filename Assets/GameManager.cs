@@ -127,10 +127,12 @@ public class GameManager : MonoBehaviour
         CurrentPlayer = GameObject.FindWithTag("Player");
         CurrentCamera = Camera.main.gameObject;
     }
-    public void ChangeLevel(string name, bool dataPlayer = true, bool dataWeaponList = true)
+    public void ChangeLevel(int index, bool dataPlayer = true, bool dataWeaponList = true)
     {
         isLoading = true;
-        Scene DesiredScene = SceneManager.GetSceneByName(name);
+        print("scene count "+SceneManager.sceneCountInBuildSettings);
+    
+
         TutorialData myObject = new TutorialData();
         myObject.bools = tutorielCheck;
         CurrentPlayer = GameObject.FindWithTag("Player");
@@ -177,19 +179,21 @@ public class GameManager : MonoBehaviour
                         WeaponsCaCDataGameObject[i] = WeaponsScriptTable.weaponGameobject[j];
             }
         }
-        
-        StartCoroutine(LoadYourAsyncScene(DesiredScene ));
+
+        //print(DesiredScene.name);
+        StartCoroutine(LoadYourAsyncScene(index));
 
       
         
     }
-        IEnumerator LoadYourAsyncScene(Scene DesiredScene)
+        IEnumerator LoadYourAsyncScene(int DesiredScene)
         {
+           // print(DesiredScene.name);
             // The Application loads the Scene in the background as the current Scene runs.
             // This is particularly good for creating loading screens.
             // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
             // a sceneBuildIndex of 1 as shown in Build Settings.
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(DesiredScene.name, LoadSceneMode.Single);
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(DesiredScene, LoadSceneMode.Single);
             // Wait until the asynchronous scene fully loads
             while (!asyncLoad.isDone)
                 yield return null;
