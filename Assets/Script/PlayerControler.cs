@@ -242,7 +242,11 @@ public class PlayerControler : MonoBehaviour
         distOrCorp = 2;
     }
     private void Weapon()
-    { 
+    {
+        if (listC.transform.childCount == 0 && listD.transform.childCount == 0)
+            return;
+
+
       if(Input.GetKey(KeyCode.A))
       {
             EnableMeleeType();

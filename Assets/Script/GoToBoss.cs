@@ -7,7 +7,7 @@ public class GoToBoss : MonoBehaviour
 {
     GameObject player;
     bool Check;
-    public GameObject Text;
+    public GameObject Text; // TODO a enlever
     public GameObject point;
     // Start is called before the first frame update
     void Start()
@@ -20,7 +20,7 @@ public class GoToBoss : MonoBehaviour
     {
         if(Check)
         {
-            Text.SetActive(true);
+            //Text.SetActive(true);
             if(Input.GetKey(KeyCode.P))
             {
 
@@ -29,7 +29,7 @@ public class GoToBoss : MonoBehaviour
         }
         if(!Check)
         {
-            Text.SetActive(true);
+            //Text.SetActive(true);
 
         }
     }

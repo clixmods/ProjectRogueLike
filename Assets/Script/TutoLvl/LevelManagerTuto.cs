@@ -23,7 +23,10 @@ public class LevelManagerTuto : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        finishTuto = false;
+        // finishTuto = false;
+        if(GameManager.GameUtil != null)
+            finishTuto = GameManager.GameUtil.tutoIsFinished;
+
         player = Instantiate(spawnPlayer, pointOfSpawn.transform.position, Quaternion.identity);
         Instantiate(HudPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
     }
@@ -34,6 +37,7 @@ public class LevelManagerTuto : MonoBehaviour
         if(etape1 && etape2 && etape3)
         {
             finishTuto = true;
+
         }
         if (parlerAuPnj && etape1 && etape2 && !check)
         {
@@ -42,6 +46,8 @@ public class LevelManagerTuto : MonoBehaviour
            // PNJ2.SetActive(true);
             check = true;
         }
+
+        GameManager.GameUtil.tutoIsFinished = finishTuto;
 
     }
 }
