@@ -156,7 +156,12 @@ public class EnemyManager : MonoBehaviour
     void Update()
     {
         //if (!NeverChangeTarget)  // Si la cible n'est pas forcé, on lance le dectector
-        aPotentialTarget = transform.GetChild(0).GetComponent<DetectionTarget>().target;
+        //aPotentialTarget = transform.GetChild(0).GetComponent<DetectionTarget>().target;
+        if (GameManager.GameUtil.CurrentPlayer != null)
+            aPotentialTarget = GameManager.GameUtil.CurrentPlayer;
+        else
+            aPotentialTarget = null;
+
         MovementBehavior();
         MeleyEnemyMovment();
         checkHealth();
