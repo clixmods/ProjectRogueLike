@@ -5778,6 +5778,22 @@ PrefabInstance:
       propertyPath: m_FontData.m_FontSize
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 54188582650050704, guid: 7d5c8429d8ac662468c9bb1d80f2b0ef, type: 3}
+      propertyPath: m_Text
+      value: 'P: Talk to the old man'
+      objectReference: {fileID: 0}
+    - target: {fileID: 54188582650050704, guid: 7d5c8429d8ac662468c9bb1d80f2b0ef, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54188582650050704, guid: 7d5c8429d8ac662468c9bb1d80f2b0ef, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 54188582650050704, guid: 7d5c8429d8ac662468c9bb1d80f2b0ef, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 54188582650050706, guid: 7d5c8429d8ac662468c9bb1d80f2b0ef, type: 3}
       propertyPath: m_IsActive
       value: 1
