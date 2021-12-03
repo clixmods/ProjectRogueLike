@@ -9,6 +9,9 @@ public class DialogueTrigger : MonoBehaviour
 
     public Text interactUI;
 
+    bool check;
+
+    public LevelManagerTuto levelManager;
     
 
     private void Awake()
@@ -19,16 +22,33 @@ public class DialogueTrigger : MonoBehaviour
     }
     void Update()
     {
-        if(inRange && Input.GetKeyDown(KeyCode.E))
+        if(inRange && Input.GetKeyDown(KeyCode.E) && !check)
         {
             TriggerDialogue();
+            check = true;
+        }
+        if(check && Input.GetKeyDown(KeyCode.P))
+        {
+            DialogueManager.instance.DisplayNextSentence();
+        }
+        if(DialogueManager.instance.fin && !levelManager.parlerAuPnj)
+        {
+            levelManager.parlerAuPnj = true;
+            DialogueManager.instance.fin = false;
+            Destroy(gameObject);
+        }
+        if(DialogueManager.instance.fin && levelManager.parlerAuPnj && levelManager.etape1)
+        {
+            levelManager.etape3 = true;
+            Destroy(gameObject);
+
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if(collision.CompareTag("Player"))
+        if(collision.CompareTag("Player") && !check)
         {
             // affiche le message en entrant dans le trigger
             inRange = true;
