@@ -65,7 +65,7 @@ public class LevelManager : MonoBehaviour
                 SendInformation();
                 checkReceve = true;
                 if(HUDManager.HUDUtility != null)
-                    HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, find him and kill him.");
+                    HUDManager.HUDUtility.SetMiddleMsg(10, "A strange entity controls the dungeon, clear all room to unlock the portal for the boss fight.");
             }
             
         }
