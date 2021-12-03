@@ -131,8 +131,8 @@ public class GameManager : MonoBehaviour
     {
         isLoading = true;
         print("scene count "+SceneManager.sceneCountInBuildSettings);
-    
 
+        
         TutorialData myObject = new TutorialData();
         myObject.bools = tutorielCheck;
         CurrentPlayer = GameObject.FindWithTag("Player");

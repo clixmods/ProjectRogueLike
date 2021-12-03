@@ -68,7 +68,7 @@ public class TotalScript : MonoBehaviour
         {
             
             
-            Invoke("invokelemenage", 20f);
+            Invoke("invokelemenage", 2f);
             
         }
         if (check1 && check2 && !check3)

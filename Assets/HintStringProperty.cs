@@ -19,7 +19,7 @@ public class HintStringProperty : MonoBehaviour
     {
         print(relatedObject == null);
         var isMissing = ReferenceEquals(relatedObject, null);
-        if (relatedObject == null && isMissing) 
+        if (relatedObject == null || isMissing) 
         {
             Debug.Log("Hintstring destroy because the related gameObject is killed");
             Destroy(gameObject);

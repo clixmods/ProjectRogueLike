@@ -89,8 +89,10 @@ public class LevelManager : MonoBehaviour
         {
             if (playerSpawn != null && boss != null)
             {
+                
                 porteBossins = Instantiate(porteBoss, playerSpawn.transform.GetChild(0).transform.position, Quaternion.identity);
                 porteBossins.GetComponent<GoToBoss>().point = boss.transform.GetChild(1).gameObject;
+                HUDManager.HUDUtility.CreateHintString(porteBoss,"Use [P] to fight the boss");
                 bossAvailable = true;
             }
             else
