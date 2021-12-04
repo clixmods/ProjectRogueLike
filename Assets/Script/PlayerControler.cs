@@ -48,21 +48,25 @@ public class PlayerControler : MonoBehaviour
         listC = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
         listD = gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
 
-        for (int i = 0; i <= listC.transform.childCount - 1; i++)
+        for (int i = 0; i < listC.transform.childCount; i++)
         {
             armeCorpACorp = listC.transform.GetChild(i).gameObject;
             armeCorpACorp.SetActive(false);
             armeCorpACorp.GetComponent<ManagerWeaponCorpAcopr>().Attacker = gameObject;
+            armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
+            armeCorpACorp.SetActive(false);
         }
-        for (int i = 0; i <= listD.transform.childCount - 1; i++)
+        for (int i = 0; i < listD.transform.childCount; i++)
         {
             armeDistance = listD.transform.GetChild(i).gameObject;
             armeDistance.SetActive(false);
+            armeDistance = listD.transform.GetChild(selectDist).gameObject;
+            armeDistance.SetActive(false);
         }
-        armeCorpACorp = listC.transform.GetChild(selectCorpACorp).gameObject;
-        armeDistance = listD.transform.GetChild(selectDist).gameObject;
-        armeCorpACorp.SetActive(false);
-        armeDistance.SetActive(false);
+       
+        
+       
+      
 
     }
 
@@ -226,9 +230,19 @@ public class PlayerControler : MonoBehaviour
     }
     public void EnableMeleeType()
     {
-        if(CurrentWeapon != null)
+        if (listC.transform.childCount == 0)
+        {
+            Debug.Log("Le joueur n'a aucune arme de type melee");
+            return;
+        }
+        if (CurrentWeapon != null)
             CurrentWeapon.SetActive(false);
-        
+       
+
+        if (armeCorpACorp == null)
+        {
+            armeCorpACorp = listC.transform.GetChild(0).gameObject;
+        }
         armeCorpACorp.SetActive(true);
         CurrentWeapon = armeCorpACorp;
         distOrCorp = 1;
@@ -236,18 +250,34 @@ public class PlayerControler : MonoBehaviour
     }
     public void EnableDistanceType()
     {
-        armeCorpACorp.SetActive(false);
+        if (listD.transform.childCount == 0)
+        {
+            Debug.Log("Le joueur n'a aucune arme de type distance");
+            return;
+        }
+        if (CurrentWeapon != null)
+            CurrentWeapon.SetActive(false);
+
+        
+        if (armeDistance == null)
+        {
+            armeDistance = listD.transform.GetChild(0).gameObject;
+        }
+        if(armeCorpACorp != null)
+            armeCorpACorp.SetActive(false);
+
         armeDistance.SetActive(true);
         CurrentWeapon = armeDistance;
         distOrCorp = 2;
     }
+   
     private void Weapon()
     {
         if (listC.transform.childCount == 0 && listD.transform.childCount == 0)
             return;
 
 
-      if(Input.GetKey(KeyCode.A))
+      if(Input.GetKeyDown(KeyCode.A))
       {
             EnableMeleeType();
       }

@@ -59,9 +59,9 @@ public class GameManager : MonoBehaviour
 
     public bool isLoading = false;
     public GameObject LoadingWidget;
-    [Tooltip("All prefabs used by other script")]
-    [Header("GLOBAL PREFAB")]
 
+    [Tooltip("All prefabs used by other script")] [Header("GLOBAL PREFAB")]
+    public Sprite NullSprite;
     public GameObject DefaultWeapon;
     public Material DamageMtl;
     [Header("CURSORS")]
@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     public WeaponsList WeaponsScriptTable;
     public string tamer;
 
-    [Header("SAVED DATA")]
+    [Header("SAVED DATA")] public bool LoadSavedData = false;
      GameObject[]       WeaponsDistDataGameObject;
      int[]              WeaponsDistAmmoDataGameObject;
      GameObject[]       WeaponsCaCDataGameObject;
@@ -197,39 +197,30 @@ public class GameManager : MonoBehaviour
             // Wait until the asynchronous scene fully loads
             while (!asyncLoad.isDone)
                 yield return null;
- 
-            CurrentScene = name;
-          
-                CurrentPlayer = GameObject.FindWithTag("Player");
-
-
-                CurrentCamera = Camera.main.gameObject;
-            PlayerControler plrController = CurrentPlayer.GetComponent<PlayerControler>();
-            GameObject listD = plrController.listD;
-            GameObject listC = plrController.listC;
-            GiveWeaponsToPlayer(WeaponsDistDataGameObject, listD);
-            GiveWeaponsToPlayer(WeaponsCaCDataGameObject, listC);
-
-            // On stock la vie du joueur
-            plrController.health = DataHealth;
-            plrController.PlayerLifes = DataLifes;
-            plrController.PlayerMaxLifes = DataMaxLifes;
+            
             isLoading = false;
-        }
+            LoadSavedData = true;
+
+        CurrentScene = name;
+           
+    }
 
     void GiveWeaponsToPlayer(GameObject[] weaponsList , GameObject List)
     {
         for(int i = 0; i < weaponsList.Length; i++)
         {
             GameObject Wpn = Instantiate(weaponsList[i], CurrentPlayer.transform.position, Quaternion.identity, List.transform);
+            Wpn.SetActive(false);
             Wpn.transform.localPosition = Vector3.zero;
             Wpn.transform.localRotation = new Quaternion(0, 0, 0, 0);
+
             if (Wpn.TryGetComponent(out WeaponManager component))
             {
                 component.CurrentAmmoCount = WeaponsDistAmmoDataGameObject[i];
                 Debug.Log(component.CurrentAmmoCount);
             }
         }
+        
                
     }
 
@@ -280,11 +271,16 @@ public class GameManager : MonoBehaviour
             WeaponsMeleeDesc[i] += "Type : " + Pohpohb.type + " \n";
             WeaponsMeleeDesc[i] += "Damage : " + Pohpohb.attackDamage + " \n";
         }
-        SetIconOnWheelWpn(plrController.selectCorpACorp, WeaponsMeleeImage, wheelMng.WpnIconMelee, ListC.transform.childCount, wheelMng.WpnTextMelee , WeaponsMeleeDesc);
-        SetIconOnWheelWpn(plrController.selectDist, WeaponsImage, wheelMng.WpnIconDistance, ListD.transform.childCount, wheelMng.WpnTextDistance , WeaponsDesc);
+        if(WeaponsImage.Length != 0) // Clix : On check si il a des armes sinon on update pas
+            SetIconOnWheelWpn(plrController.selectDist, WeaponsImage, wheelMng.WpnIconDistance, ListD.transform.childCount, wheelMng.WpnTextDistance, WeaponsDesc);
+        if (WeaponsMeleeImage.Length != 0)
+            SetIconOnWheelWpn(plrController.selectCorpACorp, WeaponsMeleeImage, wheelMng.WpnIconMelee, ListC.transform.childCount, wheelMng.WpnTextMelee , WeaponsMeleeDesc);
         
         void SetIconOnWheelWpn(int CurrentIdWpn , Sprite[] WeaponsImage, Image[] WidgetWheel , int WeaponsListSize , Text weaponDesc , string[] desc)
         {
+            if (WeaponsImage.Length == 0)
+                weaponDesc.text = "No Weapon";
+
             if (WeaponsListSize > 2)
             {
                 WidgetWheel[4].gameObject.SetActive(true);
@@ -318,6 +314,9 @@ public class GameManager : MonoBehaviour
 
     Sprite GetWeaponIndexInTheList(int indexer, Sprite[] WeaponsImage)
     {
+        if (WeaponsImage.Length == 0)
+            return NullSprite;
+
         if(indexer < 0) // Faut repartir sur les armes de fin de la liste
         {
             if(WeaponsImage.Length > 5)
@@ -391,7 +390,22 @@ public class GameManager : MonoBehaviour
             TryToGetPlayerEntity();
         }
 
-
+        if (LoadSavedData && CurrentPlayer != null)
+        {
+            CurrentPlayer = GameObject.FindWithTag("Player");
+            CurrentCamera = Camera.main.gameObject;
+            PlayerControler plrController = CurrentPlayer.GetComponent<PlayerControler>();
+            GameObject listD = plrController.listD;
+            GameObject listC = plrController.listC;
+            GiveWeaponsToPlayer(WeaponsDistDataGameObject, listD);
+            GiveWeaponsToPlayer(WeaponsCaCDataGameObject, listC);
+            plrController.health = DataHealth;
+            plrController.PlayerLifes = DataLifes;
+            plrController.PlayerMaxLifes = DataMaxLifes;
+            LoadSavedData = false;
+            Debug.Log("Data Loaded");
+        }
+          
 
         if (isLoading)
         {
@@ -460,15 +474,12 @@ public class GameManager : MonoBehaviour
     public void ActiveTutorial(int tutID)
     {
         if(tutorielCheck[tutID])
-        {
-            Debug.Log("The tutoriel id : " + tutID + " was already checked");
             return;
-        }
+
         TutorialMenu.SetActive(true);
         TutorialMenu.GetComponent<TutorialProperty>().Text.text = tutorielText[tutID];
         TutorialMenu.GetComponent<TutorialProperty>().Texture.GetComponent<Image>().sprite = tutorielImage[tutID];
         tutorielCheck[tutID] = true;
-
     }
 
     void PauseMenu()
