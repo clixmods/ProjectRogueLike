@@ -832,8 +832,8 @@ MonoBehaviour:
   StartButton: {fileID: 5056947736365822257}
   QuitButton: {fileID: 5056947736036129888}
   CreditsButton: {fileID: 9034044895402228069}
-  CreditsWidget: {fileID: 0}
-  CreditsBackButton: {fileID: 0}
+  CreditsWidget: {fileID: 8567640324588331978}
+  CreditsBackButton: {fileID: 6004406834738565503}
 --- !u!1 &5056947736036129894
 GameObject:
   m_ObjectHideFlags: 0

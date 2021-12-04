@@ -197,13 +197,12 @@ public class GameManager : MonoBehaviour
             // Wait until the asynchronous scene fully loads
             while (!asyncLoad.isDone)
                 yield return null;
- 
+            
+            isLoading = false;
+
             CurrentScene = name;
-          
-                CurrentPlayer = GameObject.FindWithTag("Player");
-
-
-                CurrentCamera = Camera.main.gameObject;
+            CurrentPlayer = GameObject.FindWithTag("Player");
+            CurrentCamera = Camera.main.gameObject;
             PlayerControler plrController = CurrentPlayer.GetComponent<PlayerControler>();
             GameObject listD = plrController.listD;
             GameObject listC = plrController.listC;
@@ -214,22 +213,24 @@ public class GameManager : MonoBehaviour
             plrController.health = DataHealth;
             plrController.PlayerLifes = DataLifes;
             plrController.PlayerMaxLifes = DataMaxLifes;
-            isLoading = false;
-        }
+    }
 
     void GiveWeaponsToPlayer(GameObject[] weaponsList , GameObject List)
     {
         for(int i = 0; i < weaponsList.Length; i++)
         {
             GameObject Wpn = Instantiate(weaponsList[i], CurrentPlayer.transform.position, Quaternion.identity, List.transform);
+            Wpn.SetActive(false);
             Wpn.transform.localPosition = Vector3.zero;
             Wpn.transform.localRotation = new Quaternion(0, 0, 0, 0);
+
             if (Wpn.TryGetComponent(out WeaponManager component))
             {
                 component.CurrentAmmoCount = WeaponsDistAmmoDataGameObject[i];
                 Debug.Log(component.CurrentAmmoCount);
             }
         }
+        
                
     }
 
@@ -460,15 +461,12 @@ public class GameManager : MonoBehaviour
     public void ActiveTutorial(int tutID)
     {
         if(tutorielCheck[tutID])
-        {
-            Debug.Log("The tutoriel id : " + tutID + " was already checked");
             return;
-        }
+
         TutorialMenu.SetActive(true);
         TutorialMenu.GetComponent<TutorialProperty>().Text.text = tutorielText[tutID];
         TutorialMenu.GetComponent<TutorialProperty>().Texture.GetComponent<Image>().sprite = tutorielImage[tutID];
         tutorielCheck[tutID] = true;
-
     }
 
     void PauseMenu()

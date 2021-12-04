@@ -25,12 +25,12 @@ public class hudInit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreditsWidget.SetActive(true);
+       
     }
 
     void StartCreditsWidget()
     {
-
+        CreditsWidget.SetActive(true);
     }
     public void StartLevel()
     {

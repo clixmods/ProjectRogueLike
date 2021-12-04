@@ -30,9 +30,20 @@ public class DialogueManager : MonoBehaviour
         sentences = new Queue<string>();
     }
 
+    void Update()
+    {
+        // Defois le instance nest plus def, du coup je le redef si il faut
+        if (instance != this)
+            instance = this;
+    }
+
     // peut être utiliser par plusieurs PNJ
     public void StartDialogue(Dialogue dialogue)
     {
+        // Clix : jai add ca pour etre sur que sentences est def
+        if(sentences == null)
+            sentences = new Queue<string>();
+
         // récupère l'animation dans l'animator
         animator.SetBool("OpenDialogue", true);
 
@@ -40,7 +51,8 @@ public class DialogueManager : MonoBehaviour
         nameText.text = dialogue.name;
 
         // permet de vider la liste d'attente  
-        sentences.Clear();
+        if(sentences.Count > 0) // Clix : jai add pour eviter de clear si il a rien
+            sentences.Clear();
 
         // ajoute toutes les phrases du PNJ 
         foreach (string sentence in dialogue.sentences)
@@ -87,7 +99,7 @@ public class DialogueManager : MonoBehaviour
     void EndDialogue()
     {
         animator.SetBool("OpenDialogue", false);
-        Debug.Log("fin du dialogue");
+        //Debug.Log("fin du dialogue");
         fin = true;
     }
     
