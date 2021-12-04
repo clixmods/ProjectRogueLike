@@ -60,7 +60,7 @@ public class WeaponManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+      
 
 
         projectilDoss = Instantiate(projectilDoss, new Vector3(0f, 0f, 0f), Quaternion.identity);
@@ -70,8 +70,12 @@ public class WeaponManager : MonoBehaviour
             CurrentAmmoCount = MaxAmmoCount;
     }
 
-  
-    
+    void OnEnable()
+    {
+        transform.localPosition = new Vector3(-0.5f, 0, 0); // permet davoir les arc en bonne position
+        gameObject.GetComponent<SpriteRenderer>().flipX = true;
+    }
+
     // Update is called once per frame
     void Update() // debug
     {
@@ -133,7 +137,7 @@ public class WeaponManager : MonoBehaviour
         // On assigne au projectile la texture d�sign� dans l'arme
         projSrpiteRend.sprite = ProjectileTexture;
         projSrpiteRend.flipX = true;
-        gameObject.GetComponent<SpriteRenderer>().flipX = true;
+        
 
         // On check l'ammoType
         switch (AmmoTypeId)

@@ -539,22 +539,17 @@ public class GameManager : MonoBehaviour
        
         if (CurrentPlayer != null)
         {
-            PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
-            bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon);
-            bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
-            
-
-            if (isPaused)
-            {
-                Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
-                return;
-            }
-
-
 
 
             if (collision != null && collision.tag == "Ennemies")
             {
+                PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
+                if (playerController.CurrentWeapon == null)
+                    return;
+
+                bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon);
+                bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
+         
                 GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.Attaque);
                 cursorTarget = collision;
                 if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
