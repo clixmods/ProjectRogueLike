@@ -50,6 +50,11 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
         if (gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>() != null)
             gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
     }
+
+    void OnEnable()
+    {
+        transform.localPosition = new Vector3(0, 0, 0); // permet davoir les sword en bonne position
+    }
     // Update is called once per frame
     void Update()
     {

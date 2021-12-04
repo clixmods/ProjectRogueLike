@@ -36,6 +36,13 @@ public class LootManager : MonoBehaviour
 
     private bool hintstringIsCreated;
 
+
+    void OnEnable()
+    {
+      
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -64,14 +71,45 @@ public class LootManager : MonoBehaviour
        }
     }
 
+    void CheckIfPlayerHaveIt()
+    {
+        PlayerControler plrControler;
+        if (GameManager.GameUtil.CurrentPlayer != null)
+            plrControler = GameManager.GameUtil.CurrentPlayer.GetComponent<PlayerControler>();
+        else
+            return;
+        // On check si larme nest pas deja en possession du joueur
+        if (objectType == ItemType.weapon)
+        {
+            if (reward.TryGetComponent(out ManagerWeaponCorpAcopr wpnMeleeMng))
+            {
+                GameObject listC = plrControler.listC;
+                for (int i = 0; i < listC.transform.childCount; i++)
+                {
+                    if (listC.transform.GetChild(i).GetComponent<ManagerWeaponCorpAcopr>().WeaponName == wpnMeleeMng.WeaponName)
+                        Destroy(gameObject);
+                }
+            }
+            if (reward.TryGetComponent(out WeaponManager wpnDistanceMng))
+            {
+                GameObject listD = plrControler.listD;
+                for (int i = 0; i < listD.transform.childCount; i++)
+                {
+                    if (listD.transform.GetChild(i).GetComponent<WeaponManager>().WeaponName == wpnDistanceMng.WeaponName)
+                        Destroy(gameObject);
+                }
+            }
+        }
+    }
     // Update is called once per frame
     void Update()
     {
+        CheckIfPlayerHaveIt();
         doRotation();
-
+        
         if (HUDManager.HUDUtility != null && !hintstringIsCreated)
         {
-            HUDManager.HUDUtility.CreateHintString(gameObject, "Use [E] to interact OOF.");
+            //HUDManager.HUDUtility.CreateHintString(gameObject, "Use [E] to interact OOF.");
             hintstringIsCreated = true;
         }
     }

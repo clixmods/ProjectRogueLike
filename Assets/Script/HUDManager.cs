@@ -287,6 +287,7 @@ public class HUDManager : MonoBehaviour
     }
     void GetAndSetHealthValue()
     {
+
         Vector3 localScale = UIHealthBar.GetChild(2).GetComponent<RectTransform>().localScale; // TODO : faut creer la variable HUDIcon 
         if (PlayerHealth > 0)
             localScale.x = (float)PlayerHealth / (float)PlayerMaxHealth;
