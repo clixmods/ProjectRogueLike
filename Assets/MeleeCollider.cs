@@ -41,6 +41,7 @@ public class MeleeCollider : MonoBehaviour
             if (victim.GetComponent<PlayerControler>() != null && !victim.GetComponent<PlayerControler>().isDamaged)
             {
                 victim.GetComponent<PlayerControler>().health -= weaponComponent.attackDamage;
+                victim.GetComponent<PlayerControler>().spriteRdr.material = GameManager.GameUtil.DamageMtl;
                 victim.GetComponent<PlayerControler>().isDamaged = true;
                 toucheds.Add(victim);
             }
@@ -60,6 +61,7 @@ public class MeleeCollider : MonoBehaviour
             if (victim.GetComponent<Boss>() != null)
             {
                 victim.GetComponent<Boss>().health -= weaponComponent.attackDamage;
+                toucheds.Add(victim);
             }
 
 

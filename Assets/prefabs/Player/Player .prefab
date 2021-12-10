@@ -235,7 +235,7 @@ MonoBehaviour:
   PlayerLifes: 4
   PlayerMaxLifes: 4
   animator: {fileID: 7520798427754605904}
-  playerMoveSpeed: 4
+  playerMoveSpeed: 5
   armeCorpACorp: {fileID: 0}
   armeDistance: {fileID: 0}
   CurrentWeapon: {fileID: 0}
@@ -245,6 +245,7 @@ MonoBehaviour:
   selectDist: 0
   maxCooldown: 1.5
   isDamaged: 0
+  spriteRdr: {fileID: 7612312879651587802}
   maxCooldownLife: 5
   isLastStand: 0
   delayToPress: 0.75
@@ -431,7 +432,7 @@ MonoBehaviour:
   - {x: -0.111735344, y: -0.21997738, z: 0}
   m_ShapePathHash: 370147493
   m_Mesh: {fileID: 0}
-  m_InstanceId: 165750
+  m_InstanceId: 211642
 --- !u!1 &8325799129527061755
 GameObject:
   m_ObjectHideFlags: 0

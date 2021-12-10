@@ -16,23 +16,6 @@ public class SlimeOnDeath : MonoBehaviour
 
     private void Awake()
     {
-    
-        //Vector2 scale = transform.localScale;
-        //if (transform.localScale.x > ScalarMin)
-        //{
-        //    GameObject Baby = Instantiate(prefabBaby, transform.position, Quaternion.identity);
-        //    GameObject Baby2 = Instantiate(prefabBaby, transform.position, Quaternion.identity);
-        //    Baby.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
-        //    Baby2.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
-
-
-        //    willSplit = true;
-        //}
-        //else
-        //{
-        //    willSplit = false;
-        //}
-
     }
     private void Start()
     {
@@ -44,30 +27,20 @@ public class SlimeOnDeath : MonoBehaviour
             GameObject Baby2 = Instantiate(prefabBaby, transform.position, Quaternion.identity,transform);
             Baby.SetActive(false);
             Baby2.SetActive(false);
-            
-            Baby.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
-            Baby.GetComponent<EnemyManager>().FromSpawner = false;
-            Baby.GetComponent<EnemyManager>().TriggerSalle = null;
-            Baby.GetComponent<EnemyManager>().isChild = true;
-
-            Baby2.GetComponent<EnemyManager>().ChangeScale(scale.x - ScalarDiscreaser);
-            Baby2.GetComponent<EnemyManager>().FromSpawner = false;
-            Baby2.GetComponent<EnemyManager>().TriggerSalle = null;
-            Baby2.GetComponent<EnemyManager>().isChild = true;
-
+            ApplyBabySetting(Baby.GetComponent<EnemyManager>());
+            ApplyBabySetting(Baby2.GetComponent<EnemyManager>());
         }
-        //if (transform.localScale.x > ScalarMin)
-        //{
-        //    GameObject Baby = Instantiate(prefabBaby, transform.position, Quaternion.identity);
-        //    GameObject Baby2 = Instantiate(prefabBaby, transform.position, Quaternion.identity);
-        //    willSplit = true;
-        //}
-
-        //else
-        //    willSplit = false;
-
     }
 
+    void ApplyBabySetting(EnemyManager babyEnemyManager)
+    {
+        Vector2 scale = transform.localScale;
+        babyEnemyManager.ChangeScale(scale.x - ScalarDiscreaser);
+        babyEnemyManager.FromSpawner = false;
+        babyEnemyManager.TriggerSalle = null;
+        babyEnemyManager.isChild = true;
+        babyEnemyManager.maxHealth = babyEnemyManager.maxHealth / 2;
+    }
     private void OnEnable()
     {
      //   Debug.Log(" OnEnable() "+gameObject.name);

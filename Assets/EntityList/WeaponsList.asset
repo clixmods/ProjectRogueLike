@@ -20,6 +20,10 @@ MonoBehaviour:
   - {fileID: 7920380807437772714, guid: 47ae1658d31456646ba830f85ca8e1f6, type: 3}
   - {fileID: 5839044044379763499, guid: f771841e84e2f0f4da3efcfb08df9a6c, type: 3}
   - {fileID: 8921115975798115388, guid: 503d578b0450a9c42b4849295962d14d, type: 3}
+  - {fileID: 1603246123249598099, guid: 4898d276574262443a3718274f9b1659, type: 3}
+  - {fileID: 1447652878605827047, guid: ea893b64aec44864c860e19834cee4de, type: 3}
+  - {fileID: 7458229108678164327, guid: e9c88aaf75870d346a133f78f8908d2b, type: 3}
+  - {fileID: 4583773026010185295, guid: 24828650edbfea04885f436f8d15712b, type: 3}
   prefabName:
   - Assets/prefabs/weapons/Cimeterre.prefab
   - Assets/prefabs/weapons/CorpAcorp.prefab

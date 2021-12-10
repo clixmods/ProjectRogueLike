@@ -25,7 +25,6 @@ public class EnemyManager : MonoBehaviour
     [Range(0, 3)]
     public float SpeedVariationMultiplier = 1;
     public int health = 100;
-    public bool isMagical = false;
     public ReceiveDamageOnType ReceiveDamageOn;
     public bool isChild = false; // Pour voir si ca vient d'un slime on death
     [Range(1, 100)]
