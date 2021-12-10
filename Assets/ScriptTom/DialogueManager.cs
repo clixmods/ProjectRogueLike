@@ -12,6 +12,11 @@ public class DialogueManager : MonoBehaviour
 
     public bool fin;
 
+    private bool stopPhrase;
+
+    private Coroutine affichePhrase;
+    private Coroutine currentCoroutine;
+
     //variable ressemblant à une liste ou une array
     private Queue<string> sentences;
 
@@ -78,7 +83,14 @@ public class DialogueManager : MonoBehaviour
 
         // permet de stopper toutes les coroutines de ce script 
         StopAllCoroutines();
-        StartCoroutine(TypeSentence(firstSentence));
+        affichePhrase = StartCoroutine(TypeSentence(firstSentence));
+   
+        
+    }
+
+    public void StopPhrase()
+    {
+        StopCoroutine(affichePhrase);
     }
 
     // permet d'afficher les charatères un par un 
