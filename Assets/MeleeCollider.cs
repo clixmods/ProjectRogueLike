@@ -48,6 +48,7 @@ public class MeleeCollider : MonoBehaviour
             // Event a ennemy is damaged
             if (victim.TryGetComponent<EnemyManager>(out EnemyManager VictimManager))
             {
+                weaponComponent.PlaySFXAttack();
                 Debug.Log("POGGGERRRS " + (int)VictimManager.ReceiveDamageOn + " /  " + (int)weaponComponent.type);
                 if ((int)VictimManager.ReceiveDamageOn == (int)weaponComponent.type || VictimManager.ReceiveDamageOn == ReceiveDamageOnType.Both)
                 {

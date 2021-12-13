@@ -312,7 +312,7 @@ public class HUDManager : MonoBehaviour
         if ( BossMaxHealth == 0)
             return;
 
-        Vector3 localScale = UIHealthBoss.GetChild(2).GetComponent<RectTransform>().localScale; // TODO : faut cr�e la variable HUDIcon 
+        Vector3 localScale = UIHealthBoss.GetChild(2).GetComponent<RectTransform>().localScale; // TODO : faut crée la variable HUDIcon 
         localScale.x = (float)BossHealth / (float)BossMaxHealth;
         if (localScale.x > 1)
             localScale.x = 1;
@@ -373,6 +373,7 @@ public class HUDManager : MonoBehaviour
         {
             if( InstanceRefController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager WeaponManager))
             {
+                Text txt = UIPlayerWeaponDistance.GetComponentInChildren<Text>();
                 if (WeaponManager.IsMagical)
                 {
                     DistanceMagicIcon.SetActive(true);
@@ -384,9 +385,34 @@ public class HUDManager : MonoBehaviour
                     DistancePhyIcon.SetActive(true);
                 }
 
-                    ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
+                ReduceOpacity(UIPlayerWeaponMelee.GetComponent<Image>());
                 Opacity(UIPlayerWeaponDistance.GetComponent<Image>());
-                UIPlayerWeaponDistance.GetComponentInChildren<Text>().text = PlayerAmmoCount.ToString();
+
+                if (WeaponManager.AmmoTypeId == 1)
+                {
+                    if (PlayerAmmoCount > 80 && PlayerAmmoCount < 90)
+                    {
+                        txt.color = Color.yellow;
+                    }
+                    else if (PlayerAmmoCount > 90)
+                    {
+                        txt.color = Color.red;
+                    }
+                    else
+                    {
+                        txt.color = Color.white;
+
+                    }
+
+                    txt.text = PlayerAmmoCount.ToString()+"%";
+                }
+                else
+                {
+                    txt.color = Color.white;
+                    txt.text = PlayerAmmoCount.ToString();
+
+                }
+               
                 UIPlayerWeaponDistance.GetComponent<Image>().sprite = WeaponManager.HUDIcon;
 
             }

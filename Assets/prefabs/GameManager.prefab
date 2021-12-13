@@ -2431,7 +2431,12 @@ MonoBehaviour:
   - UNDEFINED
   WeaponsScriptTable: {fileID: 11400000, guid: 3093cd6055b24fe4d98b10bc93090db5, type: 2}
   tamer: 
+  LoadSavedData: 0
   tutoIsFinished: 0
+  MainTheme: {fileID: 8300000, guid: eaab9b01202a51247be3d5e45a7a7978, type: 3}
+  sndValidate: {fileID: 0}
+  sndMove: {fileID: 0}
+  sndBack: {fileID: 0}
 --- !u!58 &6144934642031643891
 CircleCollider2D:
   m_ObjectHideFlags: 0

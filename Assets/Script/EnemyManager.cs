@@ -70,6 +70,20 @@ public class EnemyManager : MonoBehaviour
     SpriteRenderer SpriteRend;
     Material OGmtl;
 
+    [Header("AUDIO")]
+    private AudioSource sndSource;
+    [SerializeField] private AudioClip[] sndSpawn;
+    [SerializeField] private AudioClip[] sndAttack;
+    [SerializeField] private AudioClip[] sndDamaged;
+    [SerializeField] private AudioClip[] sndAmbient;
+
+    private void Awake()
+    {
+        sndSource = gameObject.AddComponent<AudioSource>() as AudioSource;
+
+        SpriteRend = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
+        OGmtl = SpriteRend.material;
+    }
     private void OnDestroy()
     {
         if(isCanLoot && lootObjs.Length > 0)
@@ -86,12 +100,27 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void Awake()
-    {
-        SpriteRend = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).GetComponent<SpriteRenderer>();
-        OGmtl = SpriteRend.material;
-    }
 
+    public void PlayDamagedSound()
+    {
+        sndSource.clip = sndDamaged[Random.Range(0, sndDamaged.Length)];
+        sndSource.Play();
+    }
+    public void PlayAttackSound()
+    {
+        sndSource.clip = sndDamaged[Random.Range(0, sndAttack.Length)];
+        sndSource.Play();
+    }
+    public void PlayAmbientSound()
+    {
+        sndSource.clip = sndDamaged[Random.Range(0, sndAmbient.Length)];
+        sndSource.Play();
+    }
+    public void PlaySpawnSound()
+    {
+        sndSource.clip = sndDamaged[Random.Range(0, sndSpawn.Length)];
+        sndSource.Play();
+    }
     private void Start()
     {
         // On change le speed de l'ennemi pour varier un peu les mouvements à l'écran,

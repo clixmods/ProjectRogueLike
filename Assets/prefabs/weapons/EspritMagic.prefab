@@ -62,14 +62,14 @@ MonoBehaviour:
   FireRate: 0.05
   Cooldown: 0
   ProjectileLifeTime: 5
-  DamageAmount: 5
-  AmmoTypeId: 0
+  DamageAmount: 2
+  AmmoTypeId: 1
   IsMagical: 1
   type: 1
   MaxAmmoCount: 500
   HeatingMultiplier: 1
-  CooldownHeating: 3
-  DiscreaseHeatingMultiplier: 1
+  CooldownHeating: 5
+  DiscreaseHeatingMultiplier: 10
   Attacker: {fileID: 0}
   projectilDoss: {fileID: 5319332556057631282, guid: 71aca181ce15cd94e809df1f20259c1f, type: 3}
 --- !u!212 &7316743850952746655

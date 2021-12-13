@@ -36,7 +36,7 @@ public class SpawnRooms : MonoBehaviour
 
     void SpawnSalle()
     {
-
+        
         if (spawnOrNot == false)
         {
             

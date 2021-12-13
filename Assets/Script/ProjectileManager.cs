@@ -11,6 +11,7 @@ public class ProjectileManager : MonoBehaviour
     public WeaponType typeWpn;
     public bool DestroyOnHit;
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject victim = collision.gameObject;

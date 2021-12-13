@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Audio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -89,9 +90,21 @@ public class GameManager : MonoBehaviour
 
 
      public bool tutoIsFinished;
-    // Start is called before the first frame update
+
+    
+     private AudioSource musicSource;
+     private AudioSource SFXSource;
+     [Header("AUDIO")]
+     [SerializeField] private AudioClip MainTheme;
+     [SerializeField] private AudioClip sndValidate;
+     [SerializeField] private AudioClip sndMove;
+     [SerializeField] private AudioClip sndBack;
     void Awake()
     {
+        musicSource = gameObject.AddComponent<AudioSource>() as AudioSource;
+        SFXSource = gameObject.AddComponent<AudioSource>() as AudioSource;
+        PlayMusic(MainTheme);
+
         tutorielCheck = new bool[Enum.GetValues(typeof(TutorialPhase)).Length];
         Vector2 hotSpot;
         Vector2  hotSpotAuto = new Vector2(1 , 1);
@@ -111,6 +124,17 @@ public class GameManager : MonoBehaviour
         if (CurrentCamera == null && Camera.main != null)
             CurrentCamera = Camera.main.gameObject; 
 
+    }
+
+    public void PlayMusic(AudioClip music)
+    {
+        musicSource.clip = music;
+        musicSource.Play();
+    }
+    public void PlaySfx(AudioClip sfx)
+    {
+        SFXSource.clip = sfx;
+        musicSource.Play();
     }
     void Start()
     {

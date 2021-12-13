@@ -232,8 +232,8 @@ MonoBehaviour:
   health: 300
   MaxHealth: 300
   PlayerShield: 0
-  PlayerLifes: 4
-  PlayerMaxLifes: 4
+  PlayerLifes: 0
+  PlayerMaxLifes: 0
   animator: {fileID: 7520798427754605904}
   playerMoveSpeed: 5
   armeCorpACorp: {fileID: 0}
@@ -432,7 +432,7 @@ MonoBehaviour:
   - {x: -0.111735344, y: -0.21997738, z: 0}
   m_ShapePathHash: 370147493
   m_Mesh: {fileID: 0}
-  m_InstanceId: 211642
+  m_InstanceId: 60280
 --- !u!1 &8325799129527061755
 GameObject:
   m_ObjectHideFlags: 0

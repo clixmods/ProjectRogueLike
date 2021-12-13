@@ -33,9 +33,19 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
     public bool IsMagical = false;
     public WeaponType type;
 
+    [Header("AUDIO")]
+    [SerializeField]
+    AudioSource audioSrc;
+    [SerializeField] AudioClip[] audioHit;
+    [SerializeField] AudioClip[] audioAttack;
+    [SerializeField] AudioClip[] audioDeploy;
+    [SerializeField] AudioClip[] audioRengain;
+
+
     // Start is called before the first frame update
     void Start()
     {
+        audioSrc = gameObject.AddComponent<AudioSource>() as AudioSource;
         attackPoint = gameObject.transform.GetChild(0).transform;
         CollisionWeapon = gameObject.GetComponentInChildren<BoxCollider2D>();
 
@@ -91,18 +101,36 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
                 gameObject.transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
         }
     }
-   
-   
+
+    void PlaySFX(AudioClip[] clips)
+    {
+        int randomValue = Random.Range(0, clips.Length);
+        audioSrc.clip = clips[randomValue];
+        audioSrc.Play();
+
+    }
+
+    public void PlaySFXAttack()
+    {
+        int randomValue = Random.Range(0, audioHit.Length);
+        audioSrc.clip = audioHit[randomValue];
+        audioSrc.Play();
+
+    }
+
     public void Attack(float Angle = 0)
     {
         if (IsFiring)
             return;
 
+        PlaySFX(audioAttack);
             reachSpeedAttack = 0;
             AttackAngle = Angle;
             IsFiring = true;
             FirstCheck = true;
             transform.parent.parent.rotation = Quaternion.Euler(new Vector3(0f, 0f, AttackAngle+45));
+
+            
 
        // Collider2D[] hitenemy = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
         //OnDrawGizmos();
