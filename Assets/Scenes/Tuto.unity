@@ -3470,7 +3470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525601, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: dialogue.sentences.Array.data[0]
-      value: HI, we need your help !!!
+      value: Hello, we need your help !
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525601, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: dialogue.sentences.Array.data[1]
@@ -3486,7 +3486,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525601, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: dialogue.sentences.Array.data[4]
-      value: if you are sucseful i will let you go to the donjon.
+      value: if you are successfull, I will let you go to the donjon.
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525601, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: dialogue.sentences.Array.data[5]

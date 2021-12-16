@@ -160,7 +160,11 @@ public class GameManager : MonoBehaviour
         WeaponsDistDataGameObject = new GameObject[listD.transform.childCount];
         WeaponsDistAmmoDataGameObject = new int[listD.transform.childCount];
         // On stock la vie du joueur
-        DataHealth = plrControler.health;
+        if (plrControler.health <= 0)
+            DataHealth = 300;
+        else
+            DataHealth = plrControler.health;
+        
         DataLifes = plrControler.PlayerLifes;
         DataMaxLifes = plrControler.PlayerMaxLifes;
         for (int i = 0; i< listD.transform.childCount; i++)
@@ -460,7 +464,7 @@ public class GameManager : MonoBehaviour
                 DataMaxLifes = -1;
                 currentCooldown = 0;
                 isGameover = false;
-                BackToMainMenu();
+                ChangeLevel(3);
             }
         }
 
