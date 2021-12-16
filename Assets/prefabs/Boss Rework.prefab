@@ -84,6 +84,7 @@ MonoBehaviour:
   damageBall: 50
   damageBigBall: 150
   damageTouche: 25
+  PorteProchainBoss: {fileID: 9109747104445471078, guid: f95fc5a52a9c31645a7e9ee3f7203ea2, type: 3}
 --- !u!114 &5466958654265787122
 MonoBehaviour:
   m_ObjectHideFlags: 0

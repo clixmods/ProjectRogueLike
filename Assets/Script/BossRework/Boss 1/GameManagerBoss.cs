@@ -23,22 +23,25 @@ public class GameManagerBoss : MonoBehaviour
 
 
     bool lanceAttack;
+
+    public GameObject PorteProchainBoss;
     // Start is called before the first frame update
     void Start()
     {
 
-        //scriptTireBouleDeFeu.player = player;
+        scriptTireBouleDeFeu.player = player;
         scriptTireBouleDeFeu.damageBall = damageBall;
         scriptTireBouleDeFeu.damageBigBall = damageBigBall;
         healthActu = health;
         timeReach = 10;
         timeTReach = 10;
+        HUDManager.HUDUtility.UIHealthBoss.gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        //UpdateUI();
+        UpdateUI();
         Timer();
         if (lanceAttack)
         {
@@ -125,7 +128,13 @@ public class GameManagerBoss : MonoBehaviour
                 lanceAttack = false;
             }
         }
-        
+        if (healthActu <= 0)
+        {
+            HUDManager.HUDUtility.UIHealthBoss.gameObject.SetActive(false);
+            Instantiate(PorteProchainBoss, gameObject.transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
+
     }
 
     void UpdateUI()
