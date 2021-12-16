@@ -105,7 +105,11 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
     void PlaySFX(AudioClip[] clips)
     {
         if (clips == null || clips.Length <= 0)
+        {
+            Debug.Log("Pas de sons SFX  défini pour " + WeaponName);
             return;
+        }
+           
         
         int randomValue = Random.Range(0, clips.Length);
         audioSrc.clip = clips[randomValue];
@@ -115,6 +119,11 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
 
     public void PlaySFXAttack()
     {
+        if (audioHit == null || audioHit.Length <= 0)
+        {
+            Debug.Log("Pas de sons SFX Attack défini pour " + WeaponName);
+            return;
+        }
         int randomValue = Random.Range(0, audioHit.Length);
         audioSrc.clip = audioHit[randomValue];
         audioSrc.Play();
