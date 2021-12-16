@@ -124,7 +124,6 @@ MonoBehaviour:
   Name: Orc
   SpeedVariationMultiplier: 1.41
   health: 80
-  isMagical: 0
   ReceiveDamageOn: 2
   isChild: 0
   AttackChance: 5
@@ -139,11 +138,20 @@ MonoBehaviour:
   flashDamage: {fileID: 2100000, guid: 55698ee3bd2a6df4e82f91aa8f9e4cb5, type: 2}
   mtlDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   isCanLoot: 1
-  lootObjs: []
-  DropRate: 15
+  lootObjs:
+  - {fileID: 7761118179935472054, guid: bf2c0634989af0a4083e11bec1a7ea17, type: 3}
+  - {fileID: 8363766795800679783, guid: af4607b47f80d1f47ac4f9a51402de7a, type: 3}
+  - {fileID: 4189493541005770331, guid: ff2c8404333c69848857f55b7061456d, type: 3}
+  - {fileID: 4189493541005770331, guid: ff2c8404333c69848857f55b7061456d, type: 3}
+  - {fileID: 4189493541005770331, guid: ff2c8404333c69848857f55b7061456d, type: 3}
+  DropRate: 5
   maxHealth: 0
   HealthBar: {fileID: 0}
   aPotentialTarget: {fileID: 0}
+  sndSpawn: []
+  sndAttack: []
+  sndDamaged: []
+  sndAmbient: []
 --- !u!1 &1867255602067411376
 GameObject:
   m_ObjectHideFlags: 0

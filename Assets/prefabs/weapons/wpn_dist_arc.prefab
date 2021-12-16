@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponName: Wood Bow
+  WeaponDesc: 
   CurrentAmmoCount: 0
   isUnlocked: 0
   prefabName: Assets/prefabs/weapons/wpn_dist_arc.prefab
@@ -112,13 +113,18 @@ MonoBehaviour:
   FireRate: 0.26
   Cooldown: 0
   ProjectileLifeTime: 5
-  DamageAmount: 50
+  DamageAmount: 20
   AmmoTypeId: 0
   IsMagical: 1
-  type: 1
+  type: 2
   MaxAmmoCount: 300
   HeatingMultiplier: 0
   CooldownHeating: 3
   DiscreaseHeatingMultiplier: 1
   Attacker: {fileID: 0}
   projectilDoss: {fileID: 5319332556057631282, guid: 71aca181ce15cd94e809df1f20259c1f, type: 3}
+  audioSrc: {fileID: 0}
+  audioHit: []
+  audioAttack: []
+  audioDeploy: []
+  audioRengain: []

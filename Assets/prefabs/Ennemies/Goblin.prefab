@@ -214,11 +214,10 @@ MonoBehaviour:
   Name: Goblin
   SpeedVariationMultiplier: 2.51
   health: 40
-  isMagical: 0
   ReceiveDamageOn: 0
   isChild: 0
   AttackChance: 5
-  CurrentWeapon: {fileID: 8921115975798115388, guid: 503d578b0450a9c42b4849295962d14d, type: 3}
+  CurrentWeapon: {fileID: 1854061481665299880, guid: 428965d1c94e1cd499ff1c89c415c667, type: 3}
   Scale: 0
   DistanceTarget: 5
   isDamaged: 0
@@ -234,9 +233,17 @@ MonoBehaviour:
   - {fileID: 669284657308345155, guid: cdc770113fe07e54f86f2a764c908095, type: 3}
   - {fileID: 4189493541005770331, guid: ff2c8404333c69848857f55b7061456d, type: 3}
   - {fileID: 669284657308345155, guid: cdc770113fe07e54f86f2a764c908095, type: 3}
+  - {fileID: 8363766795800679783, guid: af4607b47f80d1f47ac4f9a51402de7a, type: 3}
+  - {fileID: 4189493541005770331, guid: ff2c8404333c69848857f55b7061456d, type: 3}
+  - {fileID: 4189493541005770331, guid: ff2c8404333c69848857f55b7061456d, type: 3}
+  DropRate: 25
   maxHealth: 0
   HealthBar: {fileID: 0}
   aPotentialTarget: {fileID: 0}
+  sndSpawn: []
+  sndAttack: []
+  sndDamaged: []
+  sndAmbient: []
 --- !u!1 &5361222289231497996
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,4 +396,4 @@ MonoBehaviour:
   - {x: -0.057014942, y: -0.18208277, z: 0}
   m_ShapePathHash: -846969037
   m_Mesh: {fileID: 0}
-  m_InstanceId: 31644
+  m_InstanceId: 81386

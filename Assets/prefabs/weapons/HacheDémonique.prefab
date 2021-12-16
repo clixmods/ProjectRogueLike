@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponName: Demonic Axe
+  WeaponDesc: 
   textureWeapon: {fileID: 2582605905589520857, guid: 4224dc55e29b2ab4c9e57d9016ee1ed7, type: 3}
   HUDIcon: {fileID: 2582605905589520857, guid: 4224dc55e29b2ab4c9e57d9016ee1ed7, type: 3}
   attackRange: 1
@@ -110,7 +111,12 @@ MonoBehaviour:
   checkCollision: 0
   FirstCheck: 0
   IsMagical: 0
-  type: 1
+  type: 2
+  audioSrc: {fileID: 0}
+  audioHit: []
+  audioAttack: []
+  audioDeploy: []
+  audioRengain: []
 --- !u!1 &1447652879511919852
 GameObject:
   m_ObjectHideFlags: 0

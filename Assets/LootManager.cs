@@ -144,7 +144,10 @@ public class LootManager : MonoBehaviour
             switch(objectType)
             {
                 case ItemType.life:
-                    AddLifeToPlayer(a_guy);
+                    if (a_guy.GetComponent<PlayerControler>().PlayerMaxLifes == a_guy.GetComponent<PlayerControler>().PlayerLifes)
+                        return;
+                    else
+                        AddLifeToPlayer(a_guy);
                     break;
                 case ItemType.Slotlife:
                     AddSlotLifeToPlayer(a_guy);
