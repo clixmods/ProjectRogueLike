@@ -26,6 +26,10 @@ public class LevelManager : MonoBehaviour
     GameObject porteBossins;
     private bool bossAvailable = false;
 
+    public int numberOfRoomToSpawn;
+    public GameObject listeSalle;
+    public GameObject listeCouloir;
+
 
 
     private void Awake()
@@ -37,7 +41,10 @@ public class LevelManager : MonoBehaviour
 
     {
         listRoom = Instantiate(prefabListRoom, new Vector3(0f, 0f, 0f), Quaternion.identity);
-       
+        listRoom.GetComponent<TotalScript>().listCouloir = listeCouloir;
+        listRoom.GetComponent<TotalScript>().listSalle = listeSalle;
+        listRoom.GetComponent<TotalScript>().maxSalle = numberOfRoomToSpawn;
+
         spawnRoom = Instantiate(prefabSpawnRoom, new Vector3(0f, 0f, 0f), Quaternion.identity);
         GameManager.GameUtil.isLoading = true;
 

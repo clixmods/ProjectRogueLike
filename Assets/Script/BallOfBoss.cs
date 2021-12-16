@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BallOfBoss : MonoBehaviour
 {
+    public int damage;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,9 +23,10 @@ public class BallOfBoss : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if (collision.gameObject.GetComponent<PlayerControler>() != null)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            collision.gameObject.GetComponent<PlayerControler>().health -= 10; // TODO damage à defs
+         //   collision.gameObject.GetComponent<PlayerControler>().health -= damage; // TODO damage à defs
+            collision.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             Destroy(gameObject);
         }
 

@@ -24,7 +24,8 @@ public class TriggerBoss : MonoBehaviour
     {
         if(collision.gameObject.layer == LayerMask.NameToLayer("Player") && !check)
         {
-            Instantiate(prefabBoss, gameObject.transform.position, Quaternion.identity);
+            GameObject boss = Instantiate(prefabBoss, gameObject.transform.position, Quaternion.identity);
+            boss.GetComponent<GameManagerBoss>().player = collision.gameObject;
             for(int i = 0; i<gameObject.transform.childCount; i ++)
             {
                 int port = gameObject.transform.GetChild(i).gameObject.GetComponent<ScriptPorte>().rightOrLeft;

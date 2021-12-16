@@ -7910,22 +7910,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 681411343179332194, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
-      propertyPath: m_Size.x
-      value: 22.69
-      objectReference: {fileID: 0}
-    - target: {fileID: 681411343179332194, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
-      propertyPath: m_Size.y
-      value: 22.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 681411343179332194, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
-      propertyPath: m_Offset.x
-      value: -0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 681411343179332194, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
-      propertyPath: m_Offset.y
-      value: 0.48
-      objectReference: {fileID: 0}
     - target: {fileID: 681411343179332196, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
       propertyPath: m_Name
       value: spawnBoss
