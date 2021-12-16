@@ -5122,6 +5122,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 911878067503057736, guid: 35d25858489dca446a422d4f3d569f01, type: 3}
+      propertyPath: prefabSpawnennemie
+      value: 
+      objectReference: {fileID: 1179666943438460790, guid: d1fc36a5cc94e144f9f05f80e1d94452, type: 3}
     - target: {fileID: 911878067503057737, guid: 35d25858489dca446a422d4f3d569f01, type: 3}
       propertyPath: m_Name
       value: TriggerSalle
