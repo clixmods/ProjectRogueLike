@@ -10,7 +10,7 @@ public class GameManagerBoss : MonoBehaviour
 
     public GameObject player;
 
-    int healthActu;
+    public int healthActu;
     public int health;
     public int damageBall;
     public int damageBigBall;

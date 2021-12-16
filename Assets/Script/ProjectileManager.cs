@@ -39,9 +39,9 @@ public class ProjectileManager : MonoBehaviour
                 if(DestroyOnHit)
                     Destroy(gameObject);
             }
-            if (victim.GetComponent<Boss>() != null)
+            if (victim.GetComponent<GameManagerBoss>() != null)
             {
-                victim.GetComponent<Boss>().health -= DamageAmount;
+                victim.GetComponent<GameManagerBoss>().healthActu-= DamageAmount;
             }
             if (collision.transform.tag == "Wall")
             {

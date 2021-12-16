@@ -61,7 +61,7 @@ public class MeleeCollider : MonoBehaviour
             // Event boss is damaged
             if (victim.GetComponent<GameManagerBoss>() != null)
             {
-                victim.GetComponent<Boss>().health -= weaponComponent.attackDamage;
+                victim.GetComponent<GameManagerBoss>().healthActu -= weaponComponent.attackDamage;
                 toucheds.Add(victim);
             }
 
