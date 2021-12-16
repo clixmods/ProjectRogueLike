@@ -100,7 +100,7 @@ public class LevelManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("La function CreationDuPortailVersLeBoss a besoin de porteBoss mais certaines param sont pas d�f");
+                Debug.Log("La function CreationDuPortailVersLeBoss a besoin de porteBoss mais certaines param sont pas def");
             }
 
         }

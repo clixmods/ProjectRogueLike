@@ -427,7 +427,7 @@ public class HUDManager : MonoBehaviour
         Ennemies = GameObject.FindGameObjectsWithTag("Ennemies");
         for (int i = 0; i < Ennemies.Length; i++)
         {
-            if (Ennemies[i].GetComponent<Boss>() != null)
+            if (Ennemies[i].GetComponent<GameManagerBoss>() != null)
             {
                 continue;
             }

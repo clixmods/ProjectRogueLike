@@ -25,7 +25,7 @@ public class BallOfBoss : MonoBehaviour
         }
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-         //   collision.gameObject.GetComponent<PlayerControler>().health -= damage; // TODO damage à defs
+          collision.gameObject.GetComponent<PlayerControler>().health -= damage; // TODO damage à defs
             collision.gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             Destroy(gameObject);
         }

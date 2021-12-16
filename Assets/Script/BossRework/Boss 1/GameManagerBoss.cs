@@ -193,7 +193,7 @@ public class GameManagerBoss : MonoBehaviour
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
-            //   collision.gameObject.GetComponent<PlayerControler>().health -= damageTouche; // TODO damage à defs
+              collision.gameObject.GetComponent<PlayerControler>().health -= damageTouche; // TODO damage à defs
         }
     }
 

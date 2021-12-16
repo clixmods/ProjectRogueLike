@@ -59,7 +59,7 @@ public class MeleeCollider : MonoBehaviour
                 GameManager.GameUtil.ActiveTutorial((int)TutorialPhase.TypeWeapon);
             }
             // Event boss is damaged
-            if (victim.GetComponent<Boss>() != null)
+            if (victim.GetComponent<GameManagerBoss>() != null)
             {
                 victim.GetComponent<Boss>().health -= weaponComponent.attackDamage;
                 toucheds.Add(victim);

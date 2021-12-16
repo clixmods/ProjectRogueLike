@@ -161,9 +161,12 @@ public class TotalScript : MonoBehaviour
         }
         for (int i = 0; i < wall.Count; i ++)
         {
-            for (int f = 0; f < wall[i].transform.GetChild(0).childCount; f++)
+            if (wall[i] = null)
             {
-                wall[i].transform.GetChild(0).GetChild(f).gameObject.AddComponent<BoxCollider2D>();
+                for (int f = 0; f < wall[i].transform.GetChild(0).childCount; f++)
+                {
+                    wall[i].transform.GetChild(0).GetChild(f).gameObject.AddComponent<BoxCollider2D>();
+                }
             }
         }
         check3 = true;
