@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 217482461620529868}
   - component: {fileID: 4903177503423541399}
   - component: {fileID: 5466958654265787122}
-  - component: {fileID: 137470996}
+  - component: {fileID: 4781489731818951399}
   m_Layer: 14
   m_Name: Boss Rework
   m_TagString: Ennemies
@@ -80,6 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scriptTireBouleDeFeu: {fileID: 5466958654265787122}
   player: {fileID: 0}
+  healthActu: 0
   health: 6000
   damageBall: 50
   damageBigBall: 150
@@ -137,8 +138,8 @@ MonoBehaviour:
   nombreDeFoisExploseExplose: 0
   timeToReacchExplose: 0
   timeBetweenExploseExplose: 0
---- !u!61 &137470996
-BoxCollider2D:
+--- !u!58 &4781489731818951399
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -151,18 +152,8 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 1.21
 --- !u!1 &217482462048103958
 GameObject:
   m_ObjectHideFlags: 0
