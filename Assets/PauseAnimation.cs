@@ -20,7 +20,6 @@ public class PauseAnimation : MonoBehaviour
     {
         
         time += 0.005f;
-        print(time);
         if (time < 0.2f)
             gameObject.GetComponent<Image>().sprite = Images[0];
         else if (time < 0.4f)

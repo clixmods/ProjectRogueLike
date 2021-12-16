@@ -104,6 +104,9 @@ public class ManagerWeaponCorpAcopr : MonoBehaviour
 
     void PlaySFX(AudioClip[] clips)
     {
+        if (clips == null || clips.Length <= 0)
+            return;
+        
         int randomValue = Random.Range(0, clips.Length);
         audioSrc.clip = clips[randomValue];
         audioSrc.Play();

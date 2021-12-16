@@ -81,7 +81,7 @@ public class LootManager : MonoBehaviour
         // On check si larme nest pas deja en possession du joueur
         if (objectType == ItemType.weapon)
         {
-            if (reward.TryGetComponent(out ManagerWeaponCorpAcopr wpnMeleeMng))
+            if (reward.TryGetComponent(out ManagerWeaponCorpAcopr wpnMeleeMng) && plrControler.listC != null)
             {
                 GameObject listC = plrControler.listC;
                 for (int i = 0; i < listC.transform.childCount; i++)
@@ -90,7 +90,7 @@ public class LootManager : MonoBehaviour
                         Destroy(gameObject);
                 }
             }
-            if (reward.TryGetComponent(out WeaponManager wpnDistanceMng))
+            if (reward.TryGetComponent(out WeaponManager wpnDistanceMng) && plrControler.listD != null)
             {
                 GameObject listD = plrControler.listD;
                 for (int i = 0; i < listD.transform.childCount; i++)
