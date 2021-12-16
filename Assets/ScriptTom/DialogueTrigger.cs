@@ -5,7 +5,7 @@ public class DialogueTrigger : MonoBehaviour
 {
     public Dialogue dialogue;
 
-    public bool inRange;
+    private bool inRange;
 
     public Text interactUI;
 
@@ -27,13 +27,15 @@ public class DialogueTrigger : MonoBehaviour
     }
     void Update()
     {
-        if(inRange && Input.GetKeyDown(KeyCode.P) && !check)
+        if(inRange && Input.GetKeyDown(KeyCode.R) && !check)
         {
             TriggerDialogue();
             check = true;
         }
-        if(check && Input.GetKeyDown(KeyCode.P))
+        if(check && Input.GetKeyDown(KeyCode.R))
         {
+            DialogueManager.instance.StopPhrase();
+
             DialogueManager.instance.DisplayNextSentence();
         }
         if (!tuto)

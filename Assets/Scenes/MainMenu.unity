@@ -514,6 +514,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 1585072689572102650, guid: aa09736cce3a716408fd1c64f6c7ddaf, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1938796847734950697, guid: aa09736cce3a716408fd1c64f6c7ddaf, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0.5
@@ -546,6 +550,10 @@ PrefabInstance:
       propertyPath: HUD
       value: 
       objectReference: {fileID: 1675646156}
+    - target: {fileID: 5460944954957226060, guid: aa09736cce3a716408fd1c64f6c7ddaf, type: 3}
+      propertyPath: isLoading
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5460944954957226060, guid: aa09736cce3a716408fd1c64f6c7ddaf, type: 3}
       propertyPath: CurrentCamera
       value: 

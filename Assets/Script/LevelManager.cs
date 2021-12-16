@@ -47,12 +47,8 @@ public class LevelManager : MonoBehaviour
 
         spawnRoom = Instantiate(prefabSpawnRoom, new Vector3(0f, 0f, 0f), Quaternion.identity);
         GameManager.GameUtil.isLoading = true;
-
-
         boss = Instantiate(SalleBoss, new Vector3(1000, 1000, 0), Quaternion.identity);
        
-        
-
     }
 
     // Update is called once per frame
@@ -104,7 +100,7 @@ public class LevelManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("La function CreationDuPortailVersLeBoss a besoin de porteBoss mais certaines param sont pas déf");
+                Debug.Log("La function CreationDuPortailVersLeBoss a besoin de porteBoss mais certaines param sont pas dï¿½f");
             }
 
         }

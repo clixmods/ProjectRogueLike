@@ -11,6 +11,7 @@ public class ProjectileManager : MonoBehaviour
     public WeaponType typeWpn;
     public bool DestroyOnHit;
 
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject victim = collision.gameObject;
@@ -21,6 +22,7 @@ public class ProjectileManager : MonoBehaviour
             if (victim.TryGetComponent<PlayerControler>(out PlayerControler PlayerControler) && !PlayerControler.isDamaged)
             {
                 PlayerControler.health -= DamageAmount;
+                victim.GetComponent<PlayerControler>().spriteRdr.material = GameManager.GameUtil.DamageMtl;
                 PlayerControler.isDamaged = true;
             }
             if (victim.TryGetComponent<EnemyManager>(out EnemyManager VictimManager))

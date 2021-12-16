@@ -41,12 +41,14 @@ public class MeleeCollider : MonoBehaviour
             if (victim.GetComponent<PlayerControler>() != null && !victim.GetComponent<PlayerControler>().isDamaged)
             {
                 victim.GetComponent<PlayerControler>().health -= weaponComponent.attackDamage;
+                victim.GetComponent<PlayerControler>().spriteRdr.material = GameManager.GameUtil.DamageMtl;
                 victim.GetComponent<PlayerControler>().isDamaged = true;
                 toucheds.Add(victim);
             }
             // Event a ennemy is damaged
             if (victim.TryGetComponent<EnemyManager>(out EnemyManager VictimManager))
             {
+                weaponComponent.PlaySFXAttack();
                 Debug.Log("POGGGERRRS " + (int)VictimManager.ReceiveDamageOn + " /  " + (int)weaponComponent.type);
                 if ((int)VictimManager.ReceiveDamageOn == (int)weaponComponent.type || VictimManager.ReceiveDamageOn == ReceiveDamageOnType.Both)
                 {
@@ -60,6 +62,7 @@ public class MeleeCollider : MonoBehaviour
             if (victim.GetComponent<Boss>() != null)
             {
                 victim.GetComponent<Boss>().health -= weaponComponent.attackDamage;
+                toucheds.Add(victim);
             }
 
 

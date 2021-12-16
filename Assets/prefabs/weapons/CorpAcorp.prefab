@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WeaponName: 'Iron Sword '
+  WeaponDesc: 
   textureWeapon: {fileID: 21300000, guid: 79094c19718b9254eb91bd6f848207df, type: 3}
   HUDIcon: {fileID: 21300000, guid: 79094c19718b9254eb91bd6f848207df, type: 3}
   attackRange: 1
@@ -182,3 +183,10 @@ MonoBehaviour:
   FirstCheck: 0
   IsMagical: 0
   type: 2
+  audioSrc: {fileID: 0}
+  audioHit:
+  - {fileID: 8300000, guid: c9f45593cb3d44749b60bad7fdd01f7c, type: 3}
+  audioAttack:
+  - {fileID: 8300000, guid: b0b11f07a1cd29d45b08300984a8e679, type: 3}
+  audioDeploy: []
+  audioRengain: []

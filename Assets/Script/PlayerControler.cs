@@ -33,6 +33,9 @@ public class PlayerControler : MonoBehaviour
     float currentCooldown = 0;
     public float maxCooldown = 1.5f;
     public bool isDamaged = false;
+
+    private Material defaultMaterial;
+    public SpriteRenderer spriteRdr;
     // Cooldown between Life
     float currentCooldownLife = 0;
     public float maxCooldownLife = 5;
@@ -45,6 +48,8 @@ public class PlayerControler : MonoBehaviour
 
     private void Start()
     {
+        defaultMaterial = spriteRdr.material;
+
         listC = gameObject.transform.GetChild(0).gameObject.transform.GetChild(0).gameObject;
         listD = gameObject.transform.GetChild(0).gameObject.transform.GetChild(1).gameObject;
 
@@ -144,6 +149,7 @@ public class PlayerControler : MonoBehaviour
             {
                 currentCooldown = 0;
                 isDamaged = false;
+                spriteRdr.material = defaultMaterial;
             }
         }
         if(health < 0 && !isLastStand)

@@ -21,7 +21,12 @@ public class ScriptSalle : MonoBehaviour
         {
             Invoke("changementEtat", 0.1f);
         }
+        else
+        {
+            GameManager.GameUtil.isLoading = true;
+        }
         print(verif);
+
 
         if (!check)
         {

@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Audio;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -89,9 +90,21 @@ public class GameManager : MonoBehaviour
 
 
      public bool tutoIsFinished;
-    // Start is called before the first frame update
+
+    
+     private AudioSource musicSource;
+     private AudioSource SFXSource;
+     [Header("AUDIO")]
+     [SerializeField] private AudioClip MainTheme;
+     [SerializeField] private AudioClip sndValidate;
+     [SerializeField] private AudioClip sndMove;
+     [SerializeField] private AudioClip sndBack;
     void Awake()
     {
+        musicSource = gameObject.AddComponent<AudioSource>() as AudioSource;
+        SFXSource = gameObject.AddComponent<AudioSource>() as AudioSource;
+        PlayMusic(MainTheme);
+
         tutorielCheck = new bool[Enum.GetValues(typeof(TutorialPhase)).Length];
         Vector2 hotSpot;
         Vector2  hotSpotAuto = new Vector2(1 , 1);
@@ -108,12 +121,20 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        
-        //DontDestroyOnLoad(HUD);
         if (CurrentCamera == null && Camera.main != null)
             CurrentCamera = Camera.main.gameObject; 
-        //DontDestroyOnLoad(CurrentCamera);
+
+    }
+
+    public void PlayMusic(AudioClip music)
+    {
+        musicSource.clip = music;
+        musicSource.Play();
+    }
+    public void PlaySfx(AudioClip sfx)
+    {
+        SFXSource.clip = sfx;
+        musicSource.Play();
     }
     void Start()
     {
@@ -130,9 +151,6 @@ public class GameManager : MonoBehaviour
     public void ChangeLevel(int index, bool dataPlayer = true, bool dataWeaponList = true)
     {
         isLoading = true;
-        print("scene count "+SceneManager.sceneCountInBuildSettings);
-
-        
         TutorialData myObject = new TutorialData();
         myObject.bools = tutorielCheck;
         CurrentPlayer = GameObject.FindWithTag("Player");
@@ -141,13 +159,10 @@ public class GameManager : MonoBehaviour
         GameObject listD = plrControler.listD;
         WeaponsDistDataGameObject = new GameObject[listD.transform.childCount];
         WeaponsDistAmmoDataGameObject = new int[listD.transform.childCount];
-
         // On stock la vie du joueur
         DataHealth = plrControler.health;
         DataLifes = plrControler.PlayerLifes;
         DataMaxLifes = plrControler.PlayerMaxLifes;
-
-
         for (int i = 0; i< listD.transform.childCount; i++)
         {
             WeaponManager wpnManager = listD.transform.GetChild(i).GetComponent<WeaponManager>();
@@ -165,6 +180,7 @@ public class GameManager : MonoBehaviour
 
                     }
                 }
+
             }
         }
         GameObject listC = CurrentPlayer.GetComponent<PlayerControler>().listC;
@@ -179,16 +195,10 @@ public class GameManager : MonoBehaviour
                         WeaponsCaCDataGameObject[i] = WeaponsScriptTable.weaponGameobject[j];
             }
         }
-
-        //print(DesiredScene.name);
         StartCoroutine(LoadYourAsyncScene(index));
-
-      
-        
     }
         IEnumerator LoadYourAsyncScene(int DesiredScene)
         {
-           // print(DesiredScene.name);
             // The Application loads the Scene in the background as the current Scene runs.
             // This is particularly good for creating loading screens.
             // You could also load the Scene by using sceneBuildIndex. In this case Scene2 has
@@ -247,7 +257,6 @@ public class GameManager : MonoBehaviour
         Transform Pohpoh;
         GameObject ListD = plrController.listD;
         GameObject ListC = plrController.listC;
-
         Sprite[] WeaponsImage = new Sprite[ListD.transform.childCount];
         string[] WeaponsDesc = new string[ListD.transform.childCount];
         for (int i = 0; i < WeaponsImage.Length; i++)
@@ -321,7 +330,6 @@ public class GameManager : MonoBehaviour
         {
             if(WeaponsImage.Length > 5)
             {
-                print("dqsdqsdqsd");
                 indexer = WeaponsImage.Length - indexer;
             }
             else
@@ -330,12 +338,10 @@ public class GameManager : MonoBehaviour
             }
             
         }
-            
         if (indexer > WeaponsImage.Length - 1) // Faut repartir sur les armes du d�but de la liste
         {
             if(WeaponsImage.Length > 5)
             {
-                print("adadadad");
                 indexer = indexer - WeaponsImage.Length;
             }
             else
@@ -343,10 +349,7 @@ public class GameManager : MonoBehaviour
                 indexer = indexer - WeaponsImage.Length;
             }
             
-        }    
-
-
-
+        }
         return WeaponsImage[indexer];
     }
     bool RightHalf()
@@ -358,11 +361,7 @@ public class GameManager : MonoBehaviour
     {
         if (GameManager.GameUtil == null)
             GameUtil = this;
-       
-
-      
-
-
+        
         if (CurrentCamera == null)
         {
             CurrentCamera = Instantiate(PrefabCamera);
@@ -390,20 +389,23 @@ public class GameManager : MonoBehaviour
             TryToGetPlayerEntity();
         }
 
-        if (LoadSavedData && CurrentPlayer != null)
+        if (LoadSavedData && CurrentPlayer != null )
         {
             CurrentPlayer = GameObject.FindWithTag("Player");
             CurrentCamera = Camera.main.gameObject;
             PlayerControler plrController = CurrentPlayer.GetComponent<PlayerControler>();
             GameObject listD = plrController.listD;
             GameObject listC = plrController.listC;
-            GiveWeaponsToPlayer(WeaponsDistDataGameObject, listD);
-            GiveWeaponsToPlayer(WeaponsCaCDataGameObject, listC);
-            plrController.health = DataHealth;
-            plrController.PlayerLifes = DataLifes;
-            plrController.PlayerMaxLifes = DataMaxLifes;
-            LoadSavedData = false;
-            Debug.Log("Data Loaded");
+            if (listC != null && listD != null)
+            {
+                GiveWeaponsToPlayer(WeaponsDistDataGameObject, listD);
+                GiveWeaponsToPlayer(WeaponsCaCDataGameObject, listC);
+                plrController.health = DataHealth;
+                plrController.PlayerLifes = DataLifes;
+                plrController.PlayerMaxLifes = DataMaxLifes;
+                LoadSavedData = false;
+                Debug.Log("Data Loaded");
+            }
         }
           
 
@@ -423,7 +425,6 @@ public class GameManager : MonoBehaviour
 
         if (isWeaponWheel && !isLoading && !isGameover)
         {
-
             WeaponWheelWidget.SetActive(true);
             wheelMng = WeaponWheelWidget.GetComponent<WheelWpnManager>();
             GetAndAttributegoodImage();
@@ -433,8 +434,6 @@ public class GameManager : MonoBehaviour
                 CurrentPlayer.GetComponent<PlayerControler>().EnableMeleeType();
 
             Time.timeScale = 0.1f;
-
-
         }
         else
         {
@@ -450,11 +449,9 @@ public class GameManager : MonoBehaviour
             {
                 currentCooldown += Time.deltaTime;
                 Time.timeScale -= Time.deltaTime;
-                print(Time.timeScale);
             }
             else
             {
-               
                 WeaponsDistDataGameObject = null;
                 WeaponsDistAmmoDataGameObject = null;
                 WeaponsCaCDataGameObject = null;
@@ -485,7 +482,6 @@ public class GameManager : MonoBehaviour
     void PauseMenu()
     {
         // on check si on est pas dans le main menu
- 
         if (CurrentScene == null || CurrentScene == "MainMenu" || CurrentScene == "")
             return;
 
@@ -538,10 +534,6 @@ public class GameManager : MonoBehaviour
     // Cursor Management
     private void OnTriggerStay2D(Collider2D collision)
     {
-        //PlayerControler playerController = CurrentPlayer.GetComponent<PlayerControler>();
-        //bool oofa = playerController.CurrentWeapon.TryGetComponent<WeaponManager>(out WeaponManager Dweapon) ;
-        //bool oofb = playerController.CurrentWeapon.TryGetComponent<ManagerWeaponCorpAcopr>(out ManagerWeaponCorpAcopr Mweapon);
-
         if(isPaused)
         {
             Cursor.SetCursor(Cursors[0], hotSpot, CursorMode.Auto);
@@ -565,11 +557,10 @@ public class GameManager : MonoBehaviour
                 cursorTarget = collision;
                 if (collision.transform.TryGetComponent<EnemyManager>(out EnemyManager target))
                 {
-
                     if (oofa)
                     {
-                        print(collision.name);
-                        if (target.isMagical == Dweapon.IsMagical)
+                        //public ReceiveDamageOnType ReceiveDamageOn;
+                        if ((int)target.ReceiveDamageOn == (int)Dweapon.AmmoTypeId || target.ReceiveDamageOn == ReceiveDamageOnType.Both)
                         {
                             Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
                         }
@@ -582,7 +573,7 @@ public class GameManager : MonoBehaviour
                     }
                     else if (oofb)
                     {
-                        if (target.isMagical == Mweapon.IsMagical)
+                        if ((int)target.ReceiveDamageOn == (int)Mweapon.type || target.ReceiveDamageOn == ReceiveDamageOnType.Both)
                         {
                             Cursor.SetCursor(Cursors[2], hotSpot, CursorMode.Auto);
                         }

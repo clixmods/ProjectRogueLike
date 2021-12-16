@@ -57,17 +57,25 @@ public class WeaponManager : MonoBehaviour
 
     public GameObject projectilDoss;
 
+    [SerializeField]
+    AudioSource audioSrc;
+    [SerializeField] AudioClip[] audioHit;
+    [SerializeField] AudioClip[] audioAttack;
+    [SerializeField] AudioClip[] audioDeploy;
+    [SerializeField] AudioClip[] audioRengain;
+
     // Start is called before the first frame update
     void Start()
     {
-      
-
-
         projectilDoss = Instantiate(projectilDoss, new Vector3(0f, 0f, 0f), Quaternion.identity);
         projectilDoss.name = gameObject.name + "Projectil";
         //projectilDoss = GameObject.Find("ProjectilDoss");
-        if(CurrentAmmoCount == 0 )
+        if(CurrentAmmoCount == 0 ) 
             CurrentAmmoCount = MaxAmmoCount;
+
+        audioSrc = gameObject.AddComponent<AudioSource>() as AudioSource;
+        //  AudioClip audioClip = gameObject.AddComponent(typeof(AudioClip));
+        //gameObject.AddComponent<AudioClip>();
     }
 
     void OnEnable()
