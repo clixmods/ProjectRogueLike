@@ -88,10 +88,15 @@ public class PlayerControler : MonoBehaviour
         if (isDead)
             return;
 
-        Movment();
+       
         Weapon();
         AimManager();
         
+    }
+
+    private void FixedUpdate()
+    {
+        Movment();
     }
     private void UpdateUI()
     {
