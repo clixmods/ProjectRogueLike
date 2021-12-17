@@ -4644,23 +4644,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525601, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: dialogue.sentences.Array.data[1]
-      value: the village has been attack !!!
+      value: The village has been attacked by strange monsters !
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525601, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: dialogue.sentences.Array.data[2]
-      value: "Go to the \rgraveyard at the south and look for the grave."
+      value: "If you can explore the \rgraveyard at the south and interact with the
+        last grave... I have seen a strange form on it."
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525601, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: dialogue.sentences.Array.data[3]
-      value: After go to the north to defeat the zombies.
+      value: Oh ? Something is coming in the north, we have maybe somes monsters
+        to kill.
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525601, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: dialogue.sentences.Array.data[4]
-      value: if you are successfull, I will let you go to the donjon.
+      value: Come back to me when you have secure the village, like that we can try
+        to check if you can go to the donjon.
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525601, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: dialogue.sentences.Array.data[5]
-      value: Good luck my friend!!!
+      value: Good luck, my friend !
       objectReference: {fileID: 0}
     - target: {fileID: 1574948955229525610, guid: 40a7dfb9d55f4f64582ce9c71451cd0c, type: 3}
       propertyPath: m_Name
@@ -8890,7 +8893,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 54188582650050704, guid: 7d5c8429d8ac662468c9bb1d80f2b0ef, type: 3}
       propertyPath: m_Text
-      value: 'P: Talk to the old man'
+      value: Press [R] to talk with the old man
       objectReference: {fileID: 0}
     - target: {fileID: 54188582650050704, guid: 7d5c8429d8ac662468c9bb1d80f2b0ef, type: 3}
       propertyPath: m_Color.b

@@ -74,16 +74,18 @@ MonoBehaviour:
   dialogue:
     name: 'Old man '
     sentences:
-    - You did it !!! thank's a lot!!
-    - Like i was saying you will have access to the donjon.
-    - take the right door and go tu the Ouest you will find it.
-    - Before leaving i giving you a amulette take it.
-    - This amulette will revive you to the village when you are dead.
-    - but you will lose all your stuff find in the donjon.
-    - Have a good journey hero !!!! and thank's angain.
-  inRange: 0
+    - You did it !!! Good job !
+    - Like I was saying, you will have access to the donjon.
+    - Take the right door and go to the East, you will find it.
+    - Just, take my artefact.
+    - This object will revive you to the village, when you are dead.
+    - but you will lose your donjon progression.
+    - Good luck, to destroy these monsters !
   interactUI: {fileID: 0}
   levelManager: {fileID: 0}
+  tuto: 0
+  portail1: {fileID: 0}
+  portail2: {fileID: 0}
 --- !u!212 &512584245253699305
 SpriteRenderer:
   m_ObjectHideFlags: 0
