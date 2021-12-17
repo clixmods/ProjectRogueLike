@@ -7928,6 +7928,10 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 0.48
       objectReference: {fileID: 0}
+    - target: {fileID: 681411343179332195, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
+      propertyPath: porteversProchainBoss
+      value: 
+      objectReference: {fileID: 5557403404840573487, guid: 1d87d566bf4cdf541b83d916809f75ea, type: 3}
     - target: {fileID: 681411343179332196, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
       propertyPath: m_Name
       value: spawnBoss

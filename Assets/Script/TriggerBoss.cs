@@ -7,6 +7,7 @@ public class TriggerBoss : MonoBehaviour
     public GameObject prefabBoss;
     public GameObject porte;
     public GameObject porte1;
+    public GameObject porteversProchainBoss;
     bool check;
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,7 @@ public class TriggerBoss : MonoBehaviour
         {
             GameObject boss = Instantiate(prefabBoss, gameObject.transform.position, Quaternion.identity);
             boss.GetComponent<GameManagerBoss>().player = collision.gameObject;
+            boss.GetComponent<GameManagerBoss>().PorteProchainBoss = porteversProchainBoss;
             for(int i = 0; i<gameObject.transform.childCount; i ++)
             {
                 int port = gameObject.transform.GetChild(i).gameObject.GetComponent<ScriptPorte>().rightOrLeft;

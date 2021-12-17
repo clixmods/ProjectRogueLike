@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PorteSortie : MonoBehaviour
 {
+    public int sceneLoad;
     
     // Start is called before the first frame update
     void Start()
@@ -23,7 +24,7 @@ public class PorteSortie : MonoBehaviour
         if(collision.transform.tag == "Player")
         {
           
-            GameManager.GameUtil.ChangeLevel(6);
+            GameManager.GameUtil.ChangeLevel(sceneLoad);
             //SceneManager.LoadScene("TstLvlManager");
         }
     }

@@ -7910,6 +7910,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 681411343179332195, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
+      propertyPath: porteversProchainBoss
+      value: 
+      objectReference: {fileID: 9109747104445471078, guid: f95fc5a52a9c31645a7e9ee3f7203ea2, type: 3}
     - target: {fileID: 681411343179332196, guid: 0449675af1571714db0ffb25025e8f1d, type: 3}
       propertyPath: m_Name
       value: spawnBoss
