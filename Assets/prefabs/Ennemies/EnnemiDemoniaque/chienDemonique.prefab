@@ -164,7 +164,7 @@ MonoBehaviour:
   - {x: -0.3759365, y: -0.31323135, z: 0}
   m_ShapePathHash: -968274929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 156938
+  m_InstanceId: 103580
 --- !u!1 &5519074415647602565
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,9 +357,9 @@ MonoBehaviour:
   Scale: 1
   DistanceTarget: 1
   isDamaged: 0
-  attackRange: 0
-  damageAmount: 0
-  speedOfTheAttack: 0
+  attackRange: 1
+  damageAmount: 10
+  speedOfTheAttack: 0.2
   reachSpeedAttack: 0
   flashDamage: {fileID: 2100000, guid: 55698ee3bd2a6df4e82f91aa8f9e4cb5, type: 2}
   mtlDefault: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
